@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<querys>
+		<query name="Practice4DBDAOCarrierRSQL">
+			<desc><![CDATA[search]]></desc>
+			<sql><![CDATA[
+SELECT 
+	distinct(JO_CRR_CD)
+FROM JOO_CARRIER
+			]]></sql>
+			<params>
+			</params>
+		</query>
+	</querys>
+</sqls>
