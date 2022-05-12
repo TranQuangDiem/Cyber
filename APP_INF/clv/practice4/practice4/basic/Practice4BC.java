@@ -44,7 +44,16 @@ public interface Practice4BC {
 	 * @exception EventException
 	 */
 	public void manager(Practice4VO[] practice4VO,SignOnUserAccount account) throws EventException;
-	
+	/**
+	 * get list Carrier
+	 * @return String
+	 * @throws EventException
+	 */
 	public String searchCarrier () throws EventException;
+	/**
+	 * get list lane
+	 * @return String
+	 * @throws EventException
+	 */
 	public String searchLane () throws EventException;
 }

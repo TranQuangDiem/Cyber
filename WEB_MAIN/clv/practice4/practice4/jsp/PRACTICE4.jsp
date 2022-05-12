@@ -102,7 +102,7 @@ var lanes = "<%=lanes%>";
 					<tr>
 						<th style="width: 20px">Carrier <script language="javascript">ComComboObject('carrier');</script></th>
 						
-						<th style="width: 40px">Vendor <input name="vndr_seq" id="vndr_seq" type="number"></th>
+						<th style="width: 40px">Vendor <input name="vndr_seq" id="vndr_seq" maxlength="6" type="number"></th>
 						<th style="float: left;"> Date 
 						<input type="text" style="width:62;text-align:center;" name="fr_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" >
 						<img src="img/btns_calendar.gif" name="btns_calendar" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;">
@@ -118,8 +118,9 @@ var lanes = "<%=lanes%>";
 	<div class="opus_design_grid">
 		<div class="opus_design_btn">
 			<button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button>
+			<button type="button" class="btn_accent" name="btn_Delete" id="btn_Delete">Row delete</button>
 		</div>
-		<script language="javascript">ComSheetObject('sheet');</script>
+		<script language="javascript">ComSheetObject('sheet1');</script>
 	</div>
 	</div>
 

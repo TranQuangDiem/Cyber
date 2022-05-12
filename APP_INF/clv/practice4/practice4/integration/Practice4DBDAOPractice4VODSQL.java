@@ -4,10 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.09
+*@LastModifyDate : 2022.05.10
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.05.09 
+* 2022.05.10 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice4.practice4.integration;
@@ -49,6 +49,13 @@ public class Practice4DBDAOPractice4VODSQL implements ISQLTemplate{
 		}
 		params.put("jo_crr_cd",new String[]{arrTmp[0],arrTmp[1]});
 
+		tmp = java.sql.Types.VARCHAR + ",N";
+		arrTmp = tmp.split(",");
+		if(arrTmp.length !=2){
+			throw new IllegalArgumentException();
+		}
+		params.put("rlane_cd",new String[]{arrTmp[0],arrTmp[1]});
+
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.esm.clv.practice4.practice4.integration").append("\n"); 
 		query.append("FileName : Practice4DBDAOPractice4VODSQL").append("\n"); 
@@ -68,7 +75,8 @@ public class Practice4DBDAOPractice4VODSQL implements ISQLTemplate{
 	 */
 	public void setQuery(){
 		query.append("DELETE FROM JOO_CARRIER" ).append("\n"); 
-		query.append("WHERE	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
+		query.append("WHERE	RLANE_CD = @[rlane_cd]" ).append("\n"); 
+		query.append("AND	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
 
 	}
 }

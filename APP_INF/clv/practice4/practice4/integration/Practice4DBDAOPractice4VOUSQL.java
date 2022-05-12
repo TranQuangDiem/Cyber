@@ -4,10 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.09
+*@LastModifyDate : 2022.05.10
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.05.09 
+* 2022.05.10 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice4.practice4.integration;
@@ -96,6 +96,13 @@ public class Practice4DBDAOPractice4VOUSQL implements ISQLTemplate{
 		if(arrTmp.length !=2){
 			throw new IllegalArgumentException();
 		}
+		params.put("upd_dt",new String[]{arrTmp[0],arrTmp[1]});
+
+		tmp = java.sql.Types.VARCHAR + ",N";
+		arrTmp = tmp.split(",");
+		if(arrTmp.length !=2){
+			throw new IllegalArgumentException();
+		}
 		params.put("cust_cnt_cd",new String[]{arrTmp[0],arrTmp[1]});
 
 		query.append("/*").append("\n"); 
@@ -124,7 +131,9 @@ public class Practice4DBDAOPractice4VOUSQL implements ISQLTemplate{
 		query.append(",	CUST_CNT_CD = @[cust_cnt_cd]" ).append("\n"); 
 		query.append(",	VNDR_SEQ = @[vndr_seq]" ).append("\n"); 
 		query.append(",	RLANE_CD = @[rlane_cd]" ).append("\n"); 
+		query.append(",	UPD_DT = TO_DATE(@[upd_dt],'YYYY/MM/DD HH24:MI:SS')" ).append("\n"); 
 		query.append("WHERE	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
+		query.append("		AND RLANE_CD = @[rlane_cd]" ).append("\n"); 
 
 	}
 }

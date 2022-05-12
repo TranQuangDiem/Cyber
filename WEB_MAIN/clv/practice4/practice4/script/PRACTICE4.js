@@ -50,6 +50,11 @@ var ibsheet =0;
 			 * Unlike DoSearch, this method returns search result data itself without processing search result.
 			 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
 			 */
+			var regex = new RegExp("[0-9]{1,6}");
+			if(formObj.vndr_seq.value!=''&&!regex.test(formObj.vndr_seq.value)){
+				ComShowMessage("Vendor Code can only enter numbers");
+				break;
+			}
 			var sXml2 =sheetObj.GetSearchData("Practice4GS.do",FormQueryString(formObj));
 			/**
 			 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
@@ -61,12 +66,55 @@ var ibsheet =0;
 			break;
 		case IBSAVE:
 			formObj.f_cmd.value = MULTI;
-			var sXml2 = sheetObj.DoSave("Practice4GS.do",FormQueryString(formObj));
+			/**
+			 * Save data based on data transaction status or column.If Col parameter is not set, data rows whose transaction status is not “Search” is saved.
+			 * If there is a particular parameter set in Col, data with values in the designated column will be saved.
+			 * If the column is in CheckBox format, only checked boxes will be saved.
+			 * If there is no data to save, a warning message will appear and the process is dropped.OnValidation event will fire in the processing collecting data to save.
+			 * Depending on the custom logic, failure of OnValidation may result in abortion of saving.
+			 * Call the save page using URL and complete saving to read saving XML. Then OnSaveEnd event fires and the whole process completes.
+			 * 
+			 */
+			sheetObj.DoSave("Practice4GS.do",FormQueryString(formObj));
+			break;
+		case "IBNEW":
+			/**
+			 * This function is used to select an item, using a code value.
+			 */
+			comboObjects[0].SetSelectCode( -1, true);
+			comboObjects[0].SetSelectCode( "All", true);
+			formObj.fr_ym.value='';
+			formObj.to_ym.value='';
+			formObj.vndr_seq.value='';
+			doActionIBSheet(sheetObj, formObj, IBSEARCH);
+			break;
+		case IBDELETE:
+			/**
+			 * currently selected row index
+			 */
+			var index =sheetObj.GetSelectRow();
+//			sheetObj.SetRowHidden(index, 1);
+			sheetObj.SetRowStatus(index,"D");
+			if((sheetObj.RowCount("I")+sheetObj.RowCount("U")+sheetObj.RowCount("D")) >0 ){
+				doActionIBSheet(sheetObj, formObj, IBSAVE);
+			}
 			break;
 		}
 
 	}
-	
+	/**
+	 * Event fires when saving is completed using saving function and other internal processing has been also completed.
+	 * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
+	 * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
+	 */
+	function sheet1_OnSaveEnd(code,msg) {
+		if(msg>=0){
+			alert("successfully");
+			doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
+		}else {
+			alert("save failed");
+		}
+	}
 	function processButtonClick() {
 		var formObj = document.form;
 		try {
@@ -94,25 +142,59 @@ var ibsheet =0;
     			vCal.select(formObj.to_ym, "yyyy-MM-dd");
     			break;
 			case "btn_Add":
+				/**
+				 * DataInsert: Create a new data row, and return the row index of the new row
+				 * @Syntax: ObjId.DataInsert([Row])
+				 * @Param : Row < 0 :		 		Create as the last row
+				 * 			Row >= All rows :		Create as the last row
+				 * 			Row >= First data row : Create as the first row
+				 *			Default :				Create below the selected row
+				 */
 				sheetObjects[0].DataInsert(-1);
+					/**
+					 * SetCellValue :Set value in row ,column, new value
+					 * GetCellvalue : get value in row,column
+					 * 
+					 * lastRow:Return the row index of the last row.
+					 * Using this method will return the index of the very last row, not just last data row or the last row as displayed in the screen.
+					 * Note that the last row may be a sum row, data row or even a header row.
+					 * GetSelectRow: currently selected row index
+					 * 
+					 * ComGetNowInfo: get current date
+					 */
 				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),9,ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms"))
 				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),10,"OPUSADM")
 				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),11,ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms"))
 				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),12,"OPUSADM")
 				break
 			case "btn_New":
-				comboObjects[0].SetSelectCode( -1, true);
-				comboObjects[0].SetSelectCode( "All", true);
-				formObj.fr_ym.value='';
-				formObj.to_ym.value='';
-				formObj.vndr_seq.value='';
-				doActionIBSheet(sheetObjects[0], formObj, IBSEARCH);
+				doActionIBSheet(sheetObjects[0], formObj, "IBNEW");
 				break;
 			case "btn_DownExcel":
-				sheetObjects[0].Down2Excel({DownCols: makeHiddenSkipCol(sheetObjects[0]), SheetDesign:1, Merge:1})
+				if(sheetObjects[0].RowCount() < 1) {// no data
+					ComShowCodeMessage("COM132501")
+				}else{
+					/**IF there are any search result data returned, download the data displayed in IBSheet into an excel file.
+					 * @param: DownCols parameter is a string connecting all downloading columns using "|". You can use either SaveName or column index.
+					 * If this is null, all columns are downloaded.
+					 * @param :FileName parameter is used to set the downloaded excel file name. If file extension is set as xls,excel 2003 format file is downloaded.
+					 * If xlsx, excel 2007 format file is downloaded. If no value is set, an xls file is downloaded.
+					 * @param:SheetDesign parameter reflects IBSheet design. Font name, font size and background color are available.
+					 * Using this parameter may result in further delay of performance. Default is 0 (Not applydesign). Font color will always display in black.
+					 * Multiple font coloring is not supported. For cell background color, up to 48 colors may be used concurrently for a single excel file.
+					 * If one IBSheet includes a larger number of colors, some of the colors will display to the closest color among the 48 available colors.
+					 * If this parameter is set as 2, design will be still reflected as in 1,but cell borders will not be lined.
+					 * @param: Merge parameter determines whether to apply IBSheet merge status to excel document.
+					 * Using this parameter may result in further delay of performance. Default is 0 (not use merging).
+					 */
+					sheetObjects[0].Down2Excel({DownCols: makeHiddenSkipCol(sheetObjects[0]), SheetDesign:1, Merge:1})
+				}
 				break;
 			case "btn_Save":
 				doActionIBSheet(sheetObjects[0], formObj, IBSAVE);
+				break;
+			case "btn_Delete":
+				doActionIBSheet(sheetObjects[0], formObj, IBDELETE);
 				break;
 			}
 		} catch (e) {
@@ -124,6 +206,9 @@ var ibsheet =0;
 		}
 
 	}
+	/**
+	 * check date Invalid
+	 */
 	function getCheckConditionPeriod(){
 //		var regex = new RegExp("^[0-9]{4}-[0-1][0-9]");
 //		if(!regex.test(formObj.fr_yrmon.value)||!regex.test(formObj.to_yrmon.value)){
@@ -137,7 +222,7 @@ var ibsheet =0;
         if(frDt==""&&toDt==""){
         	return true;
         }
-        if (ComGetDaysBetween(frDt, toDt) < 0||isNaN(ComGetDaysBetween(frDt, toDt))){
+        if (ComGetDaysBetween(frDt, toDt) <= 0||isNaN(ComGetDaysBetween(frDt, toDt))){
         	alert('year month illegal');	
             return false;
         }
@@ -207,19 +292,19 @@ var ibsheet =0;
 				 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 				 */
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
-//				 {Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
+//				 {Type : "DelCheck", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
 				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "chk",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-				 {Type : "Combo",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1, EditLen:3,AcceptKeys: "E",FullInput:true}, 
+				 {Type : "Combo",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1,AcceptKeys: "N"},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1, EditLen:2,AcceptKeys: "E",FullInput:true}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1,AcceptKeys: "N" ,EditLen:6}, 
 				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "trd_cd",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
 				 {Type : "Combo",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "delt_flg",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
 				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "cre_dt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 150,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1},
+				 {Type : "Text",Hidden : 0,Width : 150,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",KeyField : 0,Format : "*******************************************",UpdateEdit : 0,InsertEdit : 0},
 				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "upd_dt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1}];
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",KeyField : 0,Format : "*********",UpdateEdit : 0,InsertEdit : 0}];
 				/**
 				 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
 				 */
@@ -260,34 +345,36 @@ var ibsheet =0;
 		doActionIBSheet(sheetObjects[0],document.form,IBSEARCH)
 		
 	}
-	function initPeriod(){
-		var formObj = document.form;
-		/**
-		 * ComGetNowInfo: get current date
-		 */
-		var tmpToYm = ComGetNowInfo("ymd","-");
-		/**
-		 * GetDateFormat: format date
-		 */
-		formObj.to_ym.value= tmpToYm;
-		/**
-		 * increase/decrease month
-		 */
-		var tmpFrYm = ComGetDateAdd(formObj.to_ym.value+"-01","D",-1);
-		formObj.fr_ym.value= tmpFrYm;
-	}
-	
+//	function initPeriod(){
+//		var formObj = document.form;
+//		/**
+//		 * ComGetNowInfo: get current date
+//		 */
+//		var tmpToYm = ComGetNowInfo("ymd","-");
+//		/**
+//		 * GetDateFormat: format date
+//		 */
+//		formObj.to_ym.value= tmpToYm;
+//		/**
+//		 * increase/decrease month
+//		 */
+//		var tmpFrYm = ComGetDateAdd(formObj.to_ym.value+"-01","D",-1);
+//		formObj.fr_ym.value= tmpFrYm;
+//	}
+	/**
+	 * set SheetObject
+	 */
 	function setSheetObject(sheet_obj) {
 		sheetObjects[sheetCnt++] = sheet_obj;
 	}
 	/**
-	 * 
+	 * set comboObject
 	 */
 	function setComboObject(combo_obj) {
 		comboObjects[comboCnt++] = combo_obj;
 	}
 	/**
-	 * 
+	 * set size sheet
 	 */	
 	function resizeSheet() {
 		for (var i = 0; i < sheetObjects.length; i++) {
@@ -297,9 +384,9 @@ var ibsheet =0;
 	
     /**
 	 * @extends
-	 * @class PRACTICE003 : PRACTICE003 생성을 위한 화면에서 사용하는 업무 스크립트를 정의한다.
+	 * @class PRACTICE4 : PRACTICE4 생성을 위한 화면에서 사용하는 업무 스크립트를 정의한다.
 	 */
-    function PRACTICE003() {
+    function PRACTICE4() {
     	this.processButtonClick		= tprocessButtonClick;
     	this.setSheetObject 		= setSheetObject;
     	this.loadPage 				= loadPage;

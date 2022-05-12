@@ -83,6 +83,11 @@ public class Practice4DBDAO extends DBDAOSupport {
 		}
 		return list;
 	}
+	 /**
+	  * get list carrier
+	  * @return String
+	  * @throws DAOException
+	  */
 	 public String searchCarrier( ) throws DAOException {
 			DBRowSet dbRowset = null;
 			StringBuilder list = new StringBuilder();
@@ -105,6 +110,11 @@ public class Practice4DBDAO extends DBDAOSupport {
 			}
 			return list.substring(0,list.length()-1).toString();
 		}
+	 /**
+	  * get list lane
+	  * @return String
+	  * @throws DAOException
+	  */
 	 public String searchLane( ) throws DAOException {
 			DBRowSet dbRowset = null;
 			StringBuilder list = new StringBuilder();
@@ -127,6 +137,12 @@ public class Practice4DBDAO extends DBDAOSupport {
 			}
 			return list.substring(0,list.length()-1).toString();
 		}
+	/**
+	 * check carrier and lane exist
+	 * @param practice4vos
+	 * @return boolean
+	 * @throws Exception
+	 */
 	 public boolean isSearchByCarrierAndLane(List<Practice4VO> practice4vos) throws Exception{
 		 DBRowSet dbRowset = null;
 			//query parameter
@@ -152,6 +168,12 @@ public class Practice4DBDAO extends DBDAOSupport {
 			}
 		 return false;
 	 }
+	 /**
+	  * check vendor code exist
+	  * @param practice4vos
+	  * @return boolean
+	  * @throws Exception
+	  */
 	 public boolean isSearchByVendor(List<Practice4VO> practice4vos) throws Exception{
 		 DBRowSet dbRowset = null;
 			//query parameter
@@ -177,6 +199,12 @@ public class Practice4DBDAO extends DBDAOSupport {
 			}
 		 return false;
 	 }
+	 /**
+	  * check customer code exist
+	  * @param practice4vos
+	  * @return boolean
+	  * @throws Exception
+	  */
 	 public boolean isSearchCusCode(List<Practice4VO> practice4vos) throws Exception{
 		 DBRowSet dbRowset = null;
 			//query parameter

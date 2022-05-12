@@ -93,7 +93,7 @@ public class Practice4SC extends ServiceCommandSupport {
 	/**
 	 * Practice4 : [이벤트]<br>
 	 * [비즈니스대상]을 [행위]합니다.<br>
-	 * 
+	 * search
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException
@@ -115,9 +115,9 @@ public class Practice4SC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * 
+	 * get list carrier and lane
 	 * @param e
-	 * @return
+	 * @return EventResponse
 	 * @throws EventException
 	 */
 	private EventResponse searchCarrierAndLane(Event e) throws EventException {

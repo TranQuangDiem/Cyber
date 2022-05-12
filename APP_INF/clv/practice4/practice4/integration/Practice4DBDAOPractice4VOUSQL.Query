@@ -12,8 +12,9 @@ UPDATE JOO_CARRIER SET
 ,	CUST_CNT_CD = @[cust_cnt_cd]
 ,	VNDR_SEQ = @[vndr_seq]
 ,	RLANE_CD = @[rlane_cd]
+,	UPD_DT = TO_DATE(@[upd_dt],'YYYY/MM/DD HH24:MI:SS')
 WHERE	JO_CRR_CD = @[jo_crr_cd]
-			]]></sql>
+		AND RLANE_CD = @[rlane_cd]			]]></sql>
 			<params>
 				<param name="upd_usr_id" type="12" value="" out="N"/>
 				<param name="delt_flg" type="12" value="" out="N"/>
@@ -22,6 +23,7 @@ WHERE	JO_CRR_CD = @[jo_crr_cd]
 				<param name="cust_cnt_cd" type="12" value="" out="N"/>
 				<param name="vndr_seq" type="2" value="" out="N"/>
 				<param name="rlane_cd" type="12" value="" out="N"/>
+				<param name="upd_dt" type="12" value="" out="N"/>
 				<param name="jo_crr_cd" type="12" value="" out="N"/>
 			</params>
 		</query>
