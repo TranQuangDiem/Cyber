@@ -101,6 +101,9 @@ function sheet_OnSaveEnd(Code,Msg,StCode,StMsg) {
 		alert("save failed");
 	}
 }
+/**
+ * event click button
+ */
 function processButtonClick() {
 	/** *** setting sheet object **** */
 	var sheetObject1 = sheetObjects[0];
@@ -155,7 +158,9 @@ function processButtonClick() {
 		}
 	}
 }
-
+/**
+ * show ibsheet
+ */
 function initSheet(sheetObj,sheetNo) {
 	var cnt = 0;
 	switch (sheetNo) {
@@ -218,6 +223,9 @@ function initSheet(sheetObj,sheetNo) {
 	}
 
 }
+/**
+ * show data when loading page
+ */
 function loadPage(){
 	//generate Grid Layout
 	for (i = 0; i < sheetObjects.length; i++) {
@@ -229,22 +237,35 @@ function loadPage(){
 	//auto search data after loading finish.
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 }
-
+/**
+ * set sheetObject
+ */
 function setSheetObject(sheet_obj){
-	sheetObjects[sheetCnt++] = sheet_obj;
+	switch (sheet_obj.id) {
+	case "sheet1":
+		sheetObjects[0] = sheet_obj;
+		break;
+	default:
+		break;
+	}
+	
 }
+/**
+ * set size sheet
+ */
 function resizeSheet() {
 	ComResizeSheet(sheetObjects[0]);
 }
 
-function setSheetObject(sheet_obj) {
-	sheetObjects[sheetCnt++] = sheet_obj;
-}
-
+/**
+ * set comboObject
+ */
 function setComboObject(combo_obj) {
 	comboObjects[comboCnt++] = combo_obj;
 }
-
+/**
+ * validation errMsgCd
+ */
 function validateForm(sheetObj){
 	var regex = new RegExp("^[A-Z]{3}\\d{5}");
 	for( var i = sheetObj.LastRow(); i >= sheetObj.HeaderRows(); i-- ) {

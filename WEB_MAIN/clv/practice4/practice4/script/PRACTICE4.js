@@ -95,7 +95,7 @@ var ibsheet =0;
 			var index =sheetObj.GetSelectRow();
 //			sheetObj.SetRowHidden(index, 1);
 			sheetObj.SetRowStatus(index,"D");
-			if((sheetObj.RowCount("I")+sheetObj.RowCount("U")+sheetObj.RowCount("D")) >0 ){
+			if(sheetObj.RowCount("D") >0 ){
 				doActionIBSheet(sheetObj, formObj, IBSAVE);
 			}
 			break;
@@ -322,7 +322,7 @@ var ibsheet =0;
 
 	}
 	/**
-	 * 
+	 *  show data when loading page
 	 */
 	function loadPage() {
 		for (var i = 0; i < sheetObjects.length; i++) {
@@ -365,7 +365,14 @@ var ibsheet =0;
 	 * set SheetObject
 	 */
 	function setSheetObject(sheet_obj) {
-		sheetObjects[sheetCnt++] = sheet_obj;
+		switch (sheet_obj.id) {
+		case "sheet1":
+			sheetObjects[0] = sheet_obj;
+			break;
+		default:
+			sheetObjects[sheetCnt++] = sheet_obj;
+			break;
+		}
 	}
 	/**
 	 * set comboObject

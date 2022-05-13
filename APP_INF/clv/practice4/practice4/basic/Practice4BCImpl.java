@@ -64,7 +64,7 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 	
 	/**
 	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * insert, delete, update data
 	 * @param Practice4VO[] practice4VO
 	 * @param account SignOnUserAccount
 	 * @exception EventException
@@ -94,7 +94,7 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			}
 			
 			if ( insertVoList.size() > 0 ) {
-				checkDuplicateAndValidate(insertVoList);
+				checkDuplicateAndValidate(insertVoList);//check duplicate and validation
 				if(dbDao.isSearchByCarrierAndLane(insertVoList))
 					throw new EventException(new ErrorHandler("ERR00009").getMessage());
 				else if(dbDao.isSearchByVendor(insertVoList))

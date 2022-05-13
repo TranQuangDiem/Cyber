@@ -43,9 +43,8 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
-	 * @param Practice3VO
-	 *            practice3VO
+	 * search
+	 * @param Map<String, String>
 	 * @return List<Practice3VO>
 	 * @exception DAOException
 	 */
@@ -98,7 +97,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 	/**
 	 * totalSum by LOCL_CURR_CD 
 	 * @param params
-	 * @return
+	 * @return String
 	 * @throws DAOException
 	 */
 	@SuppressWarnings("unchecked")
@@ -153,7 +152,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 	/**
 	 * get list partner
-	 * @param 
 	 * @return String[]
 	 * @throws DAOException
 	 */
@@ -254,7 +252,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * add data
 	 * @param Practice3VO
 	 *            practice3VO
 	 * @exception DAOException
@@ -289,7 +287,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * update data
 	 * @param Practice3VO
 	 *            practice3VO
 	 * @return int
@@ -328,7 +326,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * delete data
 	 * @param Practice3VO
 	 *            practice3VO
 	 * @return int
@@ -367,7 +365,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * add list data
 	 * @param List
 	 *            <Practice3VO> practice3VO
 	 * @return int[]
@@ -400,7 +398,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * update list data
 	 * @param List
 	 *            <Practice3VO> practice3VO
 	 * @return int[]
@@ -433,7 +431,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
 	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 *  delete list data
 	 * @param List
 	 *            <Practice3VO> practice3VO
 	 * @return int[]

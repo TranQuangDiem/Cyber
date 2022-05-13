@@ -83,47 +83,82 @@ var lanes = "<%=lanes%>";
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
 <!-- 개발자 작업	-->
-<div class="page_title_area clear">
+	<!-- page_title_area clear(S) -->
+	<div class="page_title_area clear">
 		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
-		<div class="opus_design_btn">
-		   <button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button>
-		    <button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button>
-		   <button type="button" class="btn_accent" name="btn_Save" id="btn_Save">Save</button>
-		   <button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button>
-		</div>
+		
+		<!-- opus_design_btn(S) -->
+		<div class="opus_design_btn"><!-- 
+		--><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!-- 
+		--><button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button><!-- 
+		--><button type="button" class="btn_accent" name="btn_Save" id="btn_Save">Save</button><!-- 
+		--><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!-- 
+	 --></div>
+		<!-- opus_design_btn(E) -->
+		
+		<!-- location(S) -->
 	    <div class="location">
 	     	<span id="navigation"></span>
 	    </div>
+	    <!-- location(E) -->
+	    
 	</div>
+	<!-- page_title_area clear(E) -->
+	
+	<!-- wrap_search(S) -->
 	<div class="wrap_search">
-		<div class="opus_design_inquiry">
+		<!-- opus_design_inquiry(S) -->
+		<div class="opus_design_inquiry wFit">
 			<table>
+				<colgroup>
+					<col width="70" />
+					<col width="140" />
+					<col width="70" />
+					<col width="140" />
+					<col width="70" />
+					<col width="140" />
+					<col width="40" />
+					<col width="140" />
+					<col width="*" />
+				</colgroup>
 				<tbody>
 					<tr>
-						<th style="width: 20px">Carrier <script language="javascript">ComComboObject('carrier');</script></th>
-						
-						<th style="width: 40px">Vendor <input name="vndr_seq" id="vndr_seq" maxlength="6" type="number"></th>
-						<th style="float: left;"> Date 
-						<input type="text" style="width:62;text-align:center;" name="fr_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" >
-						<img src="img/btns_calendar.gif" name="btns_calendar" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;">
-						~<input type="text" style="width:62;text-align:center;"  name="to_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" >
-						<img src="img/btns_calendar.gif" name="btns_calendar1" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;">
-						</th>
+						<th>Carrier</th>
+						<td><script language="javascript">ComComboObject('carrier');</script></td>
+						<th>Vendor</th>
+						<td><input name="vndr_seq" id="vndr_seq" dataformat="num" maxlength="6"></td>
+						<th> Date </th>
+						<td><input type="text" style="width:62;text-align:center;" name="fr_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" ></td>
+						<td><img src="img/btns_calendar.gif" name="btns_calendar" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;"></td>
+						<td><input type="text" style="width:62;text-align:center;"  name="to_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" ></td>
+						<td><img src="img/btns_calendar.gif" name="btns_calendar1" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;"></td>	
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<!-- opus_design_inquiry(E) -->
+		
 	</div>
+	<!-- wrap_search(E) -->
+	
+	<!-- wrap_result(S) -->
 	<div class="wrap_result">
-	<div class="opus_design_grid">
-		<div class="opus_design_btn">
-			<button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button>
-			<button type="button" class="btn_accent" name="btn_Delete" id="btn_Delete">Row delete</button>
-		</div>
-		<script language="javascript">ComSheetObject('sheet1');</script>
-	</div>
-	</div>
+	<!-- opus_design_grid(S) -->
+		<div class="opus_design_grid">
+		
+			<!-- opus_design_btn(S) -->
+			<div class="opus_design_btn"><!-- 
+			 --><button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button><!--
+			 --><button type="button" class="btn_accent" name="btn_Delete" id="btn_Delete">Row delete</button><!--
+		 --></div>
+			<!-- opus_design_btn(E) -->
 
+			<script language="javascript">ComSheetObject('sheet1');</script>
+		</div>
+		<!-- opus_design_grid(E) -->
+		
+	</div>
+	<!-- wrap_result(E) -->
 
 <!-- 개발자 작업  끝 -->
 </form>

@@ -135,7 +135,7 @@ function sheet1_OnDblClick(sheetObj, Row, Col) {
 
 }
 /**
- * 
+ * event click button
  */
 function processButtonClick() {
 	var formObj = document.form;
@@ -182,7 +182,7 @@ function processButtonClick() {
 
 }
 /**
- * 
+ * show sheet
  */
 function initSheet(sheetObj, sheetNo) {
 	switch (sheetNo) {
@@ -327,7 +327,7 @@ function initSheet(sheetObj, sheetNo) {
 
 }
 /**
- * 
+ * show data when loading page
  */
 function loadPage() {
 	for (var i = 0; i < sheetObjects.length; i++) {
@@ -336,13 +336,23 @@ function loadPage() {
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 }
 /**
- * 
+ * set sheetObject
  */
 function setSheetObject(sheet_obj) {
-	sheetObjects[sheetCnt++] = sheet_obj;
+	switch (sheet_obj.id) {
+	case "sheet1":
+		sheetObjects[0] = sheet_obj;
+		break;
+	case "sheet2":
+		sheetObjects[1] = sheet_obj;
+		break;
+	default:
+		break;
+	}
+	
 }
 /**
- * 
+ * set size sheet
  */
 function resizeSheet() {
 	ComResizeSheet(sheetObjects[1]);

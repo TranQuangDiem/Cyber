@@ -78,42 +78,79 @@
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
 <!-- 개발자 작업	-->
-<div class="page_title_area clear">
-		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
-		<div class="opus_design_btn">
-		   <button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button>
-		   <button type="button" class="btn_normal" name="btn_Save" id="btn_Save">Save</button>
-		   <button type="button" class="btn_normal" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button>
-		</div>
+	<!--page_title_area clear (s)  -->
+	<div class="page_title_area clear">
+	
+		<!--page_title (s)  -->
+		<h2 class="page_title"><!--
+			--><button type="button"><!--
+				--><span id="title"></span><!--
+			--></button>
+		</h2>
+		<!--page_title (E)  -->
+		
+		<!--opus_design_btn (s)  -->
+		<div class="opus_design_btn"><!-- 
+		--><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!--
+		--><button type="button" class="btn_normal" name="btn_Save" id="btn_Save">Save</button><!--
+		--><button type="button" class="btn_normal" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!--
+	--></div>
+		<!--opus_design_btn (E)  -->
+		
+		<!--location (S)  -->
 	    <div class="location">
 	     	<span id="navigation"></span>
 	    </div>
+	    <!--location (E)  -->
+	    
 	</div>
+	<!--page_title_area clear (E)  -->
+	
+	<!--wrap_search(S)  -->
 	<div class="wrap_search">
-		<div class="opus_design_inquiry">
+	
+		<!--opus_design_inquiry(S)  -->
+		<div class="opus_design_inquiry wFit">
 			<table>
+				<colgroup>
+					<col width="70" />
+					<col width="140" />
+					<col width="70" />
+					<col width="*" />
+				</colgroup>
 				<tbody>
 					<tr>
-						<th style="width: 200px">Message Code
-							<input name="s_msg_cd" id="s_msg_cd" type="text">
-						</th>
-						<th style="width: 40px">Message
-						</th>
-						<td> <input name="s_msg" id="s_msg" type="text"></td>
+						<th>Message Code</th>
+						<td><input style="width: 100px" name="s_msg_cd" id="s_msg_cd" type="text"></td>
+						<th>Message</th>
+						<td><input style="width: 140px" name="s_msg" id="s_msg" type="text"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<!--opus_design_inquiry(E)  -->
+		
 	</div>
+	<!--wrap_search(E)  -->
+	
+	<!--wrap_result (S)  -->
 	<div class="wrap_result">
-	<div class="opus_design_grid">
-		<div class="opus_design_btn">
-			<button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button>
+	
+		<!--opus_design_grid(S)  -->
+		<div class="opus_design_grid">
+		
+			<!--opus_design_btn(S)  -->
+			<div class="opus_design_btn"><!--
+				--><button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button><!--
+		--></div>
+			<!--opus_design_btn(E)  -->
+			
+			<script language="javascript">ComSheetObject('sheet1');</script>
 		</div>
-		<script language="javascript">ComSheetObject('sheet');</script>
+		<!--opus_design_grid(E)  -->
+		
 	</div>
-	</div>
-
+		<!--wrap_result (E)  -->
 <!-- 개발자 작업  끝 -->
 </form>
 </body>

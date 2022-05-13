@@ -81,57 +81,99 @@ var partners = "<%=partner1%>"
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
 <!-- 개발자 작업	-->
+	<!-- page_title_area clear (S) -->
 	<div class="page_title_area clear">
 		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
-			
+		<!-- location (S) -->
 	    <div class="location">
 	     	<span id="navigation"></span>
 	    </div>
+	    <!-- location (E) -->
+	    
 	</div>
-	<div class="wrap_search">
-		<div class="opus_design_btn">
-				
+	<!-- page_title_area clear (E) -->
+	
+	<!-- wrap_search_tab(S) -->
+	<div class="wrap_search_tab">
+		<!-- opus_design_btn(S) -->
+		<div class="opus_design_btn">		
 				<table>
+					<colgroup>
+						<col width="80" />
+						<col width="80" />
+						<col width="52" />
+						<col width="80" />
+						<col width="52" />
+						<col width="55" />
+						<col width="60" />
+						<col width="55" />
+						<col width="60" />
+						<col width="55" />
+						<col width="60" />
+						<col width="*" />
+					</colgroup>
 					<tbody>
 						<tr>
-							<th>Year Month</th>
-							<th style="width: 92px;">
-									<input type="text" style="width:80px;" class="input1" dataformat="ym" maxlength="7" name="fr_yrmon" value="" id="fr_yrmon" cofield="btn_from_back"/> 
-							</th>
-							<th style="width: 52px;"><button type="button" class="btn_left" name="btn_from_back" id="btn_from_back"></button> 
-								<button type="button" class="btn_right" name="btn_from_next" id="btn_from_next"></button>
-							</th>
-							<th style="width: 102px;">
-								<input type="text" style="width:80px;" class="input1" maxlength="7" dataformat="ym"  name="to_yrmon" value="" id="to_yrmon" cofield="btn_to_next" />
-							</th>
-							<th style="width: 52px;"><button type="button" class="btn_left" name="btn_to_back" id="btn_to_back"></button> 
-								<button type="button" class="btn_right" name="btn_to_next" id="btn_to_next"></button>
-							</th>
+							<th class="pad_rgt_4">Year Month</th>
+							<td><!--
+								 --><input type="text" style="width:80px;" class="input1" dataformat="ym" maxlength="7" name="fr_yrmon" value="" id="fr_yrmon" cofield="btn_from_back"/><!--  
+						 --></td>
+							<td><!-- 
+							 --><button type="button" class="btn_left" name="btn_from_back" id="btn_from_back"></button><!-- 
+							 --><button type="button" class="btn_right" name="btn_from_next" id="btn_from_next"></button><!--
+						 --></td>
+							<td><!--
+							 --><input type="text" style="width:80px;" class="input1" maxlength="7" dataformat="ym"  name="to_yrmon" value="" id="to_yrmon" cofield="btn_to_next" /><!--
+						--></td>
+							<td><!--
+							 --><button type="button" class="btn_left" name="btn_to_back" id="btn_to_back"></button><!-- 
+							 --><button type="button" class="btn_right" name="btn_to_next" id="btn_to_next"></button><!--
+							 --></td>
 							
-							<th> Partner<script language="javascript">ComComboObject('partner');</script></th>
-							<th>Lane <script language="javascript">ComComboObject('lane');</script></th>
-							<th>Trade <script language="javascript">ComComboObject('trade');</script></th>
-							<th><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button>
-								<button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button>
-			   					<button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button>
-			    				<button type="button" class="btn_accent" name="btn_DownExcel2" id="btn_DownExcel2">Down</button>
-							</th>
+							<th class="pad_rgt_4"> Partner</th>
+							<td><script language="javascript">ComComboObject('partner');</script></td>
+							<th class="pad_rgt_4">Lane</th>
+							<td><script language="javascript">ComComboObject('lane');</script></td>
+							<th class="pad_rgt_4">Trade</th>
+							<td> <script language="javascript">ComComboObject('trade');</script></td>
+							<td><!--
+							 --><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!--
+							 --><button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button><!--
+			   				 --><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!--
+			    			 --><button type="button" class="btn_accent" name="btn_DownExcel2" id="btn_DownExcel2">Down</button><!--
+						 --></td>
 						</tr>
 					</tbody>
 				</table>
 		    </div>
+		    <!-- opus_design_btn(S) -->
+		    
 	</div>
+	<!-- wrap_search_tab(E) -->
+	
+	<!-- wrap_result(S) -->
 	<div class="wrap_result">
-		<div class= "opus_design_tab" style="width: 100%;margin: 0 0 3px">
+	
+		<!-- opus_design_tab(S) -->
+		<div class= "opus_design_tab sm" style="width: 100%;margin: 0 0 3px">
 			<script language="javascript">ComTabObject('tab1')</script>
 		</div>
+		<!-- opus_design_tab(E) -->
+		
+		<!-- opus_design_grid(S) -->
 		<div class="opus_design_grid clear" name="tabLayer" id="tabLayer">
 			<script language="javascript">ComSheetObject('sheet1');</script>		
 		</div>
+		<!-- opus_design_grid(E) -->
+		
+		<!-- opus_design_grid(S) -->
 		<div class="opus_design_grid clear" name="tabLayer" id="tabLayer">
 			<script language="javascript">ComSheetObject('sheet2');</script>		
 		</div>
-	</div>		
+		<!-- opus_design_grid(E) -->
+		
+	</div>
+	<!-- wrap_result(S) -->	
 
 
 

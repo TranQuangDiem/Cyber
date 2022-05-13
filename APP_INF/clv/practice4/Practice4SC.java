@@ -12,7 +12,6 @@
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice4;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.clt.apps.opus.esm.clv.practice4.practice4.basic.Practice4BC;
@@ -93,7 +92,7 @@ public class Practice4SC extends ServiceCommandSupport {
 	/**
 	 * Practice4 : [이벤트]<br>
 	 * [비즈니스대상]을 [행위]합니다.<br>
-	 * search
+	 * search data
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException
@@ -142,7 +141,7 @@ public class Practice4SC extends ServiceCommandSupport {
 	/**
 	 * Practice4 : [이벤트]<br>
 	 * [비즈니스대상]을 [행위]합니다.<br>
-	 *
+	 * insert, delete, update data
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException

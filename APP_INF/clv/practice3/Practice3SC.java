@@ -100,7 +100,7 @@ public class Practice3SC extends ServiceCommandSupport {
 	/**
 	 * Practice003 : [이벤트]<br>
 	 * [비즈니스대상]을 [행위]합니다.<br>
-	 * 
+	 * search data
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException
@@ -218,7 +218,7 @@ public class Practice3SC extends ServiceCommandSupport {
 	/**
 	 * Practice003 : [이벤트]<br>
 	 * [비즈니스대상]을 [행위]합니다.<br>
-	 *
+	 * update,insert, delete for table master
 	 * @param Event e
 	 * @return EventResponse
 	 * @exception EventException

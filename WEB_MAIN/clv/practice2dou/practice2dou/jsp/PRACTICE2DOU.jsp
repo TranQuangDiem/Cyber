@@ -63,52 +63,93 @@
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
 <!-- 개발자 작업	-->
-<div class="page_title_area clear">
+
+	<!-- page_title_area clear(S) -->
+	<div class="page_title_area clear">
+		<!-- page_title=(S) -->
 		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
-		<div class="opus_design_btn">
-		   <button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button>
-			<button type="button" class="btn_normal" name="btn_Save" id="btn_Save">Save</button>
-		   <!--<button type="button" class="btn_normal" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button> --> 
-		</div>
+		<!-- page_title_area clear(E) -->
+		
+		<!-- opus_design_btn(S) -->
+		<div class="opus_design_btn"><!-- 
+		    --><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!-- 
+			--><button type="button" class="btn_normal" name="btn_Save" id="btn_Save">Save</button><!-- 
+	--></div>
+		<!-- opus_design_btn(E) -->
+		
+		<!-- location(S) -->
 	    <div class="location">
 	     	<span id="navigation"></span>
 	    </div>
+	    <!-- location(E) -->
+	    
 	</div>
+	<!-- page_title_area clear(E) -->
+	
+	<!-- wrap_search(S) -->
 	<div class="wrap_search">
+	
+		<!-- opus_design_inquiry(S) -->
 		<div class="opus_design_inquiry">
 			<table>
+				<colgroup>
+					<col width="70" />
+					<col width="140" />
+					<col width="70" />
+					<col width="*" />
+				</colgroup>
 				<tbody>
 					<tr>
-						<th style="width: 200px">Subsystem
-							<input name="subSystem" id="subSystem" type="text">
-						</th>
-						<th style="width: 40px">Cd Id
-						</th>
-						<td> <input name="Cd_Id" id="Cd_Id" type="text"></td>
+						<th>Subsystem</th>
+						<td><input style="width: 100px" name="subSystem" id="subSystem" type="text"></td>
+						<th>Cd Id</th>
+						<td><input style="width: 100px" name="Cd_Id" id="Cd_Id" type="text"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<!-- opus_design_inquiry(S) -->
+		
 	</div>
+	<!-- wrap_search(E) -->
+	
+	<!-- wrap_result(S) -->
 	<div class="wrap_result">
+		
+		<!-- opus_design_grid(S) -->
 		<div class="opus_design_grid">
 			<h3 class="title_design">Master</h3>
-			<div class="opus_design_btn">
-				<button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button>
-				<!-- <button type="button" class="btn_accent" name="btn_Delete" id="btn_Delete">Row delete</button> -->
-			</div>
+			
+			<!-- opus_design_btn(S) -->
+			<div class="opus_design_btn"><!--
+				--><button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button><!--
+		--></div>
+			<!-- opus_design_btn(E) -->
+			
 			<script language="javascript">ComSheetObject('sheet1');</script>
 		</div>
+		<!-- opus_design_grid(E) -->
+		
 	</div>
+	<!-- wrap_result(E) -->
+	
+	<!-- wrap_result(S) -->
 	<div class="wrap_result">
+	
+		<!-- opus_design_grid(S) -->
 		<div class="opus_design_grid">
 			<h3 class="title_design">Detail</h3>
-			<div class="opus_design_btn">
-				<button type="button" class="btn_accent" name="btn_Add2" id="btn_Add2">Row add</button>
-				<!-- <button type="button" class="btn_normal" name="btn_Save2" id="btn_Save2">Save</button> -->
-			</div>
+			
+			<!-- opus_design_btn(S) -->
+			<div class="opus_design_btn"><!--
+				--><button type="button" class="btn_accent" name="btn_Add2" id="btn_Add2">Row add</button><!--
+		--></div>
+			<!-- opus_design_btn(E) -->
+			
 			<script language="javascript">ComSheetObject('sheet2');</script>
 		</div>	
+		<!-- opus_design_grid(E) -->
+		
 	</div>
 
 <!-- 개발자 작업  끝 -->

@@ -29,7 +29,7 @@ public interface Practice4BC {
 
 	/**
 	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * search data
 	 * @param Practice4VO	practice4VO
 	 * @return List<Practice4VO>
 	 * @exception EventException
@@ -38,7 +38,7 @@ public interface Practice4BC {
 	
 	/**
 	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * insert, delete, update data
 	 * @param Practice4VO[] practice4VO
 	 * @param account SignOnUserAccount
 	 * @exception EventException

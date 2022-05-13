@@ -14,7 +14,6 @@ package com.clt.apps.opus.esm.clv.practice4.practice4.event;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.clt.framework.component.util.JSPUtil;
 import com.clt.framework.core.controller.html.HTMLActionException;
 import com.clt.framework.core.layer.event.Event;
 import com.clt.framework.core.layer.event.EventResponse;

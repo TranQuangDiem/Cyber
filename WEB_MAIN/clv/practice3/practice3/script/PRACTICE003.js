@@ -156,7 +156,7 @@ var ibsheet =0;
 					/**
  					 * SetCellValue :Set value in row ,column, new value
  					 * GetCellvalue : get value in row,column
- 					 * 
+ 					 * SetRowBackColor: set row color
  					 */
 					sheetObj.SetCellValue(sheetObj.LastRow(), 6,result[0]);
 					sheetObj.SetCellValue(sheetObj.LastRow(), 7,result[1]);
@@ -208,7 +208,7 @@ var ibsheet =0;
 //		}
 //	}
 	/**
-	 * 
+	 * event click button
 	 */
 	function processButtonClick() {
 		var formObj = document.form;
@@ -296,7 +296,7 @@ var ibsheet =0;
 	}
 	
 	/**
-	 * 
+	 * show ibsheet
 	 */
 	function initSheet(sheetObj, sheetNo) {
 		switch (sheetNo) {
@@ -416,7 +416,7 @@ var ibsheet =0;
 
 	}
 	/**
-	 * 
+	 *  show data when loading page
 	 */
 	function loadPage() {
 		for (var i = 0; i < sheetObjects.length; i++) {
@@ -470,7 +470,7 @@ var ibsheet =0;
 		initPeriod();
 	}
 	/**
-	 * 
+	 * show date
 	 */
 	function initPeriod(){
 		var formObj = document.form;
@@ -489,7 +489,7 @@ var ibsheet =0;
 		formObj.fr_yrmon.value= GetDateFormat(tmpFrYm, "ym")
 	}
 	/**
-	 * 
+	 * get date format
 	 */
 	function GetDateFormat(obj, sFormat) {
 		var sVal = String(getArgValue(obj));
@@ -506,7 +506,7 @@ var ibsheet =0;
 		return retValue;
 	}
 	/**
-	 * 
+	 * check Year Month over 3 months ,show comfirm : Year Month over 3 months, do you realy want to get data?
 	 */
 	var flag = false;
 	function getCheckYearMonth(){
@@ -526,6 +526,10 @@ var ibsheet =0;
         }
 		return true;
 	}
+	/**
+	 *  check year month invalid
+	 * @returns {Boolean}
+	 */
 	function getCheckConditionPeriod(){
 //		var regex = new RegExp("^[0-9]{4}-[0-1][0-9]");
 //		if(!regex.test(formObj.fr_yrmon.value)||!regex.test(formObj.to_yrmon.value)){
@@ -542,7 +546,7 @@ var ibsheet =0;
         return true;
     }
 	/**
-	 * 
+	 * add month
 	 */
     function addMonth(obj, month) {
     	if(obj.value != "") {
@@ -551,7 +555,7 @@ var ibsheet =0;
 		
 	}
     /**
-	 * 
+	 * insert data in combobox
 	 */
     function geneDataCombo(comboObj, dataStr){
     	if(typeof dataStr !== 'undefined'){
@@ -567,7 +571,7 @@ var ibsheet =0;
     	}
     }
     /**
-	 * 
+	 * event combo partner change
 	 */
 	var partnerValue = '';
 	function partner_OnChange(OldIndex, OldText, OldCode, NewIndex, NewText,NewCode) {
@@ -579,7 +583,7 @@ var ibsheet =0;
 		geneDataCombo(comboObjects[1], laneCb);
 	}
 	/**
-	 * 
+	 *  event combo lane change
 	 */
 	function lane_OnChange(OldIndex, OldText, OldCode, NewIndex, NewText,NewCode) {
 		var xml = sheetObjects[0].GetSearchData( "Practice003GS.do", "f_cmd="+SEARCH03+"&jo_crr_cd="+partnerValue+"&rlane_cd="+NewCode);
@@ -588,7 +592,7 @@ var ibsheet =0;
 		geneDataCombo(comboObjects[2], tradeCb);
 	}
 	/**
-	 * 
+	 * show tab
 	 */
 	function initTab(tabObj , tabNo) {
 		switch(tabNo) {
@@ -602,7 +606,7 @@ var ibsheet =0;
 		}
 	}
 	/**
-	 * 
+	 *  event tab change
 	 */
 	function tab1_OnChange(tabObj, nItem){
 		ibsheet = nItem;
@@ -626,7 +630,7 @@ var ibsheet =0;
 //		doActionIBSheet(sheetObjects[1], formObj, IBSEARCH);
 	} 
 	/**
-	 * 
+	 * event dbclick sheet
 	 */
 	function sheet1_OnDblClick(sheetObj, Row, Col) {
 		 if(getCheckConditionPeriod()){
@@ -652,36 +656,41 @@ var ibsheet =0;
 		
 	}
 	/**
-	 * 
+	 * set TabObjects
 	 */
 	function setTabObject(tab_obj){
 		tabObjects[tabCnt++]=tab_obj;
 	}
 	/**
-	 * 
+	 * set SheetObjects
 	 */
 	function setSheetObject(sheet_obj) {
-		sheetObjects[sheetCnt++] = sheet_obj;
+		switch (sheet_obj.id) {
+		case "sheet1":
+			sheetObjects[0] = sheet_obj;
+			break;
+		case "sheet2":
+			sheetObjects[1] = sheet_obj;
+			break;
+		default:
+			sheetObjects[sheetCnt++] = sheet_obj;
+			break;
+		}
+		
 	}
 	/**
-	 * 
+	 * set ComboObjects
 	 */
 	function setComboObject(combo_obj) {
 		comboObjects[comboCnt++] = combo_obj;
 	}
 	/**
-	 * 
+	 * set size sheet
 	 */	
 	function resizeSheet() {
 		for (var i = 0; i < sheetObjects.length; i++) {
 		ComResizeSheet(sheetObjects[i]);
 		}
-	}
-	/**
-	 * 
-	 */
-	function setTabObject(tab_obj) {
-		tabObjects[tabCnt++] = tab_obj;
 	}
     /**
 	 * @extends

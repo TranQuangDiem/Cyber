@@ -31,7 +31,7 @@ public interface Practice3BC {
 
 	/**
 	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * search data
 	 * @param Practice3VO	practice3VO
 	 * @return List<Practice3VO>
 	 * @exception EventException
@@ -40,7 +40,7 @@ public interface Practice3BC {
 	
 	/**
 	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * update,insert, delete
 	 * @param Practice3VO[] practice3VO
 	 * @param account SignOnUserAccount
 	 * @exception EventException
