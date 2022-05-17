@@ -29,7 +29,7 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 
 
 /**
- * ALPS-Practice4 Business Logic ServiceCommand - ALPS-Practice4 대한 비지니스 트랜잭션을 처리한다.
+ * ALPS-Practice4 Business Logic ServiceCommand - Process business transaction for ALPS-Practice4.
  * 
  * @author Diem Tran
  * @see Practice4DBDAO
@@ -41,13 +41,13 @@ public class Practice4SC extends ServiceCommandSupport {
 	private SignOnUserAccount account = null;
 
 	/**
-	 * Practice4 system 업무 시나리오 선행작업<br>
-	 * 업무 시나리오 호출시 관련 내부객체 생성<br>
+	 * Practice4 system work scenario precedent work<br>
+	 * Creating related internal objects when calling a business scenario<br>
 	 */
 	public void doStart() {
-		log.debug("Practice4SC 시작");
+		log.debug("Start Practice4SC");
 		try {
-			// 일단 comment --> 로그인 체크 부분
+			// First comment --> Login check part
 			account = getSignOnUserAccount();
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
@@ -55,16 +55,16 @@ public class Practice4SC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * Practice4 system 업무 시나리오 마감작업<br>
-	 * 업무 시나리오 종료시 관련 내부객체 해제<br>
+	 *Practice4 system work scenario finishing work<br>
+	 * Release related internal objects when the work scenario is finished<br>
 	 */
 	public void doEnd() {
-		log.debug("Practice4SC 종료");
+		log.debug("Exit Practice4SC");
 	}
 
 	/**
-	 * 각 이벤트에 해당하는 업무 시나리오 수행<br>
-	 * ALPS-Practice4 system 업무에서 발생하는 모든 이벤트의 분기처리<br>
+	 * Carry out business scenarios corresponding to each event<br>
+	 * Branch processing of all events occurring in ALPS-Practice4 system work<br>
 	 * 
 	 * @param e Event
 	 * @return EventResponse
@@ -74,7 +74,7 @@ public class Practice4SC extends ServiceCommandSupport {
 		// RDTO(Data Transfer Object including Parameters)
 		EventResponse eventResponse = null;
 
-		// SC가 여러 이벤트를 처리하는 경우 사용해야 할 부분
+		// The part to use when SC handles multiple events
 		if (e.getEventName().equalsIgnoreCase("Practice4Event")) {
 			if (e.getFormCommand().isCommand(FormCommand.DEFAULT)){
 				eventResponse = searchCarrierAndLane(e);
@@ -90,8 +90,6 @@ public class Practice4SC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * Practice4 : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
 	 * search data
 	 * @param Event e
 	 * @return EventResponse
@@ -122,7 +120,6 @@ public class Practice4SC extends ServiceCommandSupport {
 	private EventResponse searchCarrierAndLane(Event e) throws EventException {
 		// PDTO(Data Transfer Object including Parameters)
 		GeneralEventResponse eventResponse = new GeneralEventResponse();
-		Practice4Event event = (Practice4Event)e;
 		Practice4BC command = new Practice4BCImpl();
 
 		try{
@@ -139,8 +136,6 @@ public class Practice4SC extends ServiceCommandSupport {
 	}
 	
 	/**
-	 * Practice4 : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
 	 * insert, delete, update data
 	 * @param Event e
 	 * @return EventResponse
@@ -154,7 +149,7 @@ public class Practice4SC extends ServiceCommandSupport {
 		try{
 			begin();
 			command.manager(event.getPractice4VOS(),account);
-			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
+//			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
 			commit();
 		} catch(EventException ex) {
 			rollback();

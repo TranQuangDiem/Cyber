@@ -171,42 +171,6 @@ var ibsheet =0;
 			}	
 		}
 	}
-//	function totalSum(sheetObj,total){
-//		if(sheetObjects[ibsheet].RowCount() >= 1){
-//		var total = new Array();
-//		var curr;
-//		var revenue;
-//		var expense;
-//		var totalrevenue=0;
-//		var totalexpense=0;
-//		var totalrevenueUSD=0;
-//		var totalexpenseUSD=0;
-//		for( var i = sheetObj.LastRow(); i >= sheetObj.HeaderRows(); i-- ) {
-//			curr=sheetObj.GetCellValue(i, "locl_curr_cd");
-//			revenue=Number(sheetObj.GetCellValue(i, "inv_rev_act_amt"));
-//			expense=Number(sheetObj.GetCellValue(i, "inv_exp_act_amt"));
-//			if(curr==='VND'){
-//				totalrevenue+=revenue;
-//				totalexpense+=expense;
-//			}else if(curr==='USD'){
-//				totalrevenueUSD+=revenue;
-//				totalexpenseUSD+=expense
-//			}
-//			
-//		}
-//			sheetObj.DataInsert(-1);
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 6,"VND");
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 7,totalrevenue);
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 8,totalexpense);
-//			sheetObj.SetRowBackColor(sheetObj.LastRow(),"#fdbb8f");
-//			sheetObj.DataInsert(-1);
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 6,"USD");
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 7,totalrevenueUSD);
-//			sheetObj.SetCellValue(sheetObj.LastRow(), 8,totalexpenseUSD);
-//			sheetObj.SetRowBackColor(sheetObj.LastRow(),"#fdbb8f");
-//			
-//		}
-//	}
 	/**
 	 * event click button
 	 */
@@ -282,6 +246,7 @@ var ibsheet =0;
 				for(var i =0 ; i < comboObjects.length; i++){
 				comboObjects[i].SetSelectCode( -1, true);
 				}
+				comboObjects[0].SetSelectCode( "All", true);
 				doActionIBSheet(sheetObjects[0], formObj, IBSEARCH);
 				doActionIBSheet(sheetObjects[1], formObj, IBSEARCH);
 			}
@@ -296,7 +261,8 @@ var ibsheet =0;
 	}
 	
 	/**
-	 * show ibsheet
+	 * setting sheet initial values and header param : sheetObj, sheetNo adding case
+	 * as numbers of counting sheets
 	 */
 	function initSheet(sheetObj, sheetNo) {
 		switch (sheetNo) {
@@ -339,8 +305,8 @@ var ibsheet =0;
 				 * @param:Align String How to align header text (Default = "Center")
 				 * 
 				 */
-				var headers = [ {Text : HeadTitle1,Align : "Center"},
-				                {Text : HeadTitle,Align : "Center"}];
+				var headers = [ {Text : HeadTitle1,	Align : "Center"},
+				                {Text : HeadTitle,	Align : "Center"}];
 				/**
 				 * You can define the header title and function using this method.
 				 */
@@ -362,16 +328,16 @@ var ibsheet =0;
 				 */
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
 //				 {Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "inv_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 300,Align : "Center",ColMerge : 0,SaveName : "csr_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "apro_flg",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "locl_curr_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "inv_rev_act_amt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "inv_exp_act_amt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "prnr_ref_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_vndr_eng_nm",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}];
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "inv_no",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 300,Align : "Center",ColMerge : 0,SaveName : "csr_no",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "apro_flg",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "locl_curr_cd",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "inv_rev_act_amt",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "inv_exp_act_amt",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "prnr_ref_no",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_vndr_eng_nm",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}];
 				/**
 				 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
 				 */
@@ -385,28 +351,28 @@ var ibsheet =0;
 			break;
 		case 2:
 			with (sheetObj) {
-				var HeadTitle1 = "STS|Partner|Lane|Invoice No|Slip No|Approved|Rev/Exp|Item|Curr|Revenue|Expense|Customer/S.Provider|Customer/S.Provider";
-				var HeadTitle = "STS|Partner|Lane|Invoice No|Slip No|Approved|Rev/Exp|Item|Curr|Revenue|Expense|Code|Name";
+				var HeadTitle1 = 	"STS|Partner|Lane|Invoice No|Slip No|Approved|Rev/Exp|Item|Curr|Revenue|Expense|Customer/S.Provider|Customer/S.Provider";
+				var HeadTitle = 	"STS|Partner|Lane|Invoice No|Slip No|Approved|Rev/Exp|Item|Curr|Revenue|Expense|Code|Name";
 				var headCount = ComCountHeadTitle(HeadTitle);
 				SetConfig({SearchMode : 2,MergeSheet : 5,Page : 40,DataRowMerge : 1});
 				var info = {Sort : 1,ColMove : 1,HeaderCheck : 0,ColResize : 1};
-				var headers = [ {Text : HeadTitle1,Align : "Center"},
-				                {Text : HeadTitle,Align : "Center"}];
+				var headers = [ {Text : HeadTitle1,	Align : "Center"},
+				                {Text : HeadTitle,	Align : "Center"}];
 				InitHeaders(headers, info);
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
 	//			 {Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "inv_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 300,Align : "Center",ColMerge : 0,SaveName : "csr_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "apro_flg",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rev_exp",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_stl_itm_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "locl_curr_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "inv_rev_act_amt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "inv_exp_act_amt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "prnr_ref_no",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_vndr_eng_nm",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}];
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "inv_no",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 300,Align : "Center",ColMerge : 0,SaveName : "csr_no",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "apro_flg",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rev_exp",			KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_stl_itm_cd",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "locl_curr_cd",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "inv_rev_act_amt",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "inv_exp_act_amt",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "prnr_ref_no",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_vndr_eng_nm",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0}];
 				SetEditable(1);
 				InitColumns(cols);
 //				SetSheetHeight(715);
@@ -416,58 +382,69 @@ var ibsheet =0;
 
 	}
 	/**
-	 *  show data when loading page
+	 * initializing sheet implementing onLoad event handler in body tag adding
+	 * first-served functions after loading screen.
 	 */
 	function loadPage() {
+		//generate Grid Layout
 		for (var i = 0; i < sheetObjects.length; i++) {
 			ComConfigSheet(sheetObjects[i]);
 			initSheet(sheetObjects[i], i + 1)
 			ComEndConfigSheet(sheetObjects[i]);
+			doActionIBSheet(sheetObjects[i], document.form, IBSEARCH);
 		}	
-		/**
-		 * SetMultiSelect: This function is used to set whether multiple items will be selected or not.
-		 */
-		partner.SetMultiSelect(1);
-//		partner.SetMultiSeparator(",");
-		/**
-		 * SetDropHeight : set height
-		 */
-		partner.SetDropHeight(190);
-		var p = partners.substring(1,partners.length-1).split(", ");
-		partner.InsertItem(0, "All", "All");
-		for(var i = 1 ; i < p.length ; i++){
-			/**
-			 * InsertItem: Add an item. Set the text value using a “|” separator when using multicolumn.Add to the last row, if the Index parameter is -1.
-			 * Syntax Obj.InsertItem(Index, Text, Code);
-			 * @param Index: Row index of the item to add
-			 * @param Text: Text of the item to add
-			 * @param Code: Code of the item to add If not entered, the Index value is converted to a string and used as the code value.
-			 */
-			partner.InsertItem(i, p[i], p[i]);
-		}
-
-//		partner.GetItemXml( "Practice003GS.do", "f_cmd="+SEARCH01);
-		lane.SetDropHeight(190);
-		
-		trade.SetMultiSelect(0);
-		trade.SetDropHeight(190);
-	
+		//generate droplist
+		for (var k = 0; k < comboObjects.length; k++) {
+			initCombo(comboObjects[k],k+1);
+		}	
+		//generate tab
 		for(k = 0;k < tabObjects.length; k++){
 			initTab(tabObjects[k], k + 1);
 			tabObjects[k].SetSelectedIndex(0);
 		}
-		partner.SetSelectText("All", true);
-		initControl();
+		initPeriod();
 		doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 		doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
 		
+		
+	}
+	/**
+	 * setting Combo basic info param : comboObj, comboNo initializing sheet
+	 */
+	function initCombo(comboObj, comboNo) {
+		var formObj = document.form;
+		/**
+		 * SetDropHeight : set height
+		 */
+		comboObj.SetDropHeight(190);
+		switch (comboNo) {
+			case 1:
+				with (comboObj) {
+					/**
+					 * SetMultiSelect: This function is used to set whether multiple items will be selected or not.
+					 */
+					SetMultiSelect(1);
+					var p = partners.substring(1,partners.length-1).split(", ");
+					InsertItem(0, "All", "All");
+					SetSelectText("All", true);
+					for(var i = 1 ; i < p.length ; i++){
+						/**
+						 * InsertItem: Add an item. Set the text value using a “|” separator when using multicolumn.Add to the last row, if the Index parameter is -1.
+						 * Syntax Obj.InsertItem(Index, Text, Code);
+						 * @param Index: Row index of the item to add
+						 * @param Text: Text of the item to add
+						 * @param Code: Code of the item to add If not entered, the Index value is converted to a string and used as the code value.
+						 */
+						InsertItem(i, p[i], p[i]);
+					}
+				}
+		}
 	}
 	/**
 	 * 
 	 */
 	function initControl() {
-		var formObject = document.form;
-		initPeriod();
+		
 	}
 	/**
 	 * show date
@@ -515,8 +492,7 @@ var ibsheet =0;
 	        var toDt=formObj.to_yrmon.value.replaceStr("-","")+"01";
 		if (ComGetDaysBetween(formObj.fr_yrmon, formObj.to_yrmon)>=90){
         	if(!flag){
-				let choice =confirm("Year Month over 3 months, do you realy want to get data?");
-				if(choice){
+				if(ComShowConfirm("Year Month over 3 months, do you realy want to get data?")){
 					flag = true
 					return true
 				}else{
@@ -531,16 +507,14 @@ var ibsheet =0;
 	 * @returns {Boolean}
 	 */
 	function getCheckConditionPeriod(){
-//		var regex = new RegExp("^[0-9]{4}-[0-1][0-9]");
-//		if(!regex.test(formObj.fr_yrmon.value)||!regex.test(formObj.to_yrmon.value)){
-//			alert('year month illegal');	
-//            return false;
-//		}
         var formObj=document.form;
         var frDt=formObj.fr_yrmon.value.replaceStr("-","")+"01";
         var toDt=formObj.to_yrmon.value.replaceStr("-","")+"01";
-        if (ComGetDaysBetween(frDt, toDt) <= 0){
-        	alert('year month illegal');	
+        if(isNaN(ComGetDaysBetween(frDt, toDt))){
+        	ComShowCodeMessage('COM12132');
+        	 return false;
+        }else if (ComGetDaysBetween(frDt, toDt) <= 0){
+        	ComShowCodeMessage('COM12131');
             return false;
         }
         return true;
@@ -573,10 +547,10 @@ var ibsheet =0;
     /**
 	 * event combo partner change
 	 */
-	var partnerValue = '';
 	function partner_OnChange(OldIndex, OldText, OldCode, NewIndex, NewText,NewCode) {
-		partnerValue = NewCode;
-		var xml = sheetObjects[0].GetSearchData( "Practice003GS.do", "f_cmd="+SEARCH02+"&jo_crr_cd="+NewCode );
+		var formObj = document.form;
+		formObj.f_cmd.value=SEARCH02
+		var xml = sheetObjects[0].GetSearchData( "Practice003GS.do", FormQueryString(formObj));
 		laneCb = ComGetEtcData(xml, "laneCb");
 		comboObjects[1].RemoveAll();
 		comboObjects[2].RemoveAll();
@@ -586,7 +560,9 @@ var ibsheet =0;
 	 *  event combo lane change
 	 */
 	function lane_OnChange(OldIndex, OldText, OldCode, NewIndex, NewText,NewCode) {
-		var xml = sheetObjects[0].GetSearchData( "Practice003GS.do", "f_cmd="+SEARCH03+"&jo_crr_cd="+partnerValue+"&rlane_cd="+NewCode);
+		var formObj = document.form;
+		formObj.f_cmd.value=SEARCH03;
+		var xml = sheetObjects[0].GetSearchData( "Practice003GS.do",  FormQueryString(formObj));
 		tradeCb = ComGetEtcData(xml, "tradeCb");
 		comboObjects[2].RemoveAll();
 		geneDataCombo(comboObjects[2], tradeCb);
@@ -623,11 +599,6 @@ var ibsheet =0;
 		//------------------------------------------------------//
 		beforetab=nItem;
 	    resizeSheet();
-//	    var formObj = document.form;
-//		 formObj.partner.value  = '';
-//		 formObj.lane.value = '';
-//	    doActionIBSheet(sheetObjects[0], formObj, IBSEARCH);
-//		doActionIBSheet(sheetObjects[1], formObj, IBSEARCH);
 	} 
 	/**
 	 * event dbclick sheet
@@ -635,22 +606,9 @@ var ibsheet =0;
 	function sheet1_OnDblClick(sheetObj, Row, Col) {
 		 if(getCheckConditionPeriod()){
 			if(getCheckYearMonth()){
-//				var objs=document.all.item("tabLayer");
-//				 objs[0].style.display="none";
-//				 objs[1].style.display="Inline";
-//				 objs[0].style.zIndex=objs[1].style.zIndex = 1 ;
 				 ibsheet = 1;
-//		 document.getElementById("tabTabDIV_tab1_1").setAttribute("class", "tabActive");
-//		 document.getElementById("tabTabDIV_tab1_0").setAttribute("class", "tabInactive");
-		 
-//				 var formObj = document.form;
-//				 formObj.partner.value  = sheetObjects[0].GetCellValue(Row, "jo_crr_cd");
-//				 formObj.lane.value = sheetObjects[0].GetCellValue(Row, "rlane_cd");
-//				 doActionIBSheet(sheetObjects[1], formObj, IBSEARCH);
-//				 selectRowToOtherSheet(sheetObj,sheetObjects[1],Row,2);
 				 sheetObjects[1].SetSelectRow(Row);
-				 tab1.SetSelectedIndex(1);
-				 
+				 tab1.SetSelectedIndex(1); 
 			}
 		 }
 		
@@ -662,7 +620,8 @@ var ibsheet =0;
 		tabObjects[tabCnt++]=tab_obj;
 	}
 	/**
-	 * set SheetObjects
+	 * registering IBSheet Object as list adding process for list in case of needing
+	 * batch processing with other items defining list on the top of source
 	 */
 	function setSheetObject(sheet_obj) {
 		switch (sheet_obj.id) {
@@ -679,7 +638,9 @@ var ibsheet =0;
 		
 	}
 	/**
-	 * set ComboObjects
+	 * registering IBCombo Object as list param : combo_obj adding process for list
+	 * in case of needing batch processing with other items defining list on the top
+	 * of source
 	 */
 	function setComboObject(combo_obj) {
 		comboObjects[comboCnt++] = combo_obj;

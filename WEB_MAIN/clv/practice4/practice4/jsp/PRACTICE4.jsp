@@ -60,11 +60,6 @@
 		out.println(e.toString());
 	}
 %>
-<html>
-<head>
-<title>Practice4</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <script language="javascript">
 var carriers = "<%=carriers%>";
 var lanes = "<%=lanes%>";
@@ -76,9 +71,6 @@ var lanes = "<%=lanes%>";
 		loadPage();
 	}
 </script>
-</head>
-
-<body  onLoad="setupPage();">
 <form name="form">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
@@ -92,8 +84,8 @@ var lanes = "<%=lanes%>";
 		--><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!-- 
 		--><button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button><!-- 
 		--><button type="button" class="btn_accent" name="btn_Save" id="btn_Save">Save</button><!-- 
-		--><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!-- 
-	 --></div>
+		--><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button>
+	 	</div>
 		<!-- opus_design_btn(E) -->
 		
 		<!-- location(S) -->
@@ -126,7 +118,7 @@ var lanes = "<%=lanes%>";
 						<th>Carrier</th>
 						<td><script language="javascript">ComComboObject('carrier');</script></td>
 						<th>Vendor</th>
-						<td><input name="vndr_seq" id="vndr_seq" dataformat="num" maxlength="6"></td>
+						<td><input name="vndr_seq" id="vndr_seq" maxlength="6" dataformat="num"></td>
 						<th> Date </th>
 						<td><input type="text" style="width:62;text-align:center;" name="fr_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" ></td>
 						<td><img src="img/btns_calendar.gif" name="btns_calendar" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;"></td>
@@ -162,5 +154,3 @@ var lanes = "<%=lanes%>";
 
 <!-- 개발자 작업  끝 -->
 </form>
-</body>
-</html>

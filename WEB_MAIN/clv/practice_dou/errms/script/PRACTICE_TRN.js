@@ -92,13 +92,12 @@ function doActionIBSheet(sheetObj,formObj,sAction) {
  * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
  * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
  */
-function sheet_OnSaveEnd(Code,Msg,StCode,StMsg) {
-	console.log('code'+Code+"---msg"+Msg+"---StCode"+StCode+"---stmsg"+StMsg)
-	if(Msg>=0){
-		alert("successfully");
+function sheet1_OnSaveEnd(SheetObj,Code,Msg,StCode,StMsg) {
+	if(Code>=0){
+		ComShowCodeMessage('COM132601');
 		doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
 	}else {
-		alert("save failed");
+		ComShowCodeMessage('COM12151','data');
 	}
 }
 /**
@@ -159,7 +158,8 @@ function processButtonClick() {
 	}
 }
 /**
- * show ibsheet
+ * setting sheet initial values and header param : sheetObj, sheetNo adding case
+ * as numbers of counting sheets
  */
 function initSheet(sheetObj,sheetNo) {
 	var cnt = 0;
@@ -202,19 +202,19 @@ function initSheet(sheetObj,sheetNo) {
 		 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 		 */
 			var cols = [ 
-	             { Type : "Status", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "ibflag" }, 
-	             { Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" }, 
-	             { Type : "Text", Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_msg_cd", KeyField : 1, UpdateEdit : 0, InsertEdit : 1, EditLen: 8 }, 
-	             { Type : "Text", Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_tp_cd", KeyField : 1, UpdateEdit : 0, InsertEdit : 1, EditLen: 1  }, 
-	             { Type : "Text", Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_lvl_cd", KeyField : 1, UpdateEdit : 1, InsertEdit : 1 , EditLen: 1 }, 
-	             { Type : "Text", Hidden : 0, Width : 600, Align : "Left", ColMerge : 0, SaveName : "err_msg", KeyField : 1, UpdateEdit : 1, InsertEdit : 1 }, 
-	             { Type : "Text", Hidden : 0, Width : 100, Align : "Left", ColMerge : 0, SaveName : "err_desc", KeyField : 1, UpdateEdit : 1, InsertEdit : 1 } 
+	             { Type : "Status", 	Hidden : 1, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "ibflag" }, 
+	             { Type : "DelCheck",	Hidden : 0, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "del_chk" }, 
+	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_msg_cd", 	KeyField : 1, UpdateEdit : 0, InsertEdit : 1, 	EditLen: 8 , AcceptKeys : "E|N", 	InputCaseSensitive : 1 }, 
+	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_tp_cd",  	KeyField : 1, UpdateEdit : 0, InsertEdit : 1, 	EditLen: 1 , AcceptKeys : "E", 		InputCaseSensitive : 1 }, 
+	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_lvl_cd", 	KeyField : 1, UpdateEdit : 1, InsertEdit : 1, 	EditLen: 1 , AcceptKeys : "E", 		InputCaseSensitive : 1 }, 
+	             { Type : "Text", 		Hidden : 0, Width : 600, Align : "Left",   ColMerge : 0, SaveName : "err_msg", 		KeyField : 1, UpdateEdit : 1, InsertEdit : 1 }, 
+	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Left",   ColMerge : 0, SaveName : "err_desc", 	KeyField : 1, UpdateEdit : 1, InsertEdit : 1 } 
 	             ];
 			/**
 			 * Configure data type, format and functionality of each column.
 			 */
 			InitColumns(cols);
-//			SetEditable();
+//			SetEditable(1);
 //			SetWaitImageVisible(0);
 			resizeSheet();
 		}
@@ -224,21 +224,23 @@ function initSheet(sheetObj,sheetNo) {
 
 }
 /**
- * show data when loading page
+ * initializing sheet implementing onLoad event handler in body tag adding
+ * first-served functions after loading screen.
  */
 function loadPage(){
 	//generate Grid Layout
 	for (i = 0; i < sheetObjects.length; i++) {
-//		ComConfigSheet(sheetObjects[i]);
+		ComConfigSheet(sheetObjects[i]);
 		initSheet(sheetObjects[i], i + 1);
-//		ComEndConfigSheet(sheetObjects[i]);
+		ComEndConfigSheet(sheetObjects[i]);
 	}
 	
 	//auto search data after loading finish.
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 }
 /**
- * set sheetObject
+ * registering IBSheet Object as list adding process for list in case of needing
+ * batch processing with other items defining list on the top of source
  */
 function setSheetObject(sheet_obj){
 	switch (sheet_obj.id) {
@@ -258,7 +260,9 @@ function resizeSheet() {
 }
 
 /**
- * set comboObject
+ * registering IBCombo Object as list param : combo_obj adding process for list
+ * in case of needing batch processing with other items defining list on the top
+ * of source
  */
 function setComboObject(combo_obj) {
 	comboObjects[comboCnt++] = combo_obj;

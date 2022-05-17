@@ -57,11 +57,6 @@
 		out.println(e.toString());
 	}
 %>
-<html>
-<head>
-<title>ErrorMessageManager</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <script language="javascript">
 	function setupPage(){
 		var errMessage = "<%=strErrMsg%>";
@@ -71,9 +66,6 @@
 		loadPage();
 	}
 </script>
-</head>
-
-<body  onLoad="setupPage();">
 <form name="form">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
@@ -153,5 +145,3 @@
 		<!--wrap_result (E)  -->
 <!-- 개발자 작업  끝 -->
 </form>
-</body>
-</html>

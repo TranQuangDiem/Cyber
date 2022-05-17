@@ -159,8 +159,7 @@ public class Practice2douDAO extends DBDAOSupport {
 		return false;
 	}
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * add data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -190,8 +189,7 @@ public class Practice2douDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * update data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -209,7 +207,7 @@ public class Practice2douDAO extends DBDAOSupport {
 						practice2douVO, null);
 				for (int i = 0; i < updCnt.length; i++) {
 					if (updCnt[i] == Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No" + i + " SQL");
+						throw new DAOException("Fail to update No" + i + " SQL");
 				}
 			}
 		} catch (SQLException se) {
@@ -223,8 +221,7 @@ public class Practice2douDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * delete data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -242,7 +239,7 @@ public class Practice2douDAO extends DBDAOSupport {
 						practice2douVO, null);
 				for (int i = 0; i < delCnt.length; i++) {
 					if (delCnt[i] == Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No" + i + " SQL");
+						throw new DAOException("Fail to delete No" + i + " SQL");
 				}
 			}
 		} catch (SQLException se) {
@@ -256,8 +253,7 @@ public class Practice2douDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * add list data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -289,8 +285,7 @@ public class Practice2douDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * update list data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -308,7 +303,7 @@ public class Practice2douDAO extends DBDAOSupport {
 						practiceVO, null);
 				for (int i = 0; i < updCnt.length; i++) {
 					if (updCnt[i] == Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No" + i + " SQL");
+						throw new DAOException("Fail to update No" + i + " SQL");
 				}
 			}
 		} catch (SQLException se) {
@@ -322,8 +317,7 @@ public class Practice2douDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * 
+	 * delete list data
 	 * @param List
 	 *            <Practice2VO> practice2VO
 	 * @return int[]
@@ -341,7 +335,7 @@ public class Practice2douDAO extends DBDAOSupport {
 						practiceVO, null);
 				for (int i = 0; i < delCnt.length; i++) {
 					if (delCnt[i] == Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No" + i + " SQL");
+						throw new DAOException("Fail to delete No" + i + " SQL");
 				}
 			}
 		} catch (SQLException se) {

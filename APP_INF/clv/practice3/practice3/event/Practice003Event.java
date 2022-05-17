@@ -19,8 +19,8 @@ import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 /**
  * Practice003 에 대한 PDTO(Data Transfer Object including Parameters)<br>
- * -  Practice003HTMLAction에서 작성<br>
- * - ServiceCommand Layer로 전달하는 PDTO로 사용<br>
+ * - Written in Practice003HTMLAction<br>
+ * - Used as PDTO delivered to ServiceCommand Layer<br>
  *
  * @author Diem Tran
  * @see Practice003HTMLAction 참조
@@ -31,10 +31,10 @@ public class Practice003Event extends EventSupport {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** Table Value Object 조회 조건 및 단건 처리  */
+	/** Table Value Object search condition and single event processing */
 	Practice3VO practice3VO = null;
 	
-	/** Table Value Object Multi Data 처리 */
+	/** Table Value Object Multi Data processing*/
 	Practice3VO[] practice3VOs = null;
 	LaneVO laneVO = null;
 	String partners = null;

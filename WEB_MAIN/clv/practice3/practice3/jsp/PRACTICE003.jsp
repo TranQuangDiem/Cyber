@@ -59,11 +59,6 @@
 		out.println(e.toString());
 	}
 %>
-<html>
-<head>
-<title>Practice 3</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <script language="javascript">
 var partners = "<%=partner1%>"
 	function setupPage(){
@@ -74,9 +69,6 @@ var partners = "<%=partner1%>"
 		loadPage();
 	}
 </script>
-</head>
-
-<body  onLoad="setupPage();">
 <form name="form">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
@@ -84,6 +76,16 @@ var partners = "<%=partner1%>"
 	<!-- page_title_area clear (S) -->
 	<div class="page_title_area clear">
 		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
+		
+		<!-- opus_design_btn(S) -->
+		<div class="opus_design_btn"><!--
+			--><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!--
+			--><button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button><!--
+			--><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!--
+			--><button type="button" class="btn_accent" name="btn_DownExcel2" id="btn_DownExcel2">Down</button><!--
+	--></div>
+		<!-- opus_design_btn(E) --
+		
 		<!-- location (S) -->
 	    <div class="location">
 	     	<span id="navigation"></span>
@@ -95,8 +97,8 @@ var partners = "<%=partner1%>"
 	
 	<!-- wrap_search_tab(S) -->
 	<div class="wrap_search_tab">
-		<!-- opus_design_btn(S) -->
-		<div class="opus_design_btn">		
+		<!-- class opus_design_inquiry(S) -->
+		<div class="class opus_design_inquiry wFit">		
 				<table>
 					<colgroup>
 						<col width="80" />
@@ -129,24 +131,18 @@ var partners = "<%=partner1%>"
 							 --><button type="button" class="btn_left" name="btn_to_back" id="btn_to_back"></button><!-- 
 							 --><button type="button" class="btn_right" name="btn_to_next" id="btn_to_next"></button><!--
 							 --></td>
-							
 							<th class="pad_rgt_4"> Partner</th>
 							<td><script language="javascript">ComComboObject('partner');</script></td>
 							<th class="pad_rgt_4">Lane</th>
 							<td><script language="javascript">ComComboObject('lane');</script></td>
 							<th class="pad_rgt_4">Trade</th>
 							<td> <script language="javascript">ComComboObject('trade');</script></td>
-							<td><!--
-							 --><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!--
-							 --><button type="button" class="btn_accent" name="btn_New" id="btn_New">New</button><!--
-			   				 --><button type="button" class="btn_accent" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!--
-			    			 --><button type="button" class="btn_accent" name="btn_DownExcel2" id="btn_DownExcel2">Down</button><!--
-						 --></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
 		    </div>
-		    <!-- opus_design_btn(S) -->
+		    <!-- class opus_design_inquiry(S) -->
 		    
 	</div>
 	<!-- wrap_search_tab(E) -->
@@ -179,5 +175,3 @@ var partners = "<%=partner1%>"
 
 <!-- 개발자 작업  끝 -->
 </form>
-</body>
-</html>

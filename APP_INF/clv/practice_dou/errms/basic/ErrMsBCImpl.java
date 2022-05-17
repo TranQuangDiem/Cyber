@@ -13,10 +13,7 @@
 package com.clt.apps.opus.esm.clv.practice_dou.errms.basic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.clt.apps.opus.esm.clv.practice_dou.errms.integration.ErrMsDBDAO;
@@ -29,7 +26,7 @@ import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 
 /**
  * ALPS-Practice_DOU Business Logic Command Interface<br>
- * - ALPS-Practice_DOU에 대한 비지니스 로직에 대한 인터페이스<br>
+ * - Interface to business logic for ALPS-Practice_DOU<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -40,16 +37,15 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 	private transient ErrMsDBDAO dbDao = null;
 
 	/**
-	 * ErrMsBCImpl 객체 생성<br>
-	 * ErrMsDBDAO를 생성한다.<br>
+	 * Create ErrMsBCImpl object<br>
+	 * Create ErrMsDBDAO.<br>
 	 */
 	public ErrMsBCImpl() {
 		dbDao = new ErrMsDBDAO();
 	}
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * SEARH DATA
 	 * @param PracticeVO
 	 *            errMsgVO
 	 * @return List<ErrMsgVO>
@@ -71,7 +67,7 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 	}
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * INSERT, UPDATE, DELETE DATA
 	 * 
 	 * @param ErrMsgVO
 	 *            [] errMsgVO
@@ -88,7 +84,7 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 			for (int i = 0; i < errMsgVO.length; i++) {
 
 				if (errMsgVO[i].getIbflag().equals("I")) {
-						if (!Pattern.matches("^[A-Z]{3}\\d{5}",
+						if (!Pattern.matches("^[A-Z]{3}\\d{5}",//validate err_msg_cd
 								errMsgVO[i].getErrMsgCd())) {
 							throw new EventException(new ErrorHandler("ERR12345").getMessage());
 						} 

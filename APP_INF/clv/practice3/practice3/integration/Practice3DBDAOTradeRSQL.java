@@ -78,8 +78,8 @@ public class Practice3DBDAOTradeRSQL implements ISQLTemplate{
 		query.append("	TRD_CD" ).append("\n"); 
 		query.append("FROM JOO_CARRIER" ).append("\n"); 
 		query.append("WHERE RLANE_CD = @[rlane_cd]" ).append("\n"); 
-		query.append("#if(${jo_crr_cd}!='All')" ).append("\n"); 
-		query.append("AND	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
+		query.append("#if(${jo_crr_cd}!='All'&&${jo_crr_cd}!='')" ).append("\n"); 
+		query.append("AND	JO_CRR_CD IN (#foreach($key IN ${jo_crr_cd})#if($velocityCount < $jo_crr_cd.size()) '$key', #else '$key' #end #end)" ).append("\n"); 
 		query.append("#end" ).append("\n"); 
 
 	}

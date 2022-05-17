@@ -1,5 +1,6 @@
 /**
- * 
+ * declare sheetObjects
+ *
  */
 var sheetObjects = new Array();
 var sheetCnt = 0;
@@ -30,9 +31,6 @@ function doActionIBSheet(sheetObj, formObj, sAction) {
 		sheetObj.LoadSearchData(sXml2, {Sync : 1});
 		break;
 	case IBINSERT:
-//		sheetObj.DataInsert(-1);
-//		sheetObjects[1].DataInsert(-1);
-//		break;
 		with (sheetObj) {
 		/**
 		 * DataInsert: Create a new data row, and return the row index of the new row
@@ -42,7 +40,8 @@ function doActionIBSheet(sheetObj, formObj, sAction) {
 		 * 			Row >= First data row : Create as the first row
 		 *			Default :				Create below the selected row
 		 */
- 			sheetObj.DataInsert(-1);
+			console.log()
+ 			sheetObj.DataInsert(sheetObj.GetSelectRow()==1?-1:sheetObj.GetSelectRow()+1);
  			if ( sheetObj.id == "sheet2" ) {
  				/**
  				 * SearchRows:Check the total row count returned by a search XML
@@ -115,12 +114,12 @@ function doActionIBSheet(sheetObj, formObj, sAction) {
  * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
  * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
  */
-function sheet1_OnSaveEnd(code,msg) {
-	if(msg>=0){
-		alert("successfully");
+function sheet1_OnSaveEnd(sheetObj,code,msg) {
+	if(code>=0){
+		ComShowCodeMessage('COM132601');
 		doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
 	}else {
-		alert("save failed");
+		ComShowCodeMessage('COM12151','data');
 	}
 }
 /**
@@ -182,7 +181,8 @@ function processButtonClick() {
 
 }
 /**
- * show sheet
+ * setting sheet initial values and header param : sheetObj, sheetNo adding case
+ * as numbers of counting sheets
  */
 function initSheet(sheetObj, sheetNo) {
 	switch (sheetNo) {
@@ -243,20 +243,21 @@ function initSheet(sheetObj, sheetNo) {
 			 * @param InsertEdit can be used to configure editability of data the transaction status of which is Insert.The default value is 1.
 			 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 			 */
-			var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
-			 {Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-			 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "ownr_sub_sys_cd",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-			 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_id",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-			 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "intg_cd_nm",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1},
-			 {Type : "Int",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_len",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
-			 {Type : "Combo",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_tp_cd",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-			 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "mng_tbl_nm",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
-			 {Type : "Text",Hidden : 0,Width : 600,Align : "Center",ColMerge : 0,SaveName : "intg_cd_desc",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-			 {Type : "Combo",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_use_flg",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-			 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-			 {Type : "Date",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cre_dt",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
-			 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
-			 {Type : "Date",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_dt",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}	            ];
+			var cols = [ 
+			 {Type : "Status",		Hidden : 1,Width : 50, Align : "Center",ColMerge : 0,SaveName : "ibflag"},
+			 {Type : "DelCheck", 	Hidden : 0,Width : 50, Align : "Center",ColMerge : 0,SaveName : "del_chk" },
+			 {Type : "Text",		Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "ownr_sub_sys_cd",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
+			 {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_id",		KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1,	AcceptKeys : "E|N", InputCaseSensitive : 1 }, 
+			 {Type : "Text",		Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "intg_cd_nm",		KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1,	AcceptKeys : "E|N", InputCaseSensitive : 1 },
+			 {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_len",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1,	AcceptKeys : "N", EditLen: 2 }, 
+			 {Type : "Combo",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_tp_cd",	KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
+			 {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "mng_tbl_nm",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
+			 {Type : "Text",		Hidden : 0,Width : 600,Align : "Center",ColMerge : 0,SaveName : "intg_cd_desc",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
+			 {Type : "Combo",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_use_flg",	KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
+			 {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
+			 {Type : "Date",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cre_dt",			KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1, EditLen: 10}, 
+			 {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, 
+			 {Type : "Date",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_dt",			KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1,	EditLen: 10}	            ];
 		/**
 		 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
 		 */
@@ -270,8 +271,8 @@ function initSheet(sheetObj, sheetNo) {
 		 * ComboCode : Combo list code group 
 		 * ComboText : Combo list text string group
 		 */
-			SetColProperty("intg_cd_tp_cd", {ComboText:"General Code|Table Code", ComboCode:"G|T"} );
-        	SetColProperty("intg_cd_use_flg", {ComboText:"Y|N", ComboCode:"Y|N"} );
+			SetColProperty("intg_cd_tp_cd", 	{ComboText:"General Code|Table Code", 	ComboCode:"G|T"} );
+        	SetColProperty("intg_cd_use_flg", 	{ComboText:"Y|N", 						ComboCode:"Y|N"} );
         /**
          * Check or configure the total height. Set the value in pixel count.
          */
@@ -311,13 +312,16 @@ function initSheet(sheetObj, sheetNo) {
 			 * @param InsertEdit can be used to configure editability of data the transaction status of which is Insert.The default value is 1.
 			 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 			 */
-			var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
-			             {Type : "DelCheck", Hidden : 0, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" }, 
-			             {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_id",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
-			             {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_ctnt",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1},
-			             {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_dp_desc",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1},
-			             {Type : "Text",Hidden : 0,Width : 500,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_desc",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-			             {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_dp_seq",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, ];
+			var cols = [ {Type : "Status",		Hidden : 1,Width : 50, Align : "Center",ColMerge : 0,SaveName : "ibflag"},
+			             {Type : "DelCheck",	Hidden : 0,Width : 50, Align : "Center",ColMerge : 0,SaveName : "del_chk" }, 
+			             {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_id",			KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 0}, 
+			             {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_ctnt",		KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1,	AcceptKeys : "E|N", InputCaseSensitive : 1 },
+			             {Type : "Text",		Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_dp_desc",	KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1},
+			             {Type : "Text",		Hidden : 0,Width : 500,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_desc",		KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
+			             {Type : "Text",		Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "intg_cd_val_dp_seq",	KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1}, ];
+			/**
+			 * Check or configure overall editability.
+			 */
 			SetEditable(1);
 			InitColumns(cols);
 			resizeSheet();
@@ -327,7 +331,8 @@ function initSheet(sheetObj, sheetNo) {
 
 }
 /**
- * show data when loading page
+ * initializing sheet implementing onLoad event handler in body tag adding
+ * first-served functions after loading screen.
  */
 function loadPage() {
 	for (var i = 0; i < sheetObjects.length; i++) {
@@ -336,7 +341,8 @@ function loadPage() {
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 }
 /**
- * set sheetObject
+ * registering IBSheet Object as list adding process for list in case of needing
+ * batch processing with other items defining list on the top of source
  */
 function setSheetObject(sheet_obj) {
 	switch (sheet_obj.id) {

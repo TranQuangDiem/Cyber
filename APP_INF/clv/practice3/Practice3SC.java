@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.bea.common.security.jdkutils.WeaverUtil.Arrays;
 import com.clt.apps.opus.esm.clv.practice3.practice3.basic.Practice3BC;
 import com.clt.apps.opus.esm.clv.practice3.practice3.basic.Practice3BCImpl;
 import com.clt.apps.opus.esm.clv.practice3.practice3.event.Practice003Event;
@@ -32,7 +31,7 @@ import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 
 /**
- * ALPS-Practice3 Business Logic ServiceCommand - ALPS-Practice3 대한 비지니스 트랜잭션을 처리한다.
+ * ALPS-Practice3 Business Logic ServiceCommand - Process business transaction for ALPS-Practice3.
  * 
  * @author Diem Tran
  * @see Practice3DBDAO
@@ -44,13 +43,13 @@ public class Practice3SC extends ServiceCommandSupport {
 	private SignOnUserAccount account = null;
 
 	/**
-	 * Practice3 system 업무 시나리오 선행작업<br>
-	 * 업무 시나리오 호출시 관련 내부객체 생성<br>
+	 *Practice3 system Work Scenario Prior Work<br>
+	 *Creating related internal objects when calling a business scenario<br>
 	 */
 	public void doStart() {
-		log.debug("Practice3SC 시작");
+		log.debug("Start Practice3SC");
 		try {
-			// 일단 comment --> 로그인 체크 부분
+			// First comment --> Login check part
 			account = getSignOnUserAccount();
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
@@ -58,16 +57,16 @@ public class Practice3SC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * Practice3 system 업무 시나리오 마감작업<br>
-	 * 업무 시나리오 종료시 관련 내부객체 해제<br>
+	 * Practice3 system work scenario finishing work<br>
+	 * Release related internal objects when the work scenario is finished<br>
 	 */
 	public void doEnd() {
-		log.debug("Practice3SC 종료");
+		log.debug("Exit Practice3SC");
 	}
 
 	/**
-	 * 각 이벤트에 해당하는 업무 시나리오 수행<br>
-	 * ALPS-Practice3 system 업무에서 발생하는 모든 이벤트의 분기처리<br>
+	 * Carry out business scenarios for each event<br>
+	 * Branch processing of all events occurring in ALPS-Practice3 system work<br>
 	 * 
 	 * @param e Event
 	 * @return EventResponse
@@ -77,7 +76,7 @@ public class Practice3SC extends ServiceCommandSupport {
 		// RDTO(Data Transfer Object including Parameters)
 		EventResponse eventResponse = null;
 
-		// SC가 여러 이벤트를 처리하는 경우 사용해야 할 부분
+		// The part to use when SC handles multiple events
 		if (e.getEventName().equalsIgnoreCase("Practice003Event")) {
 			if (e.getFormCommand().isCommand(FormCommand.SEARCH)) {
 				eventResponse = search(e);
@@ -98,8 +97,7 @@ public class Practice3SC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * Practice003 : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 * 
 	 * search data
 	 * @param Event e
 	 * @return EventResponse
@@ -140,10 +138,6 @@ public class Practice3SC extends ServiceCommandSupport {
 
 		try{
 			String[] list = command.searchPartner();
-//			String a = "";
-//			for (Map.Entry<String, String> entry : list.entrySet()) {
-//	            a+=entry.getValue();
-//	        }
 			eventResponse.setETCData("partner", java.util.Arrays.toString(list));
 		}catch(EventException ex){
 			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
@@ -216,8 +210,6 @@ public class Practice3SC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * Practice003 : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
 	 * update,insert, delete for table master
 	 * @param Event e
 	 * @return EventResponse
@@ -231,7 +223,7 @@ public class Practice3SC extends ServiceCommandSupport {
 		try{
 			begin();
 			command.manager(event.getPractice3VOS(),account);
-			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
+//			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
 			commit();
 		} catch(EventException ex) {
 			rollback();

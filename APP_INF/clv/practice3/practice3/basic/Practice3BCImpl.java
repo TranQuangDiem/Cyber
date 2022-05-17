@@ -26,7 +26,7 @@ import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 /**
  * ALPS-Practice3 Business Logic Command Interface<br>
- * - ALPS-Practice3에 대한 비지니스 로직에 대한 인터페이스<br>
+ * - Interface to business logic for ALPS-Practice3<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -37,14 +37,13 @@ public class Practice3BCImpl extends BasicCommandSupport implements Practice3BC 
 	private transient Practice3DBDAO dbDao = null;
 
 	/**
-	 * Practice3BCImpl 객체 생성<br>
-	 * Practice3DBDAO를 생성한다.<br>
+	 * Creating Practice3BCImpl Objects<br>
+	 * Create Practice3DBDAO.<br>
 	 */
 	public Practice3BCImpl() {
 		dbDao = new Practice3DBDAO();
 	}
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * search data
 	 * @param Practice3VO practice3VO
 	 * @return List<Practice3VO>
@@ -62,7 +61,6 @@ public class Practice3BCImpl extends BasicCommandSupport implements Practice3BC 
 	}
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * update,insert, delete
 	 * @param Practice3VO[] practice3VO
 	 * @param account SignOnUserAccount

@@ -32,16 +32,15 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 
 /**
  * ALPS Practice4DBDAO <br>
- * - ALPS-Practice4 system Business Logic을 처리하기 위한 JDBC 작업수행.<br>
+ * - JDBC operation to process ALPS-Practice4 system business logic.<br>
  * 
  * @author Diem Tran
- * @see Practice4BCImpl 참조
+ * @see Practice4BCImpl
  * @since J2EE 1.6
  */
 public class Practice4DBDAO extends DBDAOSupport {
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * search data
 	 * @param Practice4VO practice4VO
 	 * @return List<Practice4VO>
@@ -231,7 +230,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 		 return false;
 	 }
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * add data
 	 * @param Practice4VO practice4VO
 	 * @exception DAOException
@@ -262,7 +260,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * update data
 	 * @param Practice4VO practice4VO
 	 * @return int
@@ -297,7 +294,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * delete data
 	 * @param Practice4VO practice4VO
 	 * @return int
@@ -332,7 +328,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * add list data
 	 * @param List<Practice4VO> practice4VO
 	 * @return int[]
@@ -360,7 +355,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 		return insCnt;
 	}
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * update list data
 	 * @param List<Practice4VO> practice4VO
 	 * @return int[]
@@ -389,7 +383,6 @@ public class Practice4DBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * delete list data
 	 * @param List<Practice4VO> practice4VO
 	 * @return int[]

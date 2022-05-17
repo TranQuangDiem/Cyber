@@ -19,7 +19,7 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 
 /**
  * ALPS-Practice4 Business Logic Command Interface<br>
- * - ALPS-Practice4에 대한 비지니스 로직에 대한 인터페이스<br>
+ * - Interface to business logic for ALPS-Practice4<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -28,7 +28,6 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 public interface Practice4BC {
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * search data
 	 * @param Practice4VO	practice4VO
 	 * @return List<Practice4VO>
@@ -37,7 +36,6 @@ public interface Practice4BC {
 	public List<Practice4VO> search(Practice4VO practice4VO) throws EventException;
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * insert, delete, update data
 	 * @param Practice4VO[] practice4VO
 	 * @param account SignOnUserAccount

@@ -21,7 +21,7 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 
 /**
  * ALPS-Practice3 Business Logic Command Interface<br>
- * - ALPS-Practice3에 대한 비지니스 로직에 대한 인터페이스<br>
+ * - Interface to business logic for ALPS-Practice3<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -30,7 +30,6 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 public interface Practice3BC {
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * search data
 	 * @param Practice3VO	practice3VO
 	 * @return List<Practice3VO>
@@ -39,7 +38,6 @@ public interface Practice3BC {
 	public List<Practice3VO> search(Map<String, String> param) throws EventException;
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
 	 * update,insert, delete
 	 * @param Practice3VO[] practice3VO
 	 * @param account SignOnUserAccount

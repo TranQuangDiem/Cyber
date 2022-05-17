@@ -52,7 +52,7 @@ var ibsheet =0;
 			 */
 			var regex = new RegExp("[0-9]{1,6}");
 			if(formObj.vndr_seq.value!=''&&!regex.test(formObj.vndr_seq.value)){
-				ComShowMessage("Vendor Code can only enter numbers");
+				ComShowCodeMessage("COM12125","Vendor Code");
 				break;
 			}
 			var sXml2 =sheetObj.GetSearchData("Practice4GS.do",FormQueryString(formObj));
@@ -81,12 +81,9 @@ var ibsheet =0;
 			/**
 			 * This function is used to select an item, using a code value.
 			 */
-			comboObjects[0].SetSelectCode( -1, true);
-			comboObjects[0].SetSelectCode( "All", true);
-			formObj.fr_ym.value='';
-			formObj.to_ym.value='';
-			formObj.vndr_seq.value='';
-			doActionIBSheet(sheetObj, formObj, IBSEARCH);
+			formObj.reset();
+			sheetObjects[0].RemoveAll();
+//			doActionIBSheet(sheetObj, formObj, IBSEARCH);
 			break;
 		case IBDELETE:
 			/**
@@ -108,11 +105,11 @@ var ibsheet =0;
 	 * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
 	 */
 	function sheet1_OnSaveEnd(code,msg) {
-		if(msg>=0){
-			alert("successfully");
+		if(Code>=0){
+			ComShowCodeMessage("COM132601");
 			doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
 		}else {
-			alert("save failed");
+			ComShowCodeMessage("COM12151","data");
 		}
 	}
 	function processButtonClick() {
@@ -210,26 +207,23 @@ var ibsheet =0;
 	 * check date Invalid
 	 */
 	function getCheckConditionPeriod(){
-//		var regex = new RegExp("^[0-9]{4}-[0-1][0-9]");
-//		if(!regex.test(formObj.fr_yrmon.value)||!regex.test(formObj.to_yrmon.value)){
-//			alert('year month illegal');	
-//            return false;
-//		}
         var formObj=document.form;
         var frDt=formObj.fr_ym.value;
         var toDt=formObj.to_ym.value;
-//        console.log(frDt+"----"+toDt)
         if(frDt==""&&toDt==""){
         	return true;
-        }
-        if (ComGetDaysBetween(frDt, toDt) <= 0||isNaN(ComGetDaysBetween(frDt, toDt))){
-        	alert('year month illegal');	
+        }else if(isNaN(ComGetDaysBetween(frDt, toDt))){
+        	ComShowCodeMessage('COM12132');
+        	 return false;
+        }if (ComGetDaysBetween(frDt, toDt) <= 0){
+        	ComShowCodeMessage('COM12131');
             return false;
         }
         return true;
     }
 	/**
-	 * 
+	 * setting sheet initial values and header param : sheetObj, sheetNo adding case
+	 * as numbers of counting sheets
 	 */
 	function initSheet(sheetObj, sheetNo) {
 		switch (sheetNo) {
@@ -293,18 +287,18 @@ var ibsheet =0;
 				 */
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
 //				 {Type : "DelCheck", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "chk",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 1}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1, EditLen:3,AcceptKeys: "E",FullInput:true}, 
-				 {Type : "Combo",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",KeyField : 1,Format : "",UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1,AcceptKeys: "N"},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1, EditLen:2,AcceptKeys: "E",FullInput:true}, 
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",KeyField : 1,Format : "",UpdateEdit : 1,InsertEdit : 1,AcceptKeys: "N" ,EditLen:6}, 
-				 {Type : "Text",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "trd_cd",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-				 {Type : "Combo",Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "delt_flg",KeyField : 0,Format : "",UpdateEdit : 1,InsertEdit : 1},
-				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "cre_dt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 150,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",KeyField : 0,Format : "*******************************************",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "upd_dt",KeyField : 0,Format : "",UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",KeyField : 0,Format : "*********",UpdateEdit : 0,InsertEdit : 0}];
+				 {Type : "Text",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "chk",			KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 1}, 
+				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",	KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,	AcceptKeys: "E", 	InputCaseSensitive : 1, FullInput:true}, 
+				 {Type : "Combo",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",		KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
+				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N"},
+				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",	KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:2,	AcceptKeys: "E",	InputCaseSensitive : 1, FullInput:true}, 
+				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N" }, 
+				 {Type : "Text",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "trd_cd",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "E|N",	InputCaseSensitive : 1},
+				 {Type : "Combo",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "delt_flg",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1},
+				 {Type : "Text",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "cre_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 150,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "upd_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0}];
 				/**
 				 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
 				 */
@@ -322,7 +316,8 @@ var ibsheet =0;
 
 	}
 	/**
-	 *  show data when loading page
+	 * initializing sheet implementing onLoad event handler in body tag adding
+	 * first-served functions after loading screen.
 	 */
 	function loadPage() {
 		for (var i = 0; i < sheetObjects.length; i++) {
@@ -330,21 +325,40 @@ var ibsheet =0;
 			initSheet(sheetObjects[i], i + 1)
 			ComEndConfigSheet(sheetObjects[i]);
 		}	
-		/**
-		 * SetMultiSelect: This function is used to set whether multiple items will be selected or not.
-		 */
-		comboObjects[0].SetMultiSelect(1);
-		comboObjects[0].SetDropHeight(190);
-		comboObjects[0].InsertItem(0, "All", "All");
-		comboObjects[0].SetSelectText("All", true);
-		var carr = carriers.split("|");
-		for (var i = 1; i < carr.length; i++) {
-			comboObjects[0].InsertItem(i, carr[i], carr[i]);
-		}
-//		initPeriod()
+		
+		for (var k = 0; k < comboObjects.length; k++) {
+			initCombo(comboObjects[k], k+1);
+		}	
+		
 		doActionIBSheet(sheetObjects[0],document.form,IBSEARCH)
 		
 	}
+	/**
+	 * setting Combo basic info param : comboObj, comboNo initializing sheet
+	 */
+	function initCombo(comboObj, comboNo) {
+		var formObj = document.form
+		switch (comboNo) {
+		case 1:
+			with (comboObj) {
+			/**
+			 * SetMultiSelect: This function is used to set whether multiple items will be selected or not.
+			 * SetDropHeight: set height
+			 * InsertItem : Add an item. Set the text value using a “|” separator when using multicolumn.Add to the last row, if the Index parameter is -1.
+			 * SetSelectText:  This function is used to select an item, using a text value.
+			 */
+				comboObj.SetMultiSelect(1);
+				comboObj.SetDropHeight(190);
+				comboObj.InsertItem(0, "All", "All");
+				comboObj.SetSelectText("All", true);
+			}
+			var carr = carriers.split("|");
+			for (var i = 1; i < carr.length; i++) {
+				comboObjects[0].InsertItem(i, carr[i], carr[i]);
+			}
+		}
+	}
+	
 //	function initPeriod(){
 //		var formObj = document.form;
 //		/**
@@ -362,7 +376,8 @@ var ibsheet =0;
 //		formObj.fr_ym.value= tmpFrYm;
 //	}
 	/**
-	 * set SheetObject
+	 * registering IBSheet Object as list adding process for list in case of needing
+	 * batch processing with other items defining list on the top of source
 	 */
 	function setSheetObject(sheet_obj) {
 		switch (sheet_obj.id) {
@@ -375,7 +390,9 @@ var ibsheet =0;
 		}
 	}
 	/**
-	 * set comboObject
+	 * registering IBCombo Object as list param : combo_obj adding process for list
+	 * in case of needing batch processing with other items defining list on the top
+	 * of source
 	 */
 	function setComboObject(combo_obj) {
 		comboObjects[comboCnt++] = combo_obj;

@@ -31,7 +31,7 @@ import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 
 /**
  * ALPS ErrMsDBDAO <br>
- * - ALPS-Practice_DOU system Business Logic을 처리하기 위한 JDBC 작업수행.<br>
+ * - JDBC operation to process ALPS-Practice_DOU system business logic.<br>
  * 
  * @author Diem Tran
  * @see ErrMsBCImpl 참조
@@ -40,7 +40,7 @@ import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 public class ErrMsDBDAO extends DBDAOSupport {
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 *search data
 	 * 
 	 * @param PracticeVO errMsgVO
 	 * @return List<ErrMsgVO>
@@ -75,7 +75,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * ADD DATA
 	 * 
 	 * @param PracticeVO errMsgVO
 	 * @exception DAOException
@@ -106,7 +106,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * UPDATE DATA
 	 * 
 	 * @param PracticeVO errMsgVO
 	 * @return int
@@ -129,7 +129,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 			SQLExecuter sqlExe = new SQLExecuter("");
 			result = sqlExe.executeUpdate((ISQLTemplate)new ErrMsDBDAOErrMsgVOUSQL(), param, velParam);
 			if(result == Statement.EXECUTE_FAILED)
-					throw new DAOException("Fail to insert SQL");
+					throw new DAOException("Fail to update SQL");
 		} catch(SQLException se) {
 			log.error(se.getMessage(),se);
 			throw new DAOException(new ErrorHandler(se).getMessage());
@@ -141,7 +141,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * DELETE DATA
 	 * 
 	 * @param PracticeVO errMsgVO
 	 * @return int
@@ -164,7 +164,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 			SQLExecuter sqlExe = new SQLExecuter("");
 			result = sqlExe.executeUpdate((ISQLTemplate)new ErrMsDBDAOErrMsgVODSQL(), param, velParam);
 			if(result == Statement.EXECUTE_FAILED)
-					throw new DAOException("Fail to insert SQL");
+					throw new DAOException("Fail to delete SQL");
 		} catch(SQLException se) {
 			log.error(se.getMessage(),se);
 			throw new DAOException(new ErrorHandler(se).getMessage());
@@ -176,7 +176,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * ADD LIST DATA
 	 * 
 	 * @param List<ErrMsgVO> errMsgVO
 	 * @return int[]
@@ -205,7 +205,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 		return insCnt;
 	}
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * UPDATE LIST DATA
 	 * 
 	 * @param List<ErrMsgVO> errMsgVO
 	 * @return int[]
@@ -220,7 +220,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 				updCnt = sqlExe.executeBatch((ISQLTemplate)new ErrMsDBDAOErrMsgVOUSQL(), errMsgVO,null);
 				for(int i = 0; i < updCnt.length; i++){
 					if(updCnt[i]== Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No"+ i + " SQL");
+						throw new DAOException("Fail to update No"+ i + " SQL");
 				}
 			}
 		} catch(SQLException se) {
@@ -234,7 +234,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 	}
 	
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * DELETE LIST DATA
 	 * 
 	 * @param List<ErrMsgVO> errMsgVO
 	 * @return int[]
@@ -250,7 +250,7 @@ public class ErrMsDBDAO extends DBDAOSupport {
 				delCnt = sqlExe.executeBatch((ISQLTemplate)new ErrMsDBDAOErrMsgVODSQL(), errMsgVO,null);
 				for(int i = 0; i < delCnt.length; i++){
 					if(delCnt[i]== Statement.EXECUTE_FAILED)
-						throw new DAOException("Fail to insert No"+ i + " SQL");
+						throw new DAOException("Fail to delete No"+ i + " SQL");
 				}
 			}
 		} catch(SQLException se) {

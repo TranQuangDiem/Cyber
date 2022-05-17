@@ -70,8 +70,8 @@ public class Practice3DBDAOLaneRSQL implements ISQLTemplate{
 		query.append("SELECT " ).append("\n"); 
 		query.append("	RLANE_CD" ).append("\n"); 
 		query.append("FROM JOO_CARRIER" ).append("\n"); 
-		query.append("#if(${jo_crr_cd}!='All')" ).append("\n"); 
-		query.append("WHERE	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
+		query.append("#if(${jo_crr_cd}!='All'&&${jo_crr_cd}!='')" ).append("\n"); 
+		query.append("WHERE	JO_CRR_CD IN (#foreach($key IN ${jo_crr_cd})#if($velocityCount < $jo_crr_cd.size()) '$key', #else '$key' #end #end)" ).append("\n"); 
 		query.append("#end" ).append("\n"); 
 
 	}

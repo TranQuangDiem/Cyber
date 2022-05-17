@@ -28,7 +28,7 @@ import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 
 
 /**
- * ALPS-Practice_DOU Business Logic ServiceCommand - ALPS-Practice_DOU 대한 비지니스 트랜잭션을 처리한다.
+ * ALPS-Practice_DOU Business Logic ServiceCommand - ALPS-Process business transaction for Practice_DOU.
  * 
  * @author Diem Tran
  * @see ErrMsDBDAO
@@ -40,13 +40,13 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 	private SignOnUserAccount account = null;
 
 	/**
-	 * Practice_DOU system 업무 시나리오 선행작업<br>
-	 * 업무 시나리오 호출시 관련 내부객체 생성<br>
+	 * Practice_DOU system Work Scenario Prior Work<br>
+	 * Creating related internal objects when calling a business scenario<br>
 	 */
 	public void doStart() {
-		log.debug("Practice_DOUSC 시작");
+		log.debug("Start Practice_DOUSC");
 		try {
-			// 일단 comment --> 로그인 체크 부분
+			// Once in the comment --> login check part
 			account = getSignOnUserAccount();
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
@@ -54,16 +54,16 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * Practice_DOU system 업무 시나리오 마감작업<br>
-	 * 업무 시나리오 종료시 관련 내부객체 해제<br>
+	 * Practice_DOU system work scenario finishing work<br>
+	 * Release related internal objects when the work scenario is finished<br>
 	 */
 	public void doEnd() {
-		log.debug("Practice_DOUSC 종료");
+		log.debug("Exit Practice_DOUSC");
 	}
 
 	/**
-	 * 각 이벤트에 해당하는 업무 시나리오 수행<br>
-	 * ALPS-Practice_DOU system 업무에서 발생하는 모든 이벤트의 분기처리<br>
+	 *Carry out business scenarios corresponding to each event<br>
+	 * Branch processing of all events that occur in the ALPS-Practice_DOU system work<br>
 	 * 
 	 * @param e Event
 	 * @return EventResponse
@@ -73,7 +73,7 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 		// RDTO(Data Transfer Object including Parameters)
 		EventResponse eventResponse = null;
 
-		// SC가 여러 이벤트를 처리하는 경우 사용해야 할 부분
+		// The part to use when SC handles multiple events
 		if (e.getEventName().equalsIgnoreCase("PracticeTrnEvent")) {
 			if (e.getFormCommand().isCommand(FormCommand.SEARCH)) {
 				eventResponse = searchPractice(e);
@@ -85,8 +85,7 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * Practice_TRN : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 * search data
 	 * 
 	 * @param Event e
 	 * @return EventResponse
@@ -109,8 +108,7 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * Practice_TRN : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 * INSERT, UPDATE, DELETE DATA
 	 *
 	 * @param Event e
 	 * @return EventResponse
@@ -124,7 +122,7 @@ public class Practice_DOUSC extends ServiceCommandSupport {
 		try{
 			begin();
 			command.managerPactice(event.getErrMsgVOS(),account);
-			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
+//			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
 			commit();
 		} catch(EventException ex) {
 			rollback();

@@ -42,11 +42,6 @@
 		out.println(e.toString());
 	}
 %>
-<html>
-<head>
-<title>Practice 2</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <script language="javascript">
 	function setupPage(){
 		var errMessage = "<%=strErrMsg%>";
@@ -56,9 +51,6 @@
 		loadPage();
 	}
 </script>
-</head>
-
-<body  onLoad="setupPage();">
 <form name="form">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
@@ -90,7 +82,7 @@
 	<div class="wrap_search">
 	
 		<!-- opus_design_inquiry(S) -->
-		<div class="opus_design_inquiry">
+		<div class="opus_design_inquiry wFit">
 			<table>
 				<colgroup>
 					<col width="70" />
@@ -154,5 +146,3 @@
 
 <!-- 개발자 작업  끝 -->
 </form>
-</body>
-</html>

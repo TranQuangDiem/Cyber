@@ -18,7 +18,7 @@ import com.clt.framework.support.view.signon.SignOnUserAccount;
 import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 /**
  * ALPS-Practice_dou Business Logic Command Interface<br>
- * - ALPS-Practice_dou에 대한 비지니스 로직에 대한 인터페이스<br>
+ * -Interface to business logic for ALPS-Practice_dou<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -27,8 +27,7 @@ import com.clt.apps.opus.esm.clv.practice_dou.errms.vo.PracticeVO;
 public interface ErrMsBC {
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
-	 * 
+	 * SEARCH DATA
 	 * @param PracticeVO	errMsgVO
 	 * @return List<ErrMsgVO>
 	 * @exception EventException
@@ -36,7 +35,7 @@ public interface ErrMsBC {
 	public List<PracticeVO> searchPractice(PracticeVO errMsgVO) throws EventException;
 	
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * INSERT, UPDATE, DELETE DATA
 	 * 
 	 * @param ErrMsgVO[] errMsgVO
 	 * @param account SignOnUserAccount

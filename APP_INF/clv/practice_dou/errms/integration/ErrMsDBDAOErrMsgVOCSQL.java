@@ -19,7 +19,7 @@ import com.clt.framework.support.db.ISQLTemplate;
 /**
  *
  * @author Diem Tran
- * @see DAO 참조
+ * @see DAO 
  * @since J2EE 1.6
  */
 

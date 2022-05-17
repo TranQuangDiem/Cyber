@@ -28,12 +28,11 @@ import com.clt.framework.support.db.ISQLTemplate;
 import com.clt.framework.support.db.RowSetUtil;
 import com.clt.framework.support.db.SQLExecuter;
 import com.clt.framework.support.layer.integration.DBDAOSupport;
-import com.clt.apps.opus.esm.clv.practice3.practice3.vo.PartnerVO;
 import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 /**
  * ALPS Practice3DBDAO <br>
- * - ALPS-Practice3 system Business Logic을 처리하기 위한 JDBC 작업수행.<br>
+ * -JDBC operation to process ALPS-Practice3 system business logic.<br>
  * 
  * @author Diem Tran
  * @see Practice3BCImpl 참조
@@ -42,8 +41,7 @@ import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 public class Practice3DBDAO extends DBDAOSupport {
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
-	 * search
+	 * search data
 	 * @param Map<String, String>
 	 * @return List<Practice3VO>
 	 * @exception DAOException
@@ -100,7 +98,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	 * @return String
 	 * @throws DAOException
 	 */
-	@SuppressWarnings("unchecked")
 	public String total(Map<String, String> params)
 			throws DAOException {
 		DBRowSet dbRowset = null;
@@ -158,7 +155,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	public String[] searchPartner() throws DAOException {
 		DBRowSet dbRowSet = null;
 		String [] list = null;
-		Map<String, String> m = new TreeMap<String, String>();
 		try {
 			dbRowSet = new SQLExecuter("").executeQuery(
 					new Practice3DBDAOPartnerVORSQL(), null, null);
@@ -185,25 +181,28 @@ public class Practice3DBDAO extends DBDAOSupport {
 	 */
 	public Map<String, String> searchLane(String partners) throws DAOException {
 		DBRowSet dbRowSet = null;
-		List<PartnerVO> list = null;
 		String[] partnerList = partners.split(",");
 		Map<String, String> m = new TreeMap<String, String>();
-		System.out.println(partnerList[0]);
+		System.out.println();
 		try {
-			
-			for (String partner : partnerList) {
+			List<String> listpartner = new ArrayList<String>();
+			for (int i = 0; i < partnerList.length; i++) {
+				listpartner.add(partnerList[i]);
+			}
 				Map<String, Object> param = new HashMap<String, Object>();
 				Map<String, Object> velparam = new HashMap<String, Object>();
-				velparam.put("jo_crr_cd", partner);
-				param.put("jo_crr_cd", partner);
+				if(!"All".equals(partnerList[0])){
+				velparam.put("jo_crr_cd", listpartner);
+				param.put("jo_crr_cd", listpartner);
+				}else{
+					velparam.put("jo_crr_cd", "All");
+					param.put("jo_crr_cd", "All");
+				}
 				dbRowSet = new SQLExecuter("").executeQuery(
 						new Practice3DBDAOLaneRSQL(), param, velparam);
 				while (dbRowSet.next()) {
 					m.put(dbRowSet.getString(1), dbRowSet.getString(1));
 				}
-				if("All".equals(partner)) break;
-			}
-
 		} catch (SQLException se) {
 			log.error(se.getMessage(), se);
 			throw new DAOException(new ErrorHandler(se).getMessage());
@@ -222,16 +221,25 @@ public class Practice3DBDAO extends DBDAOSupport {
 	 */
 	public Map<String, String> searchTrade(String lane,String partners) throws DAOException {
 		DBRowSet dbRowSet = null;
-		List<PartnerVO> list = null;
 		String[] partnerList = partners.split(",");
 		Map<String, String> m = new TreeMap<String, String>();
 		try {
+			List<String> listpartner = new ArrayList<String>();
+			for (int i = 0; i < partnerList.length; i++) {
+				listpartner.add(partnerList[i]);
+			}
 			for (String partner : partnerList) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("jo_crr_cd", partner);
 				param.put("rlane_cd", lane);
 				Map<String, Object> velparam = new HashMap<String, Object>();
-				velparam.put("jo_crr_cd", partner);
+				if(!"All".equals(partnerList[0])){
+					velparam.put("jo_crr_cd", listpartner);
+					param.put("jo_crr_cd", listpartner);
+					}else{
+						velparam.put("jo_crr_cd", "All");
+						param.put("jo_crr_cd", "All");
+					}
 				dbRowSet = new SQLExecuter("").executeQuery(
 						new Practice3DBDAOTradeRSQL(), param, velparam);
 				while (dbRowSet.next()) {
@@ -251,7 +259,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * add data
 	 * @param Practice3VO
 	 *            practice3VO
@@ -286,7 +293,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * update data
 	 * @param Practice3VO
 	 *            practice3VO
@@ -325,7 +331,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * delete data
 	 * @param Practice3VO
 	 *            practice3VO
@@ -364,7 +369,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * add list data
 	 * @param List
 	 *            <Practice3VO> practice3VO
@@ -397,7 +401,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 * update list data
 	 * @param List
 	 *            <Practice3VO> practice3VO
@@ -430,7 +433,6 @@ public class Practice3DBDAO extends DBDAOSupport {
 	}
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
 	 *  delete list data
 	 * @param List
 	 *            <Practice3VO> practice3VO

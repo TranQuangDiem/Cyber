@@ -17,9 +17,9 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 
 
 /**
- * Practice4 에 대한 PDTO(Data Transfer Object including Parameters)<br>
- * -  Practice4HTMLAction에서 작성<br>
- * - ServiceCommand Layer로 전달하는 PDTO로 사용<br>
+ *Data Transfer Object including Parameters (PDTO) for Practice4<br>
+  * - Created in Practice4HTMLAction<br>
+  * - Used as PDTO delivered to ServiceCommand Layer<br>
  *
  * @author Diem Tran
  * @see Practice4HTMLAction 참조
@@ -30,10 +30,10 @@ public class Practice4Event extends EventSupport {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** Table Value Object 조회 조건 및 단건 처리  */
+	/** Table Value Object search condition and single event processing */
 	Practice4VO practice4VO = null;
 	
-	/** Table Value Object Multi Data 처리 */
+	/** Table Value Object Multi Data processing */
 	Practice4VO[] practice4VOs = null;
 	String carrier = null;
 	String vendor =null;
