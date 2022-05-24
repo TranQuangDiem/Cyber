@@ -1,14 +1,14 @@
 <%
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : PRACTICE_TRN.jsp
-*@FileTitle : ErrorMessageManager
+*@FileName : CUSTOMER001.jsp
+*@FileTitle : Customer
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.07
+*@LastModifyDate : 2022.05.20
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.04.07 
+* 2022.05.20 
 * 1.0 Creation
 =========================================================*/
 %>
@@ -20,11 +20,11 @@
 <%@ page import="com.clt.framework.core.layer.event.GeneralEventResponse"%>
 <%@ page import="com.clt.framework.support.controller.html.CommonWebKeys"%>
 <%@ page import="com.clt.framework.support.view.signon.SignOnUserAccount"%>
-<%@ page import="com.clt.apps.opus.esm.clv.practice_dou.errms.event.PracticeTrnEvent"%>
+<%@ page import="com.clt.apps.opus.esm.clv.customer.customer.event.Customer001Event"%>
 <%@ page import="org.apache.log4j.Logger" %>
 
 <%
-	PracticeTrnEvent  event = null;					//PDTO(Data Transfer Object including Parameters)
+	Customer001Event  event = null;					//PDTO(Data Transfer Object including Parameters)
 	Exception serverException   = null;			//서버에서 발생한 에러
 	String strErrMsg = "";						//에러메세지
 	int rowCount	 = 0;						//DB ResultSet 리스트의 건수
@@ -35,15 +35,10 @@
 
 	String strUsr_id		= "";
 	String strUsr_nm		= "";
-	Logger log = Logger.getLogger("com.clt.apps.Practice_DOU.ErrMs");
+	Logger log = Logger.getLogger("com.clt.apps.Customer.Customer");
 
 	try {
-	   	SignOnUserAccount account=(SignOnUserAccount)session.getAttribute(CommonWebKeys.SIGN_ON_USER_ACCOUNT);
-		strUsr_id =	account.getUsr_id();
-		strUsr_nm = account.getUsr_nm();
-
-
-		event = (PracticeTrnEvent)request.getAttribute("Event");
+		event = (Customer001Event)request.getAttribute("Event");
 		serverException = (Exception)request.getAttribute(CommonWebKeys.EXCEPTION_OBJECT);
 
 		if (serverException != null) {
@@ -66,27 +61,25 @@
 		loadPage();
 	}
 </script>
-<form name="form">
+<form name="form" onkeyup="ComKeyEnter('lengthnextfocus');">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
 <!-- 개발자 작업	-->
+<!-- popup_title_area(S) -->
+ <div class="layer_popup_title">
 	<!--page_title_area clear (s)  -->
 	<div class="page_title_area clear">
 	
-		<!--page_title (s)  -->
-		<h2 class="page_title"><!--
-			--><button type="button"><!--
-				--><span id="title"></span><!--
-			--></button>
-		</h2>
-		<!--page_title (E)  -->
+		<!-- page_title(S) -->
+		<h2 class="page_title"><span>Customer Inquiry</span></h2>
+		<!-- page_title(E) -->
 		
 		<!--opus_design_btn (s)  -->
-		<div class="opus_design_btn"><!-- 
-		--><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!--
-		--><button type="button" class="btn_normal" name="btn_Save" id="btn_Save">Save</button><!--
-		--><button type="button" class="btn_normal" name="btn_DownExcel" id="btn_DownExcel">Down Excel</button><!--
-	--></div>
+		<div class="opus_design_btn"><!--
+		 --><button type="button" class="btn_accent" name="btn_Retrieve" id="btn_Retrieve">Retrieve</button><!-- 
+		 --><button type="button" class="btn_accent" name="btn_Ok" id="btn_Ok">OK</button><!-- 
+		 --><button type="button" class="btn_accent" name="btn_Close" id="btn_Close">Close</button>
+		</div>
 		<!--opus_design_btn (E)  -->
 		
 		<!--location (S)  -->
@@ -98,6 +91,11 @@
 	</div>
 	<!--page_title_area clear (E)  -->
 	
+</div>
+<!-- popup_title_area(E) -->
+
+<!-- popup_contens_area(S) -->
+<div class="layer_popup_contents" style="overflow:hidden;">
 	<!--wrap_search(S)  -->
 	<div class="wrap_search">
 	
@@ -112,10 +110,10 @@
 				</colgroup>
 				<tbody>
 					<tr>
-						<th>Message Code</th>
-						<td><input style="width: 100px" name="s_msg_cd" id="s_msg_cd" maxlength="8" dataformat="engup" type="text"></td>
-						<th>Message</th>
-						<td><input style="width: 140px" name="s_msg" id="s_msg" type="text"></td>
+						<th>Customer Code</th>
+						<td><input style="width: 100px" name="s_cust_seq" id="s_cust_seq" dataformat="num" type="text"></td>
+						<th>Country</th>
+						<td><input style="width: 140px" name="s_cust_cnt_cd" id="s_cust_cnt_cd" maxlength="2" dataformat="exceptengdn" type="text"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -129,19 +127,15 @@
 	<div class="wrap_result">
 	
 		<!--opus_design_grid(S)  -->
-		<div class="opus_design_grid">
-		
-			<!--opus_design_btn(S)  -->
-			<div class="opus_design_btn"><!--
-				--><button type="button" class="btn_accent" name="btn_Add" id="btn_Add">Row add</button><!--
-		--></div>
-			<!--opus_design_btn(E)  -->
-			
+		<div class="opus_design_grid">	
 			<script language="javascript">ComSheetObject('sheet1');</script>
 		</div>
 		<!--opus_design_grid(E)  -->
 		
 	</div>
 		<!--wrap_result (E)  -->
+		
+</div>
+<!-- popup_contens_area(S) -->
 <!-- 개발자 작업  끝 -->
 </form>

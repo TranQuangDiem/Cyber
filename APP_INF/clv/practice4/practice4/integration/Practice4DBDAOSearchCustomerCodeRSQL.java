@@ -1,16 +1,16 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
 *@FileName : Practice4DBDAOSearchCustomerCodeRSQL.java
-*@FileTitle : 
+*@FileTitle : ABC
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.05.09
+*@LastModifyDate : 2022.05.20
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.05.09 
+* 2022.05.20 
 * 1.0 Creation
 =========================================================*/
-package com.clt.apps.opus.esm.clv.practice4.practice4.integration ;
+package com.clt.apps.opus.esm.clv.practice4.practice4.integration;
 
 import java.util.HashMap;
 import org.apache.log4j.Logger;
@@ -57,7 +57,7 @@ public class Practice4DBDAOSearchCustomerCodeRSQL implements ISQLTemplate{
 		params.put("cust_cnt_cd",new String[]{arrTmp[0],arrTmp[1]});
 
 		query.append("/*").append("\n"); 
-		query.append("Path : com.clt.apps.opus.esm.clv.practice4.practice4.integration ").append("\n"); 
+		query.append("Path : com.clt.apps.opus.esm.clv.practice4.practice4.integration").append("\n"); 
 		query.append("FileName : Practice4DBDAOSearchCustomerCodeRSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
@@ -75,23 +75,11 @@ public class Practice4DBDAOSearchCustomerCodeRSQL implements ISQLTemplate{
 	 */
 	public void setQuery(){
 		query.append("SELECT " ).append("\n"); 
-		query.append("	MODI_COST_CTR_CD" ).append("\n"); 
-		query.append(",	EDW_UPD_DT" ).append("\n"); 
-		query.append(",	UPD_USR_ID" ).append("\n"); 
-		query.append(",	UPD_DT" ).append("\n"); 
-		query.append(",	CRE_USR_ID" ).append("\n"); 
-		query.append(",	CRE_DT" ).append("\n"); 
-		query.append(",	DELT_FLG" ).append("\n"); 
-		query.append(",	JO_STL_OPT_CD" ).append("\n"); 
-		query.append(",	TRD_CD" ).append("\n"); 
+		query.append("	CUST_CNT_CD" ).append("\n"); 
 		query.append(",	CUST_SEQ" ).append("\n"); 
-		query.append(",	CUST_CNT_CD" ).append("\n"); 
-		query.append(",	VNDR_SEQ" ).append("\n"); 
-		query.append(",	RLANE_CD" ).append("\n"); 
-		query.append(",	JO_CRR_CD" ).append("\n"); 
-		query.append("FROM JOO_CARRIER" ).append("\n"); 
-		query.append("WHERE	CUST_SEQ = @[cust_seq]" ).append("\n"); 
-		query.append("AND	CUST_CNT_CD = @[cust_cnt_cd]" ).append("\n"); 
+		query.append("FROM MDM_CUSTOMER" ).append("\n"); 
+		query.append("WHERE	CUST_CNT_CD = @[cust_cnt_cd]" ).append("\n"); 
+		query.append("AND	CUST_SEQ = @[cust_seq]" ).append("\n"); 
 
 	}
 }

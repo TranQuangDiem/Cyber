@@ -14,6 +14,7 @@ package com.clt.apps.opus.esm.clv.practice4.practice4.event;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.clt.framework.component.util.JSPUtil;
 import com.clt.framework.core.controller.html.HTMLActionException;
 import com.clt.framework.core.layer.event.Event;
 import com.clt.framework.core.layer.event.EventResponse;
@@ -55,7 +56,9 @@ public class PRACTICE4HTMLAction extends HTMLActionSupport {
 			event.setPractice4VOS((Practice4VO[])getVOs(request, Practice4VO .class,""));
 		}
 		else if(command.isCommand(FormCommand.SEARCH)) {
-			event.setPractice4VO((Practice4VO)getVO(request, Practice4VO .class));
+			Practice4VO practice4vo = (Practice4VO)getVO(request, Practice4VO .class);
+			practice4vo.setVndrSeq(JSPUtil.getParameter(request, "s_vndr_seq"));
+			event.setPractice4VO(practice4vo);
 		}
 
 		return  event;

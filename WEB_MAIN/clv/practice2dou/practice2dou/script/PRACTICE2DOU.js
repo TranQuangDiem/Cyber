@@ -339,6 +339,12 @@ function loadPage() {
 		initSheet(sheetObjects[i], i + 1)
 	}
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
+	initControl();
+}
+function initControl(){
+	var form = document.form;
+	axon_event.addListenerFormat ('keydown', 'ComEditFormating', form);
+	axon_event.addListener ('keydown', 'ComKeyEnter', 'form');
 }
 /**
  * registering IBSheet Object as list adding process for list in case of needing

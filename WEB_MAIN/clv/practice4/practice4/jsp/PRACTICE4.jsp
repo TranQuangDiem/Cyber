@@ -118,7 +118,7 @@ var lanes = "<%=lanes%>";
 						<th>Carrier</th>
 						<td><script language="javascript">ComComboObject('carrier');</script></td>
 						<th>Vendor</th>
-						<td><input name="vndr_seq" id="vndr_seq" maxlength="6" dataformat="num"></td>
+						<td><input name="s_vndr_seq" id="s_vndr_seq" maxlength="6" dataformat="num"></td>
 						<th> Date </th>
 						<td><input type="text" style="width:62;text-align:center;" name="fr_ym" maxlength="10" dataformat="ymd" placeholder="YYYY-MM-DD" ></td>
 						<td><img src="img/btns_calendar.gif" name="btns_calendar" width="18" height="20" alt="" border="0" align="absmiddle" style="cursor:hand;"></td>

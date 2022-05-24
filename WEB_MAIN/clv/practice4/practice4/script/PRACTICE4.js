@@ -50,8 +50,7 @@ var ibsheet =0;
 			 * Unlike DoSearch, this method returns search result data itself without processing search result.
 			 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
 			 */
-			var regex = new RegExp("[0-9]{1,6}");
-			if(formObj.vndr_seq.value!=''&&!regex.test(formObj.vndr_seq.value)){
+			if(!ComIsNumber(formObj.s_vndr_seq.value)&&formObj.s_vndr_seq.value!=''){
 				ComShowCodeMessage("COM12125","Vendor Code");
 				break;
 			}
@@ -90,7 +89,6 @@ var ibsheet =0;
 			 * currently selected row index
 			 */
 			var index =sheetObj.GetSelectRow();
-//			sheetObj.SetRowHidden(index, 1);
 			sheetObj.SetRowStatus(index,"D");
 			if(sheetObj.RowCount("D") >0 ){
 				doActionIBSheet(sheetObj, formObj, IBSAVE);
@@ -286,18 +284,18 @@ var ibsheet =0;
 				 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 				 */
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
-//				 {Type : "DelCheck", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-				 {Type : "Text",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "chk",			KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 1}, 
-				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",	KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,	AcceptKeys: "E", 	InputCaseSensitive : 1, FullInput:true}, 
-				 {Type : "Combo",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",		KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
-				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N"},
-				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",	KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:2,	AcceptKeys: "E",	InputCaseSensitive : 1, FullInput:true}, 
-				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N" }, 
-				 {Type : "Text",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "trd_cd",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "E|N",	InputCaseSensitive : 1},
+//				 {Type : "CheckBox", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
+				 {Type : "CheckBox",Hidden : 0,Width : 60,Align : "Center",ColMerge : 0,SaveName : "chk",			KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1}, 
+				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",	KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,	AcceptKeys: "E", 	InputCaseSensitive : 1, FullInput:true}, 
+				 {Type : "Combo",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",		KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
+				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N"},
+				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",	KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:2,	AcceptKeys: "E",	InputCaseSensitive : 1, FullInput:true}, 
+				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N" }, 
+				 {Type : "Popup",	Hidden : 0,Width : 120,Align : "Left",ColMerge : 0,SaveName : "trd_cd",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "E|N",	InputCaseSensitive : 1},
 				 {Type : "Combo",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "delt_flg",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1},
-				 {Type : "Text",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "cre_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",	Hidden : 0,Width : 150,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0},
-				 {Type : "Text",	Hidden : 0,Width : 200,Align : "Center",ColMerge : 0,SaveName : "upd_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 170,Align : "Center",ColMerge : 0,SaveName : "cre_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 140,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0},
+				 {Type : "Text",	Hidden : 0,Width : 170,Align : "Center",ColMerge : 0,SaveName : "upd_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
 				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0}];
 				/**
 				 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
@@ -315,6 +313,44 @@ var ibsheet =0;
 		}
 
 	}
+	function sheet1_OnPopupClick(sheetObj,Row,Col){
+		switch (sheetObj.ColSaveName(Col)) {
+		case "trd_cd":
+			ComOpenPopup('/opuscntr/COM_COM_0012.do?',900,520,'setTrdCd','1,0,1',true,false,Row,Col);
+			break;
+		case "jo_crr_cd":
+			ComOpenPopup('/opuscntr/COM_ENS_0N1.do?',900,520,'setCrrCd','1,0,1',true,false,Row,Col);
+			break;
+		case "cust_seq":
+			ComOpenPopup('/opuscntr/Customer001.do?',900,520,'setCustSeqAndCustCntCd','1,0,1',true,false,Row,Col);
+			break;
+		case "cust_cnt_cd":
+			ComOpenPopup('/opuscntr/Customer001.do?',900,520,'setCustSeqAndCustCntCd','1,0,1',true,false,Row,Col);
+			break;
+		case "vndr_seq":
+			ComOpenPopup('/opuscntr/VendorCode01.do?',900,520,'setVndrSeq','1,0,1',true,false,Row,Col);
+			break;
+		default:
+			break;
+		}
+	}
+	function setTrdCd(aryPopupData, row, col, sheetIdx){
+		var sheetObj = sheetObjects[0];
+		sheetObj.SetCellValue(row, col, aryPopupData[0][3]);
+	}
+	function setCrrCd(aryPopupData, row, col, sheetIdx){
+		var sheetObj = sheetObjects[0];
+		sheetObj.SetCellValue(row, col, aryPopupData[0][3]);
+	}
+	function setCustSeqAndCustCntCd(aryPopupData, row, col, sheetIdx){
+		var sheetObj = sheetObjects[0];
+		sheetObj.SetCellValue(row, 6, aryPopupData[0][3]);
+		sheetObj.SetCellValue(row, 5, aryPopupData[0][2]);
+	}
+	function setVndrSeq(aryPopupData, row, col, sheetIdx){
+		var sheetObj = sheetObjects[0];
+		sheetObj.SetCellValue(row, col, aryPopupData[0][2]);
+	}
 	/**
 	 * initializing sheet implementing onLoad event handler in body tag adding
 	 * first-served functions after loading screen.
@@ -330,8 +366,16 @@ var ibsheet =0;
 			initCombo(comboObjects[k], k+1);
 		}	
 		
-		doActionIBSheet(sheetObjects[0],document.form,IBSEARCH)
-		
+		doActionIBSheet(sheetObjects[0],document.form,IBSEARCH);
+		initControl();
+	}
+	/**
+	 * initControl() to receive form events
+	 */
+	function initControl(){
+		var form = document.form;
+		axon_event.addListenerFormat ('keydown', 'ComEditFormating', form);
+		axon_event.addListener ('keydown', 'ComKeyEnter', 'form');
 	}
 	/**
 	 * setting Combo basic info param : comboObj, comboNo initializing sheet
@@ -408,7 +452,7 @@ var ibsheet =0;
 	
     /**
 	 * @extends
-	 * @class PRACTICE4 : PRACTICE4 생성을 위한 화면에서 사용하는 업무 스크립트를 정의한다.
+	 * @class PRACTICE4 : Defines the business script used in the screen for generating PRACTICE4.
 	 */
     function PRACTICE4() {
     	this.processButtonClick		= tprocessButtonClick;
@@ -421,7 +465,4 @@ var ibsheet =0;
     	this.validateForm 			= validateForm;
     }
     
-   	/* 개발자 작업 */
-
-
-	/* 개발자 작업 끝 */
+   

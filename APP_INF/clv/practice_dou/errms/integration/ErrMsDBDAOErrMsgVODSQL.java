@@ -1,13 +1,13 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
 *@FileName : ErrMsDBDAOErrMsgVODSQL.java
-*@FileTitle : 
+*@FileTitle : onhono
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.13
+*@LastModifyDate : 2022.05.19
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.04.13 
+* 2022.05.19 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice_dou.errms.integration;

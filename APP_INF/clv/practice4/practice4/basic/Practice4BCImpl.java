@@ -92,13 +92,13 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			}
 			
 			if ( insertVoList.size() > 0 ) {
-				checkDuplicateAndValidate(insertVoList);//check duplicate and validation
+				checkValidate(insertVoList);// validation
 				if(dbDao.isSearchByCarrierAndLane(insertVoList))
-					throw new EventException(new ErrorHandler("ERR00009").getMessage());
-				else if(dbDao.isSearchByVendor(insertVoList))
+					throw new EventException(new ErrorHandler("ERR0008").getMessage());
+				else if(!dbDao.isSearchByVendor(insertVoList))
 					throw new EventException(new ErrorHandler("ERR00010").getMessage());
-				else if(dbDao.isSearchCusCode(insertVoList))
-					throw new EventException(new ErrorHandler("ERR00011").getMessage());
+				else if(!dbDao.isSearchCusCode(insertVoList))
+					throw new EventException(new ErrorHandler("ERR00009").getMessage());
 				dbDao.addmanagerS(insertVoList);
 			}
 			
@@ -120,7 +120,7 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 	 * @param practice4VOs
 	 * @throws EventException
 	 */
-	public void checkDuplicateAndValidate(List<Practice4VO> practice4VOs) throws EventException{
+	public void checkValidate(List<Practice4VO> practice4VOs) throws EventException{
 		for (Practice4VO practice4VO : practice4VOs) {
 			int i=0;
 			if(!practice4VO.getVndrSeq().matches("[0-9]{5,6}"))
@@ -132,11 +132,12 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			for (int j = i+1; j < practice4VOs.size(); j++) {
 				if(practice4VO.getJoCrrCd().equals(practice4VOs.get(j).getJoCrrCd())&&practice4VO.getRlaneCd().equals(practice4VOs.get(j).getRlaneCd())){
 					throw new EventException(new ErrorHandler("ERR00009").getMessage());
-				}else if(practice4VO.getVndrSeq().equals(practice4VOs.get(j).getVndrSeq())){
-					throw new EventException(new ErrorHandler("ERR00010").getMessage());
-				}else if(practice4VO.getCustSeq().equals(practice4VOs.get(j).getCustSeq())&&practice4VO.getCustCntCd().equals(practice4VOs.get(j).getCustCntCd())){
-					throw new EventException(new ErrorHandler("ERR00011").getMessage());
 				}
+//				else if(practice4VO.getVndrSeq().equals(practice4VOs.get(j).getVndrSeq())){
+//					throw new EventException(new ErrorHandler("ERR00010").getMessage());
+//				}else if(practice4VO.getCustSeq().equals(practice4VOs.get(j).getCustSeq())&&practice4VO.getCustCntCd().equals(practice4VOs.get(j).getCustCntCd())){
+//					throw new EventException(new ErrorHandler("ERR00011").getMessage());
+//				}
 			}
 			i++;
 			

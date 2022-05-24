@@ -1,6 +1,6 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : PRACTICE_TRN.js
+*@FileName : CUSTOMER001.js
 *@FileTitle : ErrorMessageManager
 *Open Issues :
 *Change history :
@@ -24,7 +24,7 @@
 
     /**
      * @extends 
-     * @class PRACTICE_TRN : PRACTICE_TRN 생성을 위한 화면에서 사용하는 업무 스크립트를 정의한다.
+     * @class CUSTOMER001 : CUSTOMER001 생성을 위한 화면에서 사용하는 업무 스크립트를 정의한다.
      */
 /**
  * declare list sheet
@@ -59,45 +59,8 @@ function doActionIBSheet(sheetObj,formObj,sAction) {
 		 *If you set Append parameter as 1, you can append the existing data to the current search data to run search.
 		 *Call the search page using URL and complete data representation by reading search data. Then OnSearchEnd event fires and the whole process completes.
 		 */
-		sheetObj.DoSearch("Practice_TRNGS.do", FormQueryString(formObj) );
+		sheetObj.DoSearch("Customer001GS.do", FormQueryString(formObj) );
 		break;
-	case IBINSERT:
-		/**
-		 * DataInsert: Create a new data row, and return the row index of the new row
-		 * @Syntax: ObjId.DataInsert([Row])
-		 * @Param : Row < 0 :		 		Create as the last row
-		 * 			Row >= All rows :		Create as the last row
-		 * 			Row >= First data row : Create as the first row
-		 *			Default :				Create below the selected row
-		 */
-			sheetObj.DataInsert(-1);
-		break;
-	case IBSAVE:
-		formObj.f_cmd.value = MULTI;
-		/**
-		 * Save data based on data transaction status or column.If Col parameter is not set, data rows whose transaction status is not “Search” is saved.
-		 * If there is a particular parameter set in Col, data with values in the designated column will be saved.
-		 * If the column is in CheckBox format, only checked boxes will be saved.
-		 * If there is no data to save, a warning message will appear and the process is dropped.OnValidation event will fire in the processing collecting data to save.
-		 * Depending on the custom logic, failure of OnValidation may result in abortion of saving.
-		 * Call the save page using URL and complete saving to read saving XML. Then OnSaveEnd event fires and the whole process completes.
-		 * 
-		 */
-		sheetObj.DoSave("Practice_TRNGS.do", FormQueryString(formObj));
-		break;
-	}
-}
-/**
- * Event fires when saving is completed using saving function and other internal processing has been also completed.
- * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
- * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
- */
-function sheet1_OnSaveEnd(SheetObj,Code,Msg,StCode,StMsg) {
-	if(Code>=0){
-		ComShowCodeMessage('COM132601');
-		doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
-	}else {
-		ComShowCodeMessage('COM12151','data');
 	}
 }
 /**
@@ -140,14 +103,12 @@ function processButtonClick() {
 					sheetObject1.Down2Excel({DownCols: makeHiddenSkipCol(sheetObject1), SheetDesign:1, Merge:1});
 				}
 				break;
-			case "btn_Add":
-				doActionIBSheet(sheetObject1, formObj, IBINSERT)
-				break;
-			case "btn_Save":
-//				if(validateForm(sheetObject1)){
-				doActionIBSheet(sheetObject1,formObj,IBSAVE);
-//				}
-				break;
+			case "btn_Close":
+            	ComClosePopup();                	
+    	        break;
+    	    case "btn_Ok":
+                comPopupOK();
+    	        break;
 			}
 	} catch (e) {
 		if (e == "[object Error]") {
@@ -167,7 +128,7 @@ function initSheet(sheetObj,sheetNo) {
 	case 1: // sheet1 init
 		with (sheetObj) {
 		
-			var HeadTitle = "STS|Del|Msg Cd|Msg Type|Msg Level|Message|Description";
+		var HeadTitle="||Country code|Cust. Code|Customer Name";
 //			var headCount = ComCountHeadTitle(HeadTitle);
 			SetConfig({SearchMode : 2, MergeSheet : 5, Page : 40, DataRowMerge : 0});
 		/**
@@ -202,14 +163,12 @@ function initSheet(sheetObj,sheetNo) {
 		 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 		 */
 			var cols = [ 
-	             { Type : "Status", 	Hidden : 1, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "ibflag" }, 
-	             { Type : "DelCheck",	Hidden : 0, Width : 50,  Align : "Center", ColMerge : 0, SaveName : "del_chk" }, 
-	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_msg_cd", 	KeyField : 1, UpdateEdit : 0, InsertEdit : 1, 	EditLen: 8 , AcceptKeys : "E|N", 	InputCaseSensitive : 1 }, 
-	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_tp_cd",  	KeyField : 1, UpdateEdit : 0, InsertEdit : 1, 	EditLen: 1 , AcceptKeys : "E", 		InputCaseSensitive : 1 }, 
-	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Center", ColMerge : 0, SaveName : "err_lvl_cd", 	KeyField : 1, UpdateEdit : 1, InsertEdit : 1, 	EditLen: 1 , AcceptKeys : "E", 		InputCaseSensitive : 1 }, 
-	             { Type : "Text", 		Hidden : 0, Width : 600, Align : "Left",   ColMerge : 0, SaveName : "err_msg", 		KeyField : 1, UpdateEdit : 1, InsertEdit : 1 }, 
-	             { Type : "Text", 		Hidden : 0, Width : 100, Align : "Left",   ColMerge : 0, SaveName : "err_desc", 	KeyField : 1, UpdateEdit : 1, InsertEdit : 1 } 
-	             ];
+				{Type:"Radio",     Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"radio",            KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:1,   InsertEdit:1 },
+				{Type:"CheckBox",  Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"checkbox",         KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:1,   InsertEdit:1 },
+				{Type:"Text",      Hidden:0, Width:100,   Align:"Center",  ColMerge:0,   SaveName:"cust_cnt_cd",          KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:1 },
+				{Type:"Text",      Hidden:0, Width:200,  Align:"Left",    ColMerge:0,   SaveName:"cust_seq",          KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:1 },
+				{Type:"Text",      Hidden:0, Width:200,  Align:"Left",    ColMerge:0,   SaveName:"cust_lgl_eng_nm",          KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:1 },
+				];
 			/**
 			 * Configure data type, format and functionality of each column.
 			 */
@@ -222,6 +181,11 @@ function initSheet(sheetObj,sheetNo) {
 		
 	}
 
+}
+var iPageNo = 1;
+function sheet1_OnVScroll(sheetObj, vpos, oldvpos, isTop, isBottom) {
+    if (!isBottom || sheetObj.RowCount() >= sheetObj.GetTotalRows()) return;
+    doActionIBSheet(sheetObj, document.form, IBSEARCHAPPEND, true, ++iPageNo);
 }
 /**
  * initializing sheet implementing onLoad event handler in body tag adding
@@ -237,13 +201,14 @@ function loadPage(){
 	
 	//auto search data after loading finish.
 	doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
-	initControl();
+	 initControl();
 }
-function initControl(){
-	var form = document.form;
-	axon_event.addListenerFormat ('keydown', 'ComEditFormating', form);
-	axon_event.addListener ('keydown', 'ComKeyEnter', 'form');
-}
+ function initControl() {
+ 	var formObject=document.form;
+     //Axon 이벤트 처리1. 이벤트catch(개발자변경)
+     axon_event.addListenerFormat('keypress', 'keypressFormat', formObject);
+     axon_event.addListener ('keydown', 'ComKeyEnter', 'form');
+ }
 /**
  * registering IBSheet Object as list adding process for list in case of needing
  * batch processing with other items defining list on the top of source
@@ -265,28 +230,7 @@ function resizeSheet() {
 	ComResizeSheet(sheetObjects[0]);
 }
 
-/**
- * registering IBCombo Object as list param : combo_obj adding process for list
- * in case of needing batch processing with other items defining list on the top
- * of source
- */
-function setComboObject(combo_obj) {
-	comboObjects[comboCnt++] = combo_obj;
-}
-/**
- * validation errMsgCd
- */
-function validateForm(sheetObj){
-	var regex = new RegExp("^[A-Z]{3}\\d{5}");
-	for( var i = sheetObj.LastRow(); i >= sheetObj.HeaderRows(); i-- ) {
-		if(sheetObj.GetCellValue(i, "ibflag") == 'I' &&!regex.test(sheetObj.GetCellValue(i, "err_msg_cd"))){
-				ComShowMessage('errMsgCD 8 characters are required, the first 3 characters are uppercase letters, the last 5 characters are numbers and cannot be the same as the existing Message Code');
-				return false;
-			}
-		}
-	return true;
-}
-    function DOU_TRN_001() {
+    function CUSTOMER001() {
     	this.processButtonClick		= tprocessButtonClick;
     	this.setSheetObject 		= setSheetObject;
     	this.loadPage 				= loadPage;

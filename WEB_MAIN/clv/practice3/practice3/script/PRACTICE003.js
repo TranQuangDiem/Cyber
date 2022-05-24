@@ -113,7 +113,7 @@ var ibsheet =0;
 		 *  When configuration is changed, you need to rerun a data search to apply it.
 		 */
 		sheetObj.ShowSubSum(info);
-		sheetObj.GetSumFontBold();
+		sheetObj.SetSumFontBold(1);
 		if(sheetObj.id==='sheet1'){
 			for (var i = 1; i <= sheetObj.LastRow(); i++) {
 				if(sheetObj.GetCellValue(i, "jo_crr_cd")==''){
@@ -123,6 +123,9 @@ var ibsheet =0;
  					 * 
  					 */
 					sheetObj.SetCellValue(i, 6,sheetObj.GetCellValue(i-1, "locl_curr_cd"));
+					sheetObj.SetCellFontBold(i,6,1);
+					sheetObj.SetCellFontBold(i,7,1);
+					sheetObj.SetCellFontBold(i,8,1)
 				}
 				
 			}
@@ -130,6 +133,9 @@ var ibsheet =0;
 			for (var i = 1; i <= sheetObj.LastRow(); i++) {
 				if(sheetObj.GetCellValue(i, "jo_crr_cd")==''){
 					sheetObj.SetCellValue(i, 8,sheetObj.GetCellValue(i-1, "locl_curr_cd"));
+					sheetObj.SetCellFontBold(i,8,1)
+					sheetObj.SetCellFontBold(i,9,1)
+					sheetObj.SetCellFontBold(i,10,1)
 				}
 				
 			}
@@ -162,11 +168,17 @@ var ibsheet =0;
 					sheetObj.SetCellValue(sheetObj.LastRow(), 7,result[1]);
 					sheetObj.SetCellValue(sheetObj.LastRow(), 8,result[2]);
 					sheetObj.SetRowBackColor(sheetObj.LastRow(),"#fdbb8f");
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),6,1);
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),7,1);
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),8,1)
 				}else{
 					sheetObj.SetCellValue(sheetObj.LastRow(), 8,result[0]);
 					sheetObj.SetCellValue(sheetObj.LastRow(), 9,result[1]);
 					sheetObj.SetCellValue(sheetObj.LastRow(), 10,result[2]);
 					sheetObj.SetRowBackColor(sheetObj.LastRow(),"#fdbb8f");
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),8,1)
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),9,1)
+					sheetObj.SetCellFontBold(sheetObj.LastRow(),10,1)
 				}
 			}	
 		}
@@ -405,8 +417,13 @@ var ibsheet =0;
 		initPeriod();
 		doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
 		doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
+		initControl();
 		
-		
+	}
+	function initControl(){
+		var form = document.form;
+		axon_event.addListenerFormat ('keydown', 'ComEditFormating', form);
+		axon_event.addListener ('keydown', 'ComKeyEnter', 'form');
 	}
 	/**
 	 * setting Combo basic info param : comboObj, comboNo initializing sheet

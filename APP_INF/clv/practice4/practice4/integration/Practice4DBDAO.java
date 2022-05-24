@@ -179,14 +179,13 @@ public class Practice4DBDAO extends DBDAOSupport {
 			Map<String, Object> param = new HashMap<String, Object>();
 			//velocity parameter
 			Map<String, Object> velParam = new HashMap<String, Object>();
-
 			try{
 				for (Practice4VO practice4vo : practice4vos) {
 					param.putAll(practice4vo.getColumnValues());
 					velParam.putAll(practice4vo.getColumnValues());
 					dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new Practice4DBDAOSearchVendorRSQL(), param, velParam);
-					while(dbRowset.next()){
-						return true;
+					if(!dbRowset.next()){
+						return false;
 					}
 				}
 			} catch(SQLException se) {
@@ -196,7 +195,7 @@ public class Practice4DBDAO extends DBDAOSupport {
 				log.error(ex.getMessage(),ex);
 				throw new DAOException(new ErrorHandler(ex).getMessage());
 			}
-		 return false;
+		 return true;
 	 }
 	 /**
 	  * check customer code exist
@@ -216,8 +215,8 @@ public class Practice4DBDAO extends DBDAOSupport {
 					param.putAll(practice4vo.getColumnValues());
 					velParam.putAll(practice4vo.getColumnValues());
 					dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new Practice4DBDAOSearchCustomerCodeRSQL(), param, velParam);
-					while(dbRowset.next()){
-						return true;
+					if(!dbRowset.next()){
+						return false;
 					}
 				}
 			} catch(SQLException se) {
@@ -227,7 +226,7 @@ public class Practice4DBDAO extends DBDAOSupport {
 				log.error(ex.getMessage(),ex);
 				throw new DAOException(new ErrorHandler(ex).getMessage());
 			}
-		 return false;
+		 return true;
 	 }
 	/**
 	 * add data
@@ -282,7 +281,7 @@ public class Practice4DBDAO extends DBDAOSupport {
 			SQLExecuter sqlExe = new SQLExecuter("");
 			result = sqlExe.executeUpdate((ISQLTemplate)new Practice4DBDAOPractice4VOUSQL(), param, velParam);
 			if(result == Statement.EXECUTE_FAILED)
-					throw new DAOException("Fail to insert SQL");
+					throw new DAOException("Fail to update SQL");
 		} catch(SQLException se) {
 			log.error(se.getMessage(),se);
 			throw new DAOException(new ErrorHandler(se).getMessage());
@@ -316,7 +315,7 @@ public class Practice4DBDAO extends DBDAOSupport {
 			SQLExecuter sqlExe = new SQLExecuter("");
 			result = sqlExe.executeUpdate((ISQLTemplate)new Practice4DBDAOPractice4VODSQL(), param, velParam);
 			if(result == Statement.EXECUTE_FAILED)
-					throw new DAOException("Fail to insert SQL");
+					throw new DAOException("Fail to delete SQL");
 		} catch(SQLException se) {
 			log.error(se.getMessage(),se);
 			throw new DAOException(new ErrorHandler(se).getMessage());

@@ -5,27 +5,15 @@
 			<desc><![CDATA[search]]></desc>
 			<sql><![CDATA[
 SELECT 
-	MODI_COST_CTR_CD
-,	EDW_UPD_DT
-,	UPD_USR_ID
-,	UPD_DT
-,	CRE_USR_ID
-,	CRE_DT
-,	DELT_FLG
-,	JO_STL_OPT_CD
-,	TRD_CD
+	CUST_CNT_CD
 ,	CUST_SEQ
-,	CUST_CNT_CD
-,	VNDR_SEQ
-,	RLANE_CD
-,	JO_CRR_CD
-FROM JOO_CARRIER
-WHERE	CUST_SEQ = @[cust_seq]
-AND	CUST_CNT_CD = @[cust_cnt_cd]
+FROM MDM_CUSTOMER
+WHERE	CUST_CNT_CD = @[cust_cnt_cd]
+AND	CUST_SEQ = @[cust_seq]
 			]]></sql>
 			<params>
-				<param name="cust_seq" type="2" value="" out="N"/>
 				<param name="cust_cnt_cd" type="12" value="" out="N"/>
+				<param name="cust_seq" type="2" value="" out="N"/>
 			</params>
 		</query>
 	</querys>

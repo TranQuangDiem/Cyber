@@ -1,6 +1,6 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : Practice4DBDAOSearchVendorRSQL.java
+*@FileName : CustomerDBDAOCustomerVORSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
@@ -10,7 +10,7 @@
 * 2022.05.23 
 * 1.0 Creation
 =========================================================*/
-package com.clt.apps.opus.esm.clv.practice4.practice4.integration;
+package com.clt.apps.opus.esm.clv.customer.customer.integration;
 
 import java.util.HashMap;
 import org.apache.log4j.Logger;
@@ -23,7 +23,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class Practice4DBDAOSearchVendorRSQL implements ISQLTemplate{
+public class CustomerDBDAOCustomerVORSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,10 +34,10 @@ public class Practice4DBDAOSearchVendorRSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  * search
+	  *    
 	  * </pre>
 	  */
-	public Practice4DBDAOSearchVendorRSQL(){
+	public CustomerDBDAOCustomerVORSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
 		String tmp = null;
@@ -47,11 +47,18 @@ public class Practice4DBDAOSearchVendorRSQL implements ISQLTemplate{
 		if(arrTmp.length !=2){
 			throw new IllegalArgumentException();
 		}
-		params.put("vndr_seq",new String[]{arrTmp[0],arrTmp[1]});
+		params.put("cust_seq",new String[]{arrTmp[0],arrTmp[1]});
+
+		tmp = java.sql.Types.VARCHAR + ",N";
+		arrTmp = tmp.split(",");
+		if(arrTmp.length !=2){
+			throw new IllegalArgumentException();
+		}
+		params.put("cust_cnt_cd",new String[]{arrTmp[0],arrTmp[1]});
 
 		query.append("/*").append("\n"); 
-		query.append("Path : com.clt.apps.opus.esm.clv.practice4.practice4.integration").append("\n"); 
-		query.append("FileName : Practice4DBDAOSearchVendorRSQL").append("\n"); 
+		query.append("Path : com.clt.apps.opus.esm.clv.customer.customer.integration").append("\n"); 
+		query.append("FileName : CustomerDBDAOCustomerVORSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -68,9 +75,17 @@ public class Practice4DBDAOSearchVendorRSQL implements ISQLTemplate{
 	 */
 	public void setQuery(){
 		query.append("SELECT " ).append("\n"); 
-		query.append("	VNDR_SEQ" ).append("\n"); 
-		query.append("FROM MDM_VENDOR" ).append("\n"); 
-		query.append("WHERE	VNDR_SEQ = @[vndr_seq]" ).append("\n"); 
+		query.append("	CUST_CNT_CD" ).append("\n"); 
+		query.append(",	CUST_SEQ" ).append("\n"); 
+		query.append(",	CUST_LGL_ENG_NM" ).append("\n"); 
+		query.append("FROM MDM_CUSTOMER" ).append("\n"); 
+		query.append("WHERE 1= 1" ).append("\n"); 
+		query.append("#if(${cust_cnt_cd}!='')" ).append("\n"); 
+		query.append("AND CUST_CNT_CD LIKE '%' || @[cust_cnt_cd] || '%'" ).append("\n"); 
+		query.append("#end" ).append("\n"); 
+		query.append("#if(${cust_seq}!='')" ).append("\n"); 
+		query.append("AND	CUST_SEQ LIKE '%' || @[cust_seq] || '%'" ).append("\n"); 
+		query.append("#end" ).append("\n"); 
 
 	}
 }
