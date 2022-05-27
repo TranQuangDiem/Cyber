@@ -331,6 +331,39 @@ function initSheet(sheetObj, sheetNo) {
 
 }
 /**
+ * event when sheet1 changes
+ */
+function sheet1_OnChange(SheetObj,Row, Col, Value, OldValue,RaiseFlag) {
+	with(sheetObjects[0]){
+		var cdId = GetCellValue(Row,'intg_cd_id');
+		for(var i = 0; i< LastRow(); i++){
+			if(cdId==GetCellValue(i,'intg_cd_id')&&i!=Row){
+				ComShowCodeMessage("COM12115", "Cd Id");
+				SelectCell(Row, 3, true);
+				break;
+			}
+		}
+	}
+	
+}
+/**
+ * event when sheet changes
+ */
+function sheet2_OnChange(SheetObj,Row, Col, Value, OldValue,RaiseFlag) {
+	with(sheetObjects[1]){
+		var msgCd = GetCellValue(Row,'intg_cd_id');
+		var cdVal = GetCellValue(Row,'intg_cd_val_ctnt');
+		for(var i = 0; i< LastRow(); i++){
+			if(msgCd==GetCellValue(i,'intg_cd_id')&&i!=Row&& cdVal==GetCellValue(i,'intg_cd_val_ctnt')){
+				ComShowCodeMessage("COM12115", "Cd Id and Cd Val");
+				SelectCell(Row, 3, true);
+				break;
+			}
+		}
+	}
+	
+}
+/**
  * initializing sheet implementing onLoad event handler in body tag adding
  * first-served functions after loading screen.
  */

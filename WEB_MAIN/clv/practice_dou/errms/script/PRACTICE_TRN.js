@@ -218,10 +218,25 @@ function initSheet(sheetObj,sheetNo) {
 			SetWaitImageVisible(0);
 			resizeSheet();
 		}
-		break;
-		
+		break;		
 	}
-
+}
+/**
+ * event when sheet changes
+ */
+function sheet1_OnChange(SheetObj,Row, Col, Value, OldValue,RaiseFlag) {
+	with(sheetObjects[0]){
+		var msgCd = GetCellValue(Row,'err_msg_cd');
+		for(var i = 0; i< LastRow(); i++){
+			if(msgCd==GetCellValue(i,'err_msg_cd')&&i!=Row){
+				ComShowCodeMessage("COM12115", "Msg Cd");
+				SelectCell(Row, 2, true);
+				SetCellText(Row, 2, "" );
+				break;
+			}
+		}
+	}
+	
 }
 /**
  * initializing sheet implementing onLoad event handler in body tag adding

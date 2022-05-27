@@ -4,10 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.27
+*@LastModifyDate : 2022.05.25
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.04.27 
+* 2022.05.25 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice3.practice3.integration;
@@ -78,8 +78,8 @@ public class Practice3DBDAOTradeRSQL implements ISQLTemplate{
 		query.append("	TRD_CD" ).append("\n"); 
 		query.append("FROM JOO_CARRIER" ).append("\n"); 
 		query.append("WHERE RLANE_CD = @[rlane_cd]" ).append("\n"); 
-		query.append("#if(${jo_crr_cd}!='All'&&${jo_crr_cd}!='')" ).append("\n"); 
-		query.append("AND	JO_CRR_CD IN (#foreach($key IN ${jo_crr_cd})#if($velocityCount < $jo_crr_cd.size()) '$key', #else '$key' #end #end)" ).append("\n"); 
+		query.append("#if(${jo_crr_cd}!='All')" ).append("\n"); 
+		query.append("AND	JO_CRR_CD = @[jo_crr_cd]" ).append("\n"); 
 		query.append("#end" ).append("\n"); 
 
 	}

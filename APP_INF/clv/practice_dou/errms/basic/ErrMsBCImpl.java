@@ -46,15 +46,13 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 
 	/**
 	 * SEARH DATA
-	 * @param PracticeVO
-	 *            errMsgVO
+	 * @param PracticeVO  errMsgVO
 	 * @return List<ErrMsgVO>
 	 * @exception EventException
 	 */
 	public List<PracticeVO> searchPractice(PracticeVO errMsgVO)
 			throws EventException {
 		try {
-			System.out.println(errMsgVO.getColumnValues());
 			errMsgVO.setErrMsgCd(errMsgVO.getS_msg_cd());
 			errMsgVO.setErrMsg(errMsgVO.getS_msg());
 			return dbDao.searchPracticeVO(errMsgVO);
@@ -69,10 +67,8 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 	/**
 	 * INSERT, UPDATE, DELETE DATA
 	 * 
-	 * @param ErrMsgVO
-	 *            [] errMsgVO
-	 * @param account
-	 *            SignOnUserAccount
+	 * @param ErrMsgVO [] errMsgVO
+	 * @param account  SignOnUserAccount
 	 * @exception EventException
 	 */
 	public void managerPactice(PracticeVO[] errMsgVO, SignOnUserAccount account)
@@ -82,7 +78,6 @@ public class ErrMsBCImpl extends BasicCommandSupport implements ErrMsBC {
 			List<PracticeVO> updateVoList = new ArrayList<PracticeVO>();
 			List<PracticeVO> deleteVoList = new ArrayList<PracticeVO>();
 			for (int i = 0; i < errMsgVO.length; i++) {
-
 				if (errMsgVO[i].getIbflag().equals("I")) {
 						if (!Pattern.matches("^[A-Z]{3}\\d{5}",//validate err_msg_cd
 								errMsgVO[i].getErrMsgCd())) {

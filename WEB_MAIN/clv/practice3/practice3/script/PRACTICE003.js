@@ -49,44 +49,49 @@ var ibsheet =0;
 	function doActionIBSheet(sheetObj, formObj, sAction) {
 		switch (sAction) {
 		case IBSEARCH:
-			formObj.f_cmd.value = SEARCH;
-			/**
-			 * GetSearchData: Call search page, complete search and return search result data in string.
-			 * Unlike DoSearch, this method returns search result data itself without processing search result.
-			 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
-			 */
-			var sXml2 =sheetObj.GetSearchData("Practice003GS.do",FormQueryString(formObj));
-			/**
-			 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
-			 * This method can be used to read encrypted search data when security module is used.
-			 * Search data are retrieved using GetSearchData method from the server.
-			 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
-			 */
-			sheetObj.LoadSearchData(sXml2, {Sync : 1});
-			subsum(sheetObj);
-			/**
-			 * get EtcData
-			 */
-			var total = ComGetEtcData(sXml2, "toal");
-			totalSum(sheetObj,total);
-			break;
-		case 'IBSEARCH01':
-			formObj.f_cmd.value = SEARCH01;
-			/**
-			 * GetSearchData: Call search page, complete search and return search result data in string.
-			 * Unlike DoSearch, this method returns search result data itself without processing search result.
-			 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
-			 */
-			var sXml2 =sheetObj.GetSearchData("Practice003GS.do",FormQueryString(formObj));
-			/**
-			 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
-			 * This method can be used to read encrypted search data when security module is used.
-			 * Search data are retrieved using GetSearchData method from the server.
-			 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
-			 */
-			sheetObj.LoadSearchData(sXml2, {Sync : 1});
-			subsum(sheetObj);
-			totalSum(sheetObj);
+			if(sheetObj.id=='sheet1'){
+				formObj.f_cmd.value = SEARCH;
+				/**
+				 * GetSearchData: Call search page, complete search and return search result data in string.
+				 * Unlike DoSearch, this method returns search result data itself without processing search result.
+				 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
+				 */
+				var sXml2 =sheetObj.GetSearchData("Practice003GS.do",FormQueryString(formObj));
+				/**
+				 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
+				 * This method can be used to read encrypted search data when security module is used.
+				 * Search data are retrieved using GetSearchData method from the server.
+				 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
+				 */
+				sheetObj.LoadSearchData(sXml2, {Sync : 1});
+				subsum(sheetObj);
+				/**
+				 * get EtcData
+				 */
+				var total = ComGetEtcData(sXml2, "toal");
+				totalSum(sheetObj,total);
+			}else if(sheetObj.id=='sheet2'){
+				formObj.f_cmd.value = SEARCH04;
+				/**
+				 * GetSearchData: Call search page, complete search and return search result data in string.
+				 * Unlike DoSearch, this method returns search result data itself without processing search result.
+				 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
+				 */
+				var sXml2 =sheetObj.GetSearchData("Practice003GS.do",FormQueryString(formObj));
+				/**
+				 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
+				 * This method can be used to read encrypted search data when security module is used.
+				 * Search data are retrieved using GetSearchData method from the server.
+				 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
+				 */
+				sheetObj.LoadSearchData(sXml2, {Sync : 1});
+				subsum(sheetObj);
+				/**
+				 * get EtcData
+				 */
+				var total = ComGetEtcData(sXml2, "toal");
+				totalSum(sheetObj,total);
+			}
 			break;
 		}
 
@@ -208,16 +213,22 @@ var ibsheet =0;
 			case "btn_from_back":
 				if(getCheckYearMonth()){	
 						addMonth(formObj.fr_yrmon, -1);
+						doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
+						doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
 					}
 				break;
 			case "btn_from_next":
 				if(getCheckConditionPeriod()){
-					addMonth(formObj.fr_yrmon, 1)
+					addMonth(formObj.fr_yrmon, 1);
+					doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
+					doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
 				}
 				break;
 			case "btn_to_back":
 				if(getCheckConditionPeriod()){
 					addMonth(formObj.to_yrmon, -1);
+					doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
+					doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
 				}
 				break;
 			case "btn_to_next":
@@ -229,6 +240,8 @@ var ibsheet =0;
 //				}else if(getCheckYearMonth()){
 				if(getCheckConditionPeriod()&&getCheckYearMonth()){
 					addMonth(formObj.to_yrmon, 1);
+					doActionIBSheet(sheetObjects[0], document.form, IBSEARCH);
+					doActionIBSheet(sheetObjects[1], document.form, IBSEARCH);
 				}
 					
 //				}
@@ -624,7 +637,12 @@ var ibsheet =0;
 		 if(getCheckConditionPeriod()){
 			if(getCheckYearMonth()){
 				 ibsheet = 1;
-				 sheetObjects[1].SetSelectRow(Row);
+				 for(var i =0 ;i< sheetObjects[1].LastRow();i++ ){
+					 if(sheetObjects[1].GetCellValue(i,'inv_no')==sheetObjects[0].GetCellValue(Row,'inv_no')){
+						 sheetObjects[1].SetSelectRow(i);
+						 break;
+					 }
+				 }
 				 tab1.SetSelectedIndex(1); 
 			}
 		 }

@@ -4,10 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.27
+*@LastModifyDate : 2022.05.25
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.04.27 
+* 2022.05.25 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice3.practice3.integration;
@@ -40,15 +40,6 @@ public class Practice3DBDAOLaneRSQL implements ISQLTemplate{
 	public Practice3DBDAOLaneRSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
-		String tmp = null;
-		String[] arrTmp = null;
-		tmp = java.sql.Types.VARCHAR + ",N";
-		arrTmp = tmp.split(",");
-		if(arrTmp.length !=2){
-			throw new IllegalArgumentException();
-		}
-		params.put("jo_crr_cd",new String[]{arrTmp[0],arrTmp[1]});
-
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.esm.clv.practice3.practice3.integration").append("\n"); 
 		query.append("FileName : Practice3DBDAOLaneRSQL").append("\n"); 

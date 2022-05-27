@@ -18,7 +18,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 
 /**
  * ALPS-Vendorcode Business Logic Command Interface<br>
- * - ALPS-Vendorcode에 대한 비지니스 로직에 대한 인터페이스<br>
+ * - Interface to business logic for ALPS-Vendorcode<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -27,7 +27,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 public interface VendorCodeBC {
 
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * Search data
 	 * 
 	 * @param VendorCodeVO	vendorCodeVO
 	 * @return List<VendorCodeVO>

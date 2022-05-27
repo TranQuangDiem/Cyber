@@ -15,6 +15,7 @@ package com.clt.apps.opus.esm.clv.practice3.practice3.basic;
 import java.util.List;
 import java.util.Map;
 
+import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3DetailV0VO;
 import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 import com.clt.framework.core.layer.event.EventException;
 import com.clt.framework.support.view.signon.SignOnUserAccount;
@@ -36,6 +37,13 @@ public interface Practice3BC {
 	 * @exception EventException
 	 */
 	public List<Practice3VO> search(Map<String, String> param) throws EventException;
+	/**
+	 * search data deatil
+	 * @param Practice3VO	practice3VO
+	 * @return List<Practice3VO>
+	 * @exception EventException
+	 */
+	public List<Practice3DetailV0VO> searchDetail(Map<String, String> param) throws EventException;
 	
 	/**
 	 * update,insert, delete

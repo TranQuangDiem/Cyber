@@ -25,9 +25,9 @@
 
 <%
 	Practice4Event  event = null;					//PDTO(Data Transfer Object including Parameters)
-	Exception serverException   = null;			//서버에서 발생한 에러
-	String strErrMsg = "";						//에러메세지
-	int rowCount	 = 0;						//DB ResultSet 리스트의 건수
+	Exception serverException   = null;			// error occurred on the server
+	String strErrMsg = "";						//error message
+	int rowCount	 = 0;						//Number of DB ResultSet list
 
 	String successFlag = "";
 	String codeList  = "";
@@ -52,7 +52,7 @@
 			strErrMsg = new ErrorHandler(serverException).loadPopupMessage();
 		}
 
-		// 초기화면 로딩시 서버로부터 가져온 데이터 추출하는 로직추가 ..
+		//Added logic to extract data from server when loading initial screen..
 		GeneralEventResponse eventResponse = (GeneralEventResponse) request.getAttribute("EventResponse");
 		carriers = eventResponse.getETCData("carrier");
 		lanes = eventResponse.getETCData("lane");
@@ -74,7 +74,7 @@ var lanes = "<%=lanes%>";
 <form name="form">
 <input type="hidden" name="f_cmd">
 <input type="hidden" name="pagerows">
-<!-- 개발자 작업	-->
+
 	<!-- page_title_area clear(S) -->
 	<div class="page_title_area clear">
 		<h2 class="page_title"><button type="button"><span id="title"></span></button></h2>
@@ -152,5 +152,4 @@ var lanes = "<%=lanes%>";
 	</div>
 	<!-- wrap_result(E) -->
 
-<!-- 개발자 작업  끝 -->
 </form>

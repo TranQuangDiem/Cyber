@@ -13,7 +13,6 @@
 package com.clt.apps.opus.esm.clv.vendorcode.vendorcode.integration;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 
 /**
  * ALPS VendorCodeDBDAO <br>
- * - ALPS-VendorCode system Business Logic을 처리하기 위한 JDBC 작업수행.<br>
+ * - JDBC operation to process ALPS-VendorCode system Business Logic.<br>
  * 
  * @author Diem Tran
  * @see VendorCodeBCImpl 참조
@@ -40,7 +39,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 public class VendorCodeDBDAO extends DBDAOSupport {
 
 	/**
-	 * [처리대상] 정보를 [행위] 합니다.<br>
+	 * Search data
 	 * 
 	 * @param VendorCodeVO vendorCodeVO
 	 * @return List<VendorCodeVO>

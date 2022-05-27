@@ -94,7 +94,7 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			if ( insertVoList.size() > 0 ) {
 				checkValidate(insertVoList);// validation
 				if(dbDao.isSearchByCarrierAndLane(insertVoList))
-					throw new EventException(new ErrorHandler("ERR0008").getMessage());
+					throw new EventException(new ErrorHandler("ERR00008").getMessage());
 				else if(!dbDao.isSearchByVendor(insertVoList))
 					throw new EventException(new ErrorHandler("ERR00010").getMessage());
 				else if(!dbDao.isSearchCusCode(insertVoList))
@@ -103,6 +103,10 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			}
 			
 			if ( updateVoList.size() > 0 ) {
+				if(!dbDao.isSearchByVendor(updateVoList))
+					throw new EventException(new ErrorHandler("ERR00010").getMessage());
+				else if(!dbDao.isSearchCusCode(updateVoList))
+					throw new EventException(new ErrorHandler("ERR00009").getMessage());
 				dbDao.modifymanagerS(updateVoList);
 			}
 			
@@ -131,7 +135,8 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 				throw new EventException(new ErrorHandler("ERR00014").getMessage());
 			for (int j = i+1; j < practice4VOs.size(); j++) {
 				if(practice4VO.getJoCrrCd().equals(practice4VOs.get(j).getJoCrrCd())&&practice4VO.getRlaneCd().equals(practice4VOs.get(j).getRlaneCd())){
-					throw new EventException(new ErrorHandler("ERR00009").getMessage());
+					throw new EventException(new ErrorHandler("ERR00015").getMessage());
+//					throw new EventException("APP<||>ERR00015<||>E<||>Carrier and Rev.Lane is duplicate.  Please check the Carrier and Rev.Lane<||>");
 				}
 //				else if(practice4VO.getVndrSeq().equals(practice4VOs.get(j).getVndrSeq())){
 //					throw new EventException(new ErrorHandler("ERR00010").getMessage());

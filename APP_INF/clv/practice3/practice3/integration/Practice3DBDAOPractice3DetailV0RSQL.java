@@ -1,6 +1,6 @@
 /*=========================================================
 *Copyright(c) 2022 CyberLogitec
-*@FileName : Practice3DBDAOPractice3VORSQL.java
+*@FileName : Practice3DBDAOPractice3DetailV0RSQL.java
 *@FileTitle : 
 *Open Issues :
 *Change history :
@@ -23,7 +23,7 @@ import com.clt.framework.support.db.ISQLTemplate;
  * @since J2EE 1.6
  */
 
-public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
+public class Practice3DBDAOPractice3DetailV0RSQL implements ISQLTemplate{
 
 	private StringBuffer query = new StringBuffer();
 	
@@ -34,10 +34,10 @@ public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
 	
 	/**
 	  * <pre>
-	  *    
+	  * search
 	  * </pre>
 	  */
-	public Practice3DBDAOPractice3VORSQL(){
+	public Practice3DBDAOPractice3DetailV0RSQL(){
 		setQuery();
 		params = new HashMap<String,String[]>();
 		String tmp = null;
@@ -72,7 +72,7 @@ public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
 
 		query.append("/*").append("\n"); 
 		query.append("Path : com.clt.apps.opus.esm.clv.practice3.practice3.integration").append("\n"); 
-		query.append("FileName : Practice3DBDAOPractice3VORSQL").append("\n"); 
+		query.append("FileName : Practice3DBDAOPractice3DetailV0RSQL").append("\n"); 
 		query.append("*/").append("\n"); 
 	}
 	
@@ -98,8 +98,8 @@ public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
 		query.append("	,INV.CUST_VNDR_SEQ" ).append("\n"); 
 		query.append("	,INV.PRNR_REF_NO" ).append("\n"); 
 		query.append("	,INV.CUST_VNDR_ENG_NM" ).append("\n"); 
-		query.append("	--,INV.JO_STL_ITM_CD" ).append("\n"); 
-		query.append("	--,INV.REV_EXP" ).append("\n"); 
+		query.append("	,INV.JO_STL_ITM_CD" ).append("\n"); 
+		query.append("	,INV.REV_EXP" ).append("\n"); 
 		query.append("	,SUM(INV.REV_ACT_AMT) AS INV_REV_ACT_AMT" ).append("\n"); 
 		query.append("	,SUM(INV.EXP_ACT_AMT) AS INV_EXP_ACT_AMT" ).append("\n"); 
 		query.append("FROM(" ).append("\n"); 
@@ -113,8 +113,8 @@ public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
 		query.append("	,DECODE(INV.RE_DIVR_CD,'R',SUBSTR(INV.PRNR_REF_NO,1,2), NULL) AS CUST_VNDR_CNT_CD" ).append("\n"); 
 		query.append("	,DECODE(INV.RE_DIVR_CD,'R',SUBSTR(INV.PRNR_REF_NO,3), INV.PRNR_REF_NO) AS CUST_VNDR_SEQ" ).append("\n"); 
 		query.append("	,INV.PRNR_REF_NO" ).append("\n"); 
-		query.append("	--,STL.JO_STL_ITM_CD" ).append("\n"); 
-		query.append("	--,INV.RE_DIVR_CD AS REV_EXP" ).append("\n"); 
+		query.append("	,STL.JO_STL_ITM_CD" ).append("\n"); 
+		query.append("	,INV.RE_DIVR_CD AS REV_EXP" ).append("\n"); 
 		query.append("	,DECODE('R',STL.RE_DIVR_CD, NVL(DTL.LOCL_AMT, DTL.ACT_AMT), 0) AS REV_ACT_AMT" ).append("\n"); 
 		query.append("	,DECODE('E',STL.RE_DIVR_CD, NVL(DTL.LOCL_AMT, DTL.ACT_AMT), 0) AS EXP_ACT_AMT" ).append("\n"); 
 		query.append("	,CASE WHEN INV.RE_DIVR_CD = 'R' THEN" ).append("\n"); 
@@ -182,8 +182,8 @@ public class Practice3DBDAOPractice3VORSQL implements ISQLTemplate{
 		query.append("	,INV.CUST_VNDR_SEQ" ).append("\n"); 
 		query.append("	,INV.PRNR_REF_NO" ).append("\n"); 
 		query.append("	,INV.CUST_VNDR_ENG_NM" ).append("\n"); 
-		query.append("	--,INV.JO_STL_ITM_CD" ).append("\n"); 
-		query.append("	--,INV.REV_EXP" ).append("\n"); 
+		query.append("	,INV.JO_STL_ITM_CD" ).append("\n"); 
+		query.append("	,INV.REV_EXP" ).append("\n"); 
 
 	}
 }

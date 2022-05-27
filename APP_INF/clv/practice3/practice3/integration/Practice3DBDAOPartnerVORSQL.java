@@ -4,10 +4,10 @@
 *@FileTitle : 
 *Open Issues :
 *Change history :
-*@LastModifyDate : 2022.04.25
+*@LastModifyDate : 2022.05.25
 *@LastModifier : 
 *@LastVersion : 1.0
-* 2022.04.25 
+* 2022.05.25 
 * 1.0 Creation
 =========================================================*/
 package com.clt.apps.opus.esm.clv.practice3.practice3.integration;
@@ -59,7 +59,7 @@ public class Practice3DBDAOPartnerVORSQL implements ISQLTemplate{
 	 */
 	public void setQuery(){
 		query.append("SELECT " ).append("\n"); 
-		query.append("	distinct(jo_crr_cd)" ).append("\n"); 
+		query.append("	distinct(JO_CRR_CD)" ).append("\n"); 
 		query.append("FROM JOO_CARRIER" ).append("\n"); 
 
 	}

@@ -22,6 +22,7 @@ import com.clt.framework.core.layer.event.EventException;
 import com.clt.framework.core.layer.integration.DAOException;
 import com.clt.framework.support.layer.basic.BasicCommandSupport;
 import com.clt.framework.support.view.signon.SignOnUserAccount;
+import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3DetailV0VO;
 import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 /**
@@ -59,7 +60,22 @@ public class Practice3BCImpl extends BasicCommandSupport implements Practice3BC 
 		}
 		
 	}
-	
+	/**
+	 * search data detail
+	 * @param Practice3VO practice3VO
+	 * @return List<Practice3VO>
+	 * @exception EventException
+	 */
+	public List<Practice3DetailV0VO> searchDetail(Map<String, String> param) throws EventException {
+		try {
+			return dbDao.searchDetail(param);
+		} catch(DAOException ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		} catch (Exception ex) {
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}
+		
+	}
 	/**
 	 * update,insert, delete
 	 * @param Practice3VO[] practice3VO

@@ -22,7 +22,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 
 /**
  * ALPS-VendorCode Business Logic Command Interface<br>
- * - ALPS-VendorCode에 대한 비지니스 로직에 대한 인터페이스<br>
+ * -Interface to business logic for ALPS-VendorCode<br>
  *
  * @author Diem Tran
  * @since J2EE 1.6
@@ -33,14 +33,14 @@ public class VendorCodeBCImpl extends BasicCommandSupport implements VendorCodeB
 	private transient VendorCodeDBDAO dbDao = null;
 
 	/**
-	 * VendorCodeBCImpl 객체 생성<br>
-	 * VendorCodeDBDAO를 생성한다.<br>
+	 * Create VendorCodeBCImpl object<br>
+	 * Create VendorCodeDBDAO.<br>
 	 */
 	public VendorCodeBCImpl() {
 		dbDao = new VendorCodeDBDAO();
 	}
 	/**
-	 * [비즈니스대상]을 [행위] 합니다.<br>
+	 * Search data
 	 * 
 	 * @param VendorCodeVO vendorCodeVO
 	 * @return List<VendorCodeVO>

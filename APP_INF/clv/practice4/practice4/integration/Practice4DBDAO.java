@@ -41,6 +41,11 @@ import com.clt.apps.opus.esm.clv.practice4.practice4.vo.Practice4VO;
 public class Practice4DBDAO extends DBDAOSupport {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * search data
 	 * @param Practice4VO practice4VO
 	 * @return List<Practice4VO>

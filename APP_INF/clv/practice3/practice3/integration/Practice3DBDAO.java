@@ -28,6 +28,7 @@ import com.clt.framework.support.db.ISQLTemplate;
 import com.clt.framework.support.db.RowSetUtil;
 import com.clt.framework.support.db.SQLExecuter;
 import com.clt.framework.support.layer.integration.DBDAOSupport;
+import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3DetailV0VO;
 import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 /**
@@ -82,7 +83,57 @@ public class Practice3DBDAO extends DBDAOSupport {
 			}
 			dbRowset = new SQLExecuter("").executeQuery(new Practice3DBDAOPractice3VORSQL(), param,velParam);
 			list = (List) RowSetUtil.rowSetToVOs(dbRowset, Practice3VO.class);
-			dbRowset = new SQLExecuter("").executeQuery(new Practice3DBDAOTotalRSQL(), param,velParam);
+		} catch (SQLException se) {
+			log.error(se.getMessage(), se);
+			throw new DAOException(new ErrorHandler(se).getMessage());
+		} catch (Exception ex) {
+			log.error(ex.getMessage(), ex);
+			throw new DAOException(new ErrorHandler(ex).getMessage());
+		}
+		return list;
+	}
+	/**
+	 * search data detail
+	 * @param Map<String, String>
+	 * @return List<Practice3VO>
+	 * @exception DAOException
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Practice3DetailV0VO> searchDetail(Map<String, String> params)
+			throws DAOException {
+		DBRowSet dbRowset = null;
+		List<Practice3DetailV0VO> list = null;
+		// query parameter
+		Map<String, Object> param = new HashMap<String, Object>();
+		// velocity parameter
+		Map<String, Object> velParam = new HashMap<String, Object>();
+
+		try {
+			if(params!=null){
+				param.putAll(params);
+				velParam.putAll(params);
+				for(Map.Entry<String, String> entry : params.entrySet()){
+					if(entry.getKey().equals("jo_crr_cds")){
+						if(entry.getValue().length()>0){
+						List<String> listpartner = new ArrayList<String>();
+						String [] partners = entry.getValue().split(",");
+						if("All".equalsIgnoreCase(partners[0])){
+							param.put("jo_crr_cds", partners[0]);
+							velParam.put("jo_crr_cds", partners[0]);
+							break;
+						}
+						for (String partner : partners) {
+							listpartner.add(partner);
+						}
+						param.put("jo_crr_cds", listpartner);
+						velParam.put("jo_crr_cds", listpartner);
+						}
+					}
+				}
+				
+			}
+			dbRowset = new SQLExecuter("").executeQuery(new Practice3DBDAOPractice3DetailV0RSQL(), param,velParam);
+			list = (List) RowSetUtil.rowSetToVOs(dbRowset, Practice3DetailV0VO.class);
 		} catch (SQLException se) {
 			log.error(se.getMessage(), se);
 			throw new DAOException(new ErrorHandler(se).getMessage());
@@ -183,7 +234,7 @@ public class Practice3DBDAO extends DBDAOSupport {
 		DBRowSet dbRowSet = null;
 		String[] partnerList = partners.split(",");
 		Map<String, String> m = new TreeMap<String, String>();
-		System.out.println();
+		System.out.println(partners);
 		try {
 			List<String> listpartner = new ArrayList<String>();
 			for (int i = 0; i < partnerList.length; i++) {

@@ -28,7 +28,7 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 
 
 /**
- * ALPS-VendorCode Business Logic ServiceCommand - ALPS-VendorCode 대한 비지니스 트랜잭션을 처리한다.
+ * ALPS-VendorCode Business Logic ServiceCommand -Process business transaction for ALPS-VendorCode.
  * 
  * @author Diem Tran
  * @see VendorCodeDBDAO
@@ -40,8 +40,8 @@ public class VendorCodeSC extends ServiceCommandSupport {
 	private SignOnUserAccount account = null;
 
 	/**
-	 * VendorCode system 업무 시나리오 선행작업<br>
-	 * 업무 시나리오 호출시 관련 내부객체 생성<br>
+	 * VendorCode system work scenario precedent work<br>
+	 * Creating related internal objects when calling a business scenario<br>
 	 */
 	public void doStart() {
 		log.debug("VendorCodeSC 시작");
@@ -54,16 +54,16 @@ public class VendorCodeSC extends ServiceCommandSupport {
 	}
 
 	/**
-	 * VendorCode system 업무 시나리오 마감작업<br>
-	 * 업무 시나리오 종료시 관련 내부객체 해제<br>
+	 * VendorCode system work scenario finishing work<br>
+	 * Release related internal objects when the work scenario is finished<br>
 	 */
 	public void doEnd() {
 		log.debug("VendorCodeSC 종료");
 	}
 
 	/**
-	 * 각 이벤트에 해당하는 업무 시나리오 수행<br>
-	 * ALPS-VendorCode system 업무에서 발생하는 모든 이벤트의 분기처리<br>
+	 * Carry out business scenarios corresponding to each event<br>
+	 * Branch processing of all events that occur in the ALPS-VendorCode system business<br>
 	 * 
 	 * @param e Event
 	 * @return EventResponse
@@ -73,7 +73,7 @@ public class VendorCodeSC extends ServiceCommandSupport {
 		// RDTO(Data Transfer Object including Parameters)
 		EventResponse eventResponse = null;
 
-		// SC가 여러 이벤트를 처리하는 경우 사용해야 할 부분
+		// The part to use when SC handles multiple events
 		if (e.getEventName().equalsIgnoreCase("Vendorcode01Event")) {
 			if (e.getFormCommand().isCommand(FormCommand.SEARCH)) {
 				eventResponse = search(e);
@@ -82,8 +82,7 @@ public class VendorCodeSC extends ServiceCommandSupport {
 		return eventResponse;
 	}
 	/**
-	 * VendorCode01 : [이벤트]<br>
-	 * [비즈니스대상]을 [행위]합니다.<br>
+	 * search data
 	 * 
 	 * @param Event e
 	 * @return EventResponse

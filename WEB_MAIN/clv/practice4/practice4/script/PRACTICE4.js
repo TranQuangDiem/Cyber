@@ -76,7 +76,7 @@ var ibsheet =0;
 			 */
 			sheetObj.DoSave("Practice4GS.do",FormQueryString(formObj));
 			break;
-		case "IBNEW":
+		case IBCLEAR:
 			/**
 			 * This function is used to select an item, using a code value.
 			 */
@@ -94,6 +94,23 @@ var ibsheet =0;
 				doActionIBSheet(sheetObj, formObj, IBSAVE);
 			}
 			break;
+		case IBINSERT:
+			/**
+			 * DataInsert: Create a new data row, and return the row index of the new row
+			 * @Syntax: ObjId.DataInsert([Row])
+			 * @Param : Row < 0 :		 		Create as the last row
+			 * 			Row >= All rows :		Create as the last row
+			 * 			Row >= First data row : Create as the first row
+			 *			Default :				Create below the selected row
+			 */
+			with(sheetObj){
+				if(GetSelectRow()==1){
+					DataInsert(-1);
+				}else{
+					DataInsert(GetSelectRow()+1);
+				}
+			}
+			break;
 		}
 
 	}
@@ -102,7 +119,7 @@ var ibsheet =0;
 	 * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
 	 * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
 	 */
-	function sheet1_OnSaveEnd(code,msg) {
+	function sheet1_OnSaveEnd(SheetObj,Code,Msg) {
 		if(Code>=0){
 			ComShowCodeMessage("COM132601");
 			doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
@@ -137,33 +154,11 @@ var ibsheet =0;
     			vCal.select(formObj.to_ym, "yyyy-MM-dd");
     			break;
 			case "btn_Add":
-				/**
-				 * DataInsert: Create a new data row, and return the row index of the new row
-				 * @Syntax: ObjId.DataInsert([Row])
-				 * @Param : Row < 0 :		 		Create as the last row
-				 * 			Row >= All rows :		Create as the last row
-				 * 			Row >= First data row : Create as the first row
-				 *			Default :				Create below the selected row
-				 */
-				sheetObjects[0].DataInsert(-1);
-					/**
-					 * SetCellValue :Set value in row ,column, new value
-					 * GetCellvalue : get value in row,column
-					 * 
-					 * lastRow:Return the row index of the last row.
-					 * Using this method will return the index of the very last row, not just last data row or the last row as displayed in the screen.
-					 * Note that the last row may be a sum row, data row or even a header row.
-					 * GetSelectRow: currently selected row index
-					 * 
-					 * ComGetNowInfo: get current date
-					 */
-				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),9,ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms"))
-				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),10,"OPUSADM")
-				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),11,ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms"))
-				sheetObjects[0].SetCellValue(sheetObjects[0].LastRow(),12,"OPUSADM")
+				doActionIBSheet(sheetObjects[0], formObj, IBINSERT);
 				break
 			case "btn_New":
-				doActionIBSheet(sheetObjects[0], formObj, "IBNEW");
+				console.log(sheetObjects[0].GetCellValue(1,"chk"))
+				doActionIBSheet(sheetObjects[0], formObj, IBCLEAR);
 				break;
 			case "btn_DownExcel":
 				if(sheetObjects[0].RowCount() < 1) {// no data
@@ -228,7 +223,7 @@ var ibsheet =0;
 		case 1:
 			with (sheetObj) {
 				var HeadTitle = "STS|Chk|Carrier|Rev.Lane|Vendor Code|Customer Code|Customer Code|Trade|Delete Flag|Create Date|Create User ID|Update Date|Update User ID";
-				var headCount = ComCountHeadTitle(HeadTitle);
+//				var headCount = ComCountHeadTitle(HeadTitle);
 				/**
 				 *SetConfig: In this method, you may configure how to fetch initialized sheet, location of frozen rows or columns and other basic configurations.
 				 *
@@ -291,7 +286,7 @@ var ibsheet =0;
 				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N"},
 				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_cnt_cd",	KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:2,	AcceptKeys: "E",	InputCaseSensitive : 1, FullInput:true}, 
 				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "cust_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N" }, 
-				 {Type : "Popup",	Hidden : 0,Width : 120,Align : "Left",ColMerge : 0,SaveName : "trd_cd",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "E|N",	InputCaseSensitive : 1},
+				 {Type : "Popup",	Hidden : 0,Width : 120,Align : "Left",	ColMerge : 0,SaveName : "trd_cd",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "E|N",	InputCaseSensitive : 1},
 				 {Type : "Combo",	Hidden : 0,Width : 120,Align : "Center",ColMerge : 0,SaveName : "delt_flg",		KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1},
 				 {Type : "Text",	Hidden : 0,Width : 170,Align : "Center",ColMerge : 0,SaveName : "cre_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
 				 {Type : "Text",	Hidden : 0,Width : 140,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0},
@@ -305,14 +300,49 @@ var ibsheet =0;
 				 * Configure data type, format and functionality of each column.
 				 */
 				InitColumns(cols);
+				/**
+				 *SetColProperty: Use this method when you want to define a property of a particular column dynamically, after the property is set in InitColumns Method.
+				 */
 				SetColProperty("rlane_cd", {ComboText:lanes, ComboCode:lanes} );
 	        	SetColProperty("delt_flg", {ComboText:"N|Y", ComboCode:"N|Y"} );
+	        	SetColProperty("cre_dt",{DefaultValue:ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms")});
+	        	SetColProperty("cre_usr_id",{DefaultValue:"OPUSADM"});
+	        	SetColProperty("upd_dt",{DefaultValue:ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms")});
+	        	SetColProperty("upd_usr_id",{DefaultValue:"OPUSADM"});
 				resizeSheet();
 			}
 			break;
 		}
 
 	}
+	/**
+	 * event when sheet changes
+	 */
+	function sheet1_OnChange(SheetObj,Row, Col, Value, OldValue,RaiseFlag) {
+		if(Col==2||Col==3){
+			with(sheetObjects[0]){
+	//			var duprows = ColValueDupRows("2|3",false,true);
+	//			if(duprows!=''){
+	//				ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
+	//				SelectCell(Row, Col, true);
+	//				SetCellText(Row, Col, "" );
+	//			}
+				var carrier = GetCellValue(Row,'jo_crr_cd');
+				var lane = GetCellValue(Row,'rlane_cd');
+				for(var i = 0; i< LastRow(); i++){
+					if(carrier==GetCellValue(i,'jo_crr_cd')&&lane==GetCellValue(i,'rlane_cd')&&i!=Row){
+						ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
+						SelectCell(Row, Col, true);
+						SetCellText(Row, Col, "" );
+						break;
+					}
+				}
+			}
+		}
+	}
+	/**
+	 * event onclick popup
+	 */
 	function sheet1_OnPopupClick(sheetObj,Row,Col){
 		switch (sheetObj.ColSaveName(Col)) {
 		case "trd_cd":
@@ -334,19 +364,31 @@ var ibsheet =0;
 			break;
 		}
 	}
+	/**
+	 * set value cell trade
+	 */
 	function setTrdCd(aryPopupData, row, col, sheetIdx){
 		var sheetObj = sheetObjects[0];
 		sheetObj.SetCellValue(row, col, aryPopupData[0][3]);
 	}
+	/**
+	 * set value carrier
+	 */
 	function setCrrCd(aryPopupData, row, col, sheetIdx){
 		var sheetObj = sheetObjects[0];
 		sheetObj.SetCellValue(row, col, aryPopupData[0][3]);
 	}
+	/**
+	 * set value customer code
+	 */
 	function setCustSeqAndCustCntCd(aryPopupData, row, col, sheetIdx){
 		var sheetObj = sheetObjects[0];
 		sheetObj.SetCellValue(row, 6, aryPopupData[0][3]);
 		sheetObj.SetCellValue(row, 5, aryPopupData[0][2]);
 	}
+	/**
+	 * set value vendor code
+	 */
 	function setVndrSeq(aryPopupData, row, col, sheetIdx){
 		var sheetObj = sheetObjects[0];
 		sheetObj.SetCellValue(row, col, aryPopupData[0][2]);
@@ -402,23 +444,6 @@ var ibsheet =0;
 			}
 		}
 	}
-	
-//	function initPeriod(){
-//		var formObj = document.form;
-//		/**
-//		 * ComGetNowInfo: get current date
-//		 */
-//		var tmpToYm = ComGetNowInfo("ymd","-");
-//		/**
-//		 * GetDateFormat: format date
-//		 */
-//		formObj.to_ym.value= tmpToYm;
-//		/**
-//		 * increase/decrease month
-//		 */
-//		var tmpFrYm = ComGetDateAdd(formObj.to_ym.value+"-01","D",-1);
-//		formObj.fr_ym.value= tmpFrYm;
-//	}
 	/**
 	 * registering IBSheet Object as list adding process for list in case of needing
 	 * batch processing with other items defining list on the top of source

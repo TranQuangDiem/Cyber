@@ -27,6 +27,7 @@ import com.clt.framework.core.layer.event.GeneralEventResponse;
 import com.clt.framework.support.controller.html.FormCommand;
 import com.clt.framework.support.layer.service.ServiceCommandSupport;
 import com.clt.framework.support.view.signon.SignOnUserAccount;
+import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3DetailV0VO;
 import com.clt.apps.opus.esm.clv.practice3.practice3.vo.Practice3VO;
 
 
@@ -92,6 +93,8 @@ public class Practice3SC extends ServiceCommandSupport {
 				eventResponse = searchLane(e);
 			}else if (e.getFormCommand().isCommand(FormCommand.SEARCH03)) {
 				eventResponse = searchTrade(e);
+			}else if (e.getFormCommand().isCommand(FormCommand.SEARCH04)) {
+				eventResponse = searchDetail(e);
 			}
 		}
 		return eventResponse;
@@ -116,6 +119,35 @@ public class Practice3SC extends ServiceCommandSupport {
 			param.put("rlane_cd", event.getLane());
 			param.put("trd_cd", event.getTrades());
 			List<Practice3VO> list = command.search(param);
+			eventResponse.setRsVoList(list);
+			eventResponse.setETCData("toal", command.total(param));
+		}catch(EventException ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}catch(Exception ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}	
+		return eventResponse;
+	}
+	/**
+	 * 
+	 * search data detail
+	 * @param Event e
+	 * @return EventResponse
+	 * @exception EventException
+	 */
+	private EventResponse searchDetail(Event e) throws EventException {
+		// PDTO(Data Transfer Object including Parameters)
+		GeneralEventResponse eventResponse = new GeneralEventResponse();
+		Practice003Event event = (Practice003Event)e;
+		Practice3BC command = new Practice3BCImpl();
+		Map<String, String> param = new HashMap<String, String>();
+		try{
+			param.put("fr_acct_yrmon", event.getFryrmon());
+			param.put("to_acct_yrmon", event.getToyrmon());
+			param.put("jo_crr_cds", event.getPartners());
+			param.put("rlane_cd", event.getLane());
+			param.put("trd_cd", event.getTrades());
+			List<Practice3DetailV0VO> list = command.searchDetail(param);
 			eventResponse.setRsVoList(list);
 			eventResponse.setETCData("toal", command.total(param));
 		}catch(EventException ex){

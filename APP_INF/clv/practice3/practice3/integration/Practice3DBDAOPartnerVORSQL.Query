@@ -5,8 +5,9 @@
 			<desc><![CDATA[search]]></desc>
 			<sql><![CDATA[
 SELECT 
-	distinct(jo_crr_cd)
-FROM JOO_CARRIER			]]></sql>
+	distinct(JO_CRR_CD)
+FROM JOO_CARRIER
+			]]></sql>
 			<params>
 			</params>
 		</query>

@@ -55,7 +55,7 @@ public class PRACTICE003HTMLAction extends HTMLActionSupport {
 		if(command.isCommand(FormCommand.MULTI)) {
 			event.setPractice3VOS((Practice3VO[])getVOs(request, Practice3VO .class,""));
 		}
-		else if(command.isCommand(FormCommand.SEARCH)) {
+		else if(command.isCommand(FormCommand.SEARCH)||command.isCommand(FormCommand.SEARCH04)) {
 			event.setPractice3VO((Practice3VO)getVO(request, Practice3VO .class));
 			event.setFryrmon(JSPUtil.getParameter(request, "fr_yrmon", ""));
 			event.setToyrmon(JSPUtil.getParameter(request, "to_yrmon", ""));

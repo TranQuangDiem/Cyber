@@ -18,8 +18,8 @@ import com.clt.apps.opus.esm.clv.vendorcode.vendorcode.vo.VendorCodeVO;
 
 /**
  * VendorCode01 에 대한 PDTO(Data Transfer Object including Parameters)<br>
- * -  VendorCode01HTMLAction에서 작성<br>
- * - ServiceCommand Layer로 전달하는 PDTO로 사용<br>
+ * - Created in VendorCode01HTMLAction<br>
+ * - Used as PDTO delivered to ServiceCommand Layer<br>
  *
  * @author Diem Tran
  * @see VendorCode01HTMLAction 참조
@@ -30,10 +30,10 @@ public class Vendorcode01Event extends EventSupport {
 
 	private static final long serialVersionUID = 1L;
 	
-	/** Table Value Object 조회 조건 및 단건 처리  */
+	/** Table Value Object search condition and single event processing */
 	VendorCodeVO vendorCodeVO = null;
 	
-	/** Table Value Object Multi Data 처리 */
+	/** Table Value Object Multi Data processing */
 	VendorCodeVO[] vendorCodeVOs = null;
 
 	public Vendorcode01Event(){}
