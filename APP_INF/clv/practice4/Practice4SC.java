@@ -84,6 +84,8 @@ public class Practice4SC extends ServiceCommandSupport {
 			}
 			else if (e.getFormCommand().isCommand(FormCommand.MULTI)) {
 				eventResponse = manager(e);
+			}else if (e.getFormCommand().isCommand(FormCommand.SEARCH01)) {
+				eventResponse = checkCarrierAndLane(e);
 			}
 			
 		}
@@ -134,7 +136,27 @@ public class Practice4SC extends ServiceCommandSupport {
 		}	
 		return eventResponse;
 	}
-	
+	/**
+	 * check duplicate carrier and lane
+	 * @param Event e
+	 * @return EventResponse
+	 * @exception EventException
+	 */
+	private EventResponse checkCarrierAndLane(Event e) throws EventException {
+		// PDTO(Data Transfer Object including Parameters)
+		GeneralEventResponse eventResponse = new GeneralEventResponse();
+		Practice4Event event = (Practice4Event)e;
+		Practice4BC command = new Practice4BCImpl();
+
+		try{
+			eventResponse.setETCData("duplicate", ""+command.checkCarrierAndLane(event.getPractice4VO()));
+		}catch(EventException ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}catch(Exception ex){
+			throw new EventException(new ErrorHandler(ex).getMessage(),ex);
+		}	
+		return eventResponse;
+	}
 	/**
 	 * insert, delete, update data
 	 * @param Event e

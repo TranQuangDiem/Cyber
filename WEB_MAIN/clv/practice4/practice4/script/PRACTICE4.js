@@ -10,17 +10,6 @@
 * 2022.04.20 
 * 1.0 Creation
 =========================================================*/
-/****************************************************************************************
-  이벤트 구분 코드: [초기화]INIT=0; [입력]ADD=1; [조회]SEARCH=2; [리스트조회]SEARCHLIST=3;
-					[수정]MODIFY=4; [삭제]REMOVE=5; [리스트삭제]REMOVELIST=6 [다중처리]MULTI=7
-					기타 여분의 문자상수  COMMAND01=11; ~ COMMAND20=30;
- ***************************************************************************************/
-
-/*------------------다음 코드는 JSDoc을 잘 만들기 위해서 추가된 코드임 ------------------*/
-   /**
-	 * @fileoverview 업무에서 공통으로 사용하는 자바스크립트파일로 달력 관련 함수가 정의되어 있다.
-	 * @author 한진해운
-	 */
 /**
  * declare list sheet
  */
@@ -39,98 +28,125 @@ document.onclick = processButtonClick;
  * 
  */
 var ibsheet =0;
-
-
+/**
+ * 
+ * @param sheetObj
+ * @param formObj
+ * @param sAction
+ */
 	function doActionIBSheet(sheetObj, formObj, sAction) {
-		switch (sAction) {
-		case IBSEARCH:
-			formObj.f_cmd.value = SEARCH;
-			/**
-			 * GetSearchData: Call search page, complete search and return search result data in string.
-			 * Unlike DoSearch, this method returns search result data itself without processing search result.
-			 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
-			 */
-			if(!ComIsNumber(formObj.s_vndr_seq.value)&&formObj.s_vndr_seq.value!=''){
-				ComShowCodeMessage("COM12125","Vendor Code");
+		with(sheetObj){
+			switch (sAction) {
+			case IBSEARCH:
+				formObj.f_cmd.value = SEARCH;
+				/*
+				 * GetSearchData: Call search page, complete search and return search result data in string.
+				 * Unlike DoSearch, this method returns search result data itself without processing search result.
+				 * Search result data returned by this method can be loaded to IBSheet if you use them as LoadSearchData parameter.
+				 */
+				if(!ComIsNumber(formObj.s_vndr_seq.value)&&formObj.s_vndr_seq.value!=''){
+					ComShowCodeMessage("COM12125","Vendor Code");
+					break;
+				}
+				var sXml2 =GetSearchData("Practice4GS.do",FormQueryString(formObj));
+				/*
+				 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
+				 * This method can be used to read encrypted search data when security module is used.
+				 * Search data are retrieved using GetSearchData method from the server.
+				 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
+				 */
+				LoadSearchData(sXml2, {Sync : 1});
+				break;
+			case IBSAVE:
+				formObj.f_cmd.value = MULTI;
+				/*
+				 * Save data based on data transaction status or column.If Col parameter is not set, data rows whose transaction status is not “Search” is saved.
+				 * If there is a particular parameter set in Col, data with values in the designated column will be saved.
+				 * If the column is in CheckBox format, only checked boxes will be saved.
+				 * If there is no data to save, a warning message will appear and the process is dropped.OnValidation event will fire in the processing collecting data to save.
+				 * Depending on the custom logic, failure of OnValidation may result in abortion of saving.
+				 * Call the save page using URL and complete saving to read saving XML. Then OnSaveEnd event fires and the whole process completes.
+				 * 
+				 */
+				DoSave("Practice4GS.do",FormQueryString(formObj))
+//				if(GetSaveString()==''){
+//				ComShowCodeMessage('COM130104');
+//					return;
+//				}
+//				if(ComShowCodeConfirm('COM130101')){
+//					var xml =GetSaveData("Practice4GS.do",GetSaveString(),FormQueryString(formObj));
+//					LoadSaveData(xml);
+//				}
+				break;
+			case IBCLEAR:
+				/*
+				 * This function is used to select an item, using a code value.
+				 */
+				formObj.reset();
+				comboObjects[0].SetSelectIndex(-1, true);
+				RemoveAll();
+				break;
+			case IBDELETE:
+				/*
+				 * currently selected row index
+				 */
+				for (var i =0; i<= LastRow(); i++){
+					if(GetCellValue(i,"chk")){
+						SetRowStatus(i,"D");
+					}
+				}
+				if(RowCount("D") >0 ){
+					doActionIBSheet(sheetObj, formObj, IBSAVE);
+				}
+				break;
+			case IBINSERT:
+				/*
+				 * DataInsert: Create a new data row, and return the row index of the new row
+				 * @Syntax: ObjId.DataInsert([Row])
+				 * @Param : Row < 0 :		 		Create as the last row
+				 * 			Row >= All rows :		Create as the last row
+				 * 			Row >= First data row : Create as the first row
+				 *			Default :				Create below the selected row
+				 */
+					if(GetSelectRow()==1){
+						DataInsert(-1);
+					}else{
+						DataInsert(GetSelectRow()+1);
+					}
 				break;
 			}
-			var sXml2 =sheetObj.GetSearchData("Practice4GS.do",FormQueryString(formObj));
-			/**
-			 * LoadSearchData :Get search data (xml or json) as a method parameter and load to IBSheet.
-			 * This method can be used to read encrypted search data when security module is used.
-			 * Search data are retrieved using GetSearchData method from the server.
-			 * The data string fetched is set as a method parameter. The search data are loaded to IBSheet and OnSearchEnd event fires.
-			 */
-			sheetObj.LoadSearchData(sXml2, {Sync : 1});
-			break;
-		case IBSAVE:
-			formObj.f_cmd.value = MULTI;
-			/**
-			 * Save data based on data transaction status or column.If Col parameter is not set, data rows whose transaction status is not “Search” is saved.
-			 * If there is a particular parameter set in Col, data with values in the designated column will be saved.
-			 * If the column is in CheckBox format, only checked boxes will be saved.
-			 * If there is no data to save, a warning message will appear and the process is dropped.OnValidation event will fire in the processing collecting data to save.
-			 * Depending on the custom logic, failure of OnValidation may result in abortion of saving.
-			 * Call the save page using URL and complete saving to read saving XML. Then OnSaveEnd event fires and the whole process completes.
-			 * 
-			 */
-			sheetObj.DoSave("Practice4GS.do",FormQueryString(formObj));
-			break;
-		case IBCLEAR:
-			/**
-			 * This function is used to select an item, using a code value.
-			 */
-			formObj.reset();
-			sheetObjects[0].RemoveAll();
-//			doActionIBSheet(sheetObj, formObj, IBSEARCH);
-			break;
-		case IBDELETE:
-			/**
-			 * currently selected row index
-			 */
-			var index =sheetObj.GetSelectRow();
-			sheetObj.SetRowStatus(index,"D");
-			if(sheetObj.RowCount("D") >0 ){
-				doActionIBSheet(sheetObj, formObj, IBSAVE);
-			}
-			break;
-		case IBINSERT:
-			/**
-			 * DataInsert: Create a new data row, and return the row index of the new row
-			 * @Syntax: ObjId.DataInsert([Row])
-			 * @Param : Row < 0 :		 		Create as the last row
-			 * 			Row >= All rows :		Create as the last row
-			 * 			Row >= First data row : Create as the first row
-			 *			Default :				Create below the selected row
-			 */
-			with(sheetObj){
-				if(GetSelectRow()==1){
-					DataInsert(-1);
-				}else{
-					DataInsert(GetSelectRow()+1);
-				}
-			}
-			break;
 		}
-
 	}
 	/**
 	 * Event fires when saving is completed using saving function and other internal processing has been also completed.
 	 * If an error message occurs during saving, it will be set as code, a event parameter. Program an error processing logic for any code value smaller than 0.
 	 * If no result is returned due to network error, send the code value as -3.This event can fire when DoSave or DoAllSave function is called.
 	 */
-	function sheet1_OnSaveEnd(SheetObj,Code,Msg) {
+	function sheet1_OnSaveEnd(SheetObj,Code,Msg,StCode, StMsg) {
 		if(Code>=0){
 			ComShowCodeMessage("COM132601");
 			doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
-		}else {
-			ComShowCodeMessage("COM12151","data");
+		}
+		else {
+			var msg = Msg.split('[');
+			var data = msg[1].split(']')[0].split(',');
+			with(SheetObj){
+				for(var i = 0; i< LastRow(); i++){
+					if(data[0]==GetCellValue(i,'jo_crr_cd')&&data[1]==GetCellValue(i,'rlane_cd')&&GetCellValue(i,'ibflag')=='I'){
+							SetSelectRow(i);
+						break;
+					}
+				}
+			}
 		}
 	}
+	/**
+	 * 
+	 */
 	function processButtonClick() {
 		var formObj = document.form;
 		try {
-			/**
+			/*
 			 * get the name of the tag clicked
 			 */
 			var srcName = ComGetEvent("name");
@@ -157,14 +173,13 @@ var ibsheet =0;
 				doActionIBSheet(sheetObjects[0], formObj, IBINSERT);
 				break
 			case "btn_New":
-				console.log(sheetObjects[0].GetCellValue(1,"chk"))
 				doActionIBSheet(sheetObjects[0], formObj, IBCLEAR);
 				break;
 			case "btn_DownExcel":
 				if(sheetObjects[0].RowCount() < 1) {// no data
 					ComShowCodeMessage("COM132501")
 				}else{
-					/**IF there are any search result data returned, download the data displayed in IBSheet into an excel file.
+					/*IF there are any search result data returned, download the data displayed in IBSheet into an excel file.
 					 * @param: DownCols parameter is a string connecting all downloading columns using "|". You can use either SaveName or column index.
 					 * If this is null, all columns are downloaded.
 					 * @param :FileName parameter is used to set the downloaded excel file name. If file extension is set as xls,excel 2003 format file is downloaded.
@@ -205,10 +220,10 @@ var ibsheet =0;
         var toDt=formObj.to_ym.value;
         if(frDt==""&&toDt==""){
         	return true;
-        }else if(isNaN(ComGetDaysBetween(frDt, toDt))){
+        }else if(!ComIsDate(frDt)||!ComIsDate(toDt)){
         	ComShowCodeMessage('COM12132');
-        	 return false;
-        }if (ComGetDaysBetween(frDt, toDt) <= 0){
+       	 return false;
+        }else if (ComGetDaysBetween(frDt, toDt) <= 0){
         	ComShowCodeMessage('COM12131');
             return false;
         }
@@ -224,7 +239,7 @@ var ibsheet =0;
 			with (sheetObj) {
 				var HeadTitle = "STS|Chk|Carrier|Rev.Lane|Vendor Code|Customer Code|Customer Code|Trade|Delete Flag|Create Date|Create User ID|Update Date|Update User ID";
 //				var headCount = ComCountHeadTitle(HeadTitle);
-				/**
+				/*
 				 *SetConfig: In this method, you may configure how to fetch initialized sheet, location of frozen rows or columns and other basic configurations.
 				 *
 				 *SearchMode: is where you can configure search mode by selecting one from General, Paging,LazyLoad or real-time server processing modes. The default value is 0.
@@ -245,26 +260,26 @@ var ibsheet =0;
 				 *
 				 *DataRowMerge can be used to configure whether to allow horizontal merge of the entire row.The default value is 0.
 				 */
-				SetConfig({SearchMode : 2,MergeSheet : 5,Page : 40,DataRowMerge : 1});
-				/**
+				SetConfig({SearchMode : 2,MergeSheet : 5,Page : 25,DataRowMerge : 1});
+				/*
 				 * @param Sort Whether to allow sorting by clicking on the header (Default=1)
 				 * @param ColMove Whether to allow column movement in header (Default=1)
 				 * @param ColResize Whether to allow resizing of column width (Default=1)
 				 * @param HeaderCheck Whether the CheckAll in the header is checked (Default=1)
 				 */
 				var info = {Sort : 1,ColMove : 1,HeaderCheck : 0,ColResize : 1};
-				/**
+				/*
 				 * @param:Text String of texts to display in header,adjoined by "|"
 				 * @param:Align String How to align header text (Default = "Center")
 				 * 
 				 */
 				var headers = [ {Text : HeadTitle,Align : "Center"}];
-				/**
+				/*
 				 * You can define the header title and function using this method.
 				 */
 				InitHeaders(headers, info);
 				
-				/**
+				/*
 				 * @param Type Column data type (Required)
 				 * @param Hidden can be used to configure whether to hide a certain data column.
 				 * @param Width Column width
@@ -279,8 +294,8 @@ var ibsheet =0;
 				 * @param EditLen can be used to configure the maximum number of characters to allow for a piece of data.
 				 */
 				var cols = [ {Type : "Status",Hidden : 1,Width : 50,Align : "Center",ColMerge : 0,SaveName : "ibflag"},
-//				 {Type : "CheckBox", Hidden : 1, Width : 50, Align : "Center", ColMerge : 0, SaveName : "del_chk" },
-				 {Type : "CheckBox",Hidden : 0,Width : 60,Align : "Center",ColMerge : 0,SaveName : "chk",			KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1}, 
+//				 {Type : "DelCheck",Hidden : 0,Width : 50, Align : "Center",ColMerge : 0, SaveName: "del_chk" },
+				 {Type : "CheckBox",Hidden : 0,Width : 60, Align : "Center",ColMerge : 0,SaveName : "chk",			KeyField : 0,Format : "",			UpdateEdit : 1,InsertEdit : 1}, 
 				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "jo_crr_cd",	KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,	AcceptKeys: "E", 	InputCaseSensitive : 1, FullInput:true}, 
 				 {Type : "Combo",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "rlane_cd",		KeyField : 1,Format : "",			UpdateEdit : 0,InsertEdit : 1, EditLen:3,}, 
 				 {Type : "Popup",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "vndr_seq",		KeyField : 1,Format : "",			UpdateEdit : 1,InsertEdit : 1, EditLen:6,	AcceptKeys: "N"},
@@ -292,15 +307,15 @@ var ibsheet =0;
 				 {Type : "Text",	Hidden : 0,Width : 140,Align : "Center",ColMerge : 0,SaveName : "cre_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0},
 				 {Type : "Text",	Hidden : 0,Width : 170,Align : "Center",ColMerge : 0,SaveName : "upd_dt",		KeyField : 0,Format : "",			UpdateEdit : 0,InsertEdit : 0},
 				 {Type : "Text",	Hidden : 0,Width : 100,Align : "Center",ColMerge : 0,SaveName : "upd_usr_id",	KeyField : 0,Format : "*********",	UpdateEdit : 0,InsertEdit : 0}];
-				/**
+				/*
 				 * Check or configure overall editability.If overall editing is not allowed, all cells become uneditable regardless of other settings.
 				 */
 				SetEditable(1);
-				/**
+				/*
 				 * Configure data type, format and functionality of each column.
 				 */
 				InitColumns(cols);
-				/**
+				/*
 				 *SetColProperty: Use this method when you want to define a property of a particular column dynamically, after the property is set in InitColumns Method.
 				 */
 				SetColProperty("rlane_cd", {ComboText:lanes, ComboCode:lanes} );
@@ -321,22 +336,26 @@ var ibsheet =0;
 	function sheet1_OnChange(SheetObj,Row, Col, Value, OldValue,RaiseFlag) {
 		if(Col==2||Col==3){
 			with(sheetObjects[0]){
-	//			var duprows = ColValueDupRows("2|3",false,true);
-	//			if(duprows!=''){
-	//				ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
-	//				SelectCell(Row, Col, true);
-	//				SetCellText(Row, Col, "" );
-	//			}
 				var carrier = GetCellValue(Row,'jo_crr_cd');
 				var lane = GetCellValue(Row,'rlane_cd');
 				for(var i = 0; i< LastRow(); i++){
 					if(carrier==GetCellValue(i,'jo_crr_cd')&&lane==GetCellValue(i,'rlane_cd')&&i!=Row){
-						ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
-						SelectCell(Row, Col, true);
 						SetCellText(Row, Col, "" );
-						break;
+						DataMove(Row, i )
+						if(i>Row){
+							SetSelectRow(Row+1);
+						}else{
+							SetSelectRow(Row);
+						}
+						ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
+						return;
 					}
 				}
+//				formObj.f_cmd.value = SEARCH01;
+//				var sXml2 =GetSearchData("Practice4GS.do",FormQueryString(formObj));
+//				var data = ComGetETC('duplicate');
+//				console.log(data);
+				
 			}
 		}
 	}
@@ -427,7 +446,7 @@ var ibsheet =0;
 		switch (comboNo) {
 		case 1:
 			with (comboObj) {
-			/**
+			/*
 			 * SetMultiSelect: This function is used to set whether multiple items will be selected or not.
 			 * SetDropHeight: set height
 			 * InsertItem : Add an item. Set the text value using a “|” separator when using multicolumn.Add to the last row, if the Index parameter is -1.

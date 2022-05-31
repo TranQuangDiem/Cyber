@@ -147,22 +147,20 @@ public class Practice4DBDAO extends DBDAOSupport {
 	 * @return boolean
 	 * @throws Exception
 	 */
-	 public boolean isSearchByCarrierAndLane(List<Practice4VO> practice4vos) throws Exception{
+	 public boolean isSearchByCarrierAndLane(Practice4VO practice4vo) throws Exception{
 		 DBRowSet dbRowset = null;
 			//query parameter
 			Map<String, Object> param = new HashMap<String, Object>();
 			//velocity parameter
 			Map<String, Object> velParam = new HashMap<String, Object>();
 
-			try{
-				for (Practice4VO practice4vo : practice4vos) {
+			try{				
 					param.putAll(practice4vo.getColumnValues());
 					velParam.putAll(practice4vo.getColumnValues());
 					dbRowset = new SQLExecuter("").executeQuery((ISQLTemplate)new Practice4DBDAOSearchLaneRSQL(), param, velParam);
 					while(dbRowset.next()){
 						return true;
-					}
-				}
+					}	
 			} catch(SQLException se) {
 				log.error(se.getMessage(),se);
 				throw new DAOException(new ErrorHandler(se).getMessage());

@@ -54,4 +54,11 @@ public interface Practice4BC {
 	 * @throws EventException
 	 */
 	public String searchLane () throws EventException;
+	/**
+	 * check duplicate carrier and lane
+	 * @param practice4VO
+	 * @return boolean
+	 * @throws EventException
+	 */
+	public boolean checkCarrierAndLane(Practice4VO practice4VO)throws EventException;
 }
