@@ -110,10 +110,10 @@
 				</colgroup>
 				<tbody>
 					<tr>
-						<th>Customer Code</th>
-						<td><input style="width: 100px" name="s_cust_seq" id="s_cust_seq" dataformat="num" type="text"></td>
 						<th>Country</th>
 						<td><input style="width: 140px" name="s_cust_cnt_cd" id="s_cust_cnt_cd" maxlength="2" dataformat="exceptengdn" type="text"></td>
+						<th>Customer Code</th>
+						<td><input style="width: 100px" name="s_cust_seq" id="s_cust_seq" maxlength="6" dataformat="num" type="text"></td>
 					</tr>
 				</tbody>
 			</table>

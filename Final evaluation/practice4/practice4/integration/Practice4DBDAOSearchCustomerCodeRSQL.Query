@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<querys>
+		<query name="Practice4DBDAOSearchCustomerCodeRSQL">
+			<desc><![CDATA[search]]></desc>
+			<sql><![CDATA[
+SELECT 
+	CUST_CNT_CD
+,	CUST_SEQ
+FROM MDM_CUSTOMER
+WHERE	CUST_CNT_CD = @[cust_cnt_cd]
+AND	CUST_SEQ = @[cust_seq]
+			]]></sql>
+			<params>
+				<param name="cust_cnt_cd" type="12" value="" out="N"/>
+				<param name="cust_seq" type="2" value="" out="N"/>
+			</params>
+		</query>
+	</querys>
+</sqls>
