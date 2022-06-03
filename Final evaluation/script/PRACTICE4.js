@@ -91,11 +91,21 @@ var ibsheet =0;
 				for (var i =0; i<= LastRow(); i++){
 					if(GetCellValue(i,"chk")){
 						SetRowStatus(i,"D");
-//						SetCellValue(i,0,"D");
 					}
 				}
 				if(RowCount("D") >0 ){
-					doActionIBSheet(sheetObj, formObj, IBSAVE);
+					if(ComShowCodeConfirm('COM130101')){
+						formObj.f_cmd.value = MULTI;
+						var xml =GetSaveData("Practice4GS.do",GetSaveString(),FormQueryString(formObj));
+						LoadSaveData(xml);
+					}else{
+						var sRow =FindStatusRow("D").split(';');
+						for(var i = 0; i< sRow.length; i++){
+							SetRowStatus(sRow[i],"R");
+							SetCellValue(sRow[i],1,1);
+						}
+					}
+//					doActionIBSheet(sheetObj, formObj, IBSAVE);
 				}
 				break;
 			case IBINSERT:
@@ -107,11 +117,7 @@ var ibsheet =0;
 				 * 			Row >= First data row : Create as the first row
 				 *			Default :				Create below the selected row
 				 */
-					if(GetSelectRow()==1){
-						DataInsert(-1);
-					}else{
-						DataInsert(GetSelectRow()+1);
-					}
+				DataInsert();
 				break;
 			case IBDOWNEXCEL:
 				if(RowCount() < 1) {// no data
@@ -130,10 +136,33 @@ var ibsheet =0;
 					 * @param: Merge parameter determines whether to apply IBSheet merge status to excel document.
 					 * Using this parameter may result in further delay of performance. Default is 0 (not use merging).
 					 */
-					Down2Excel({DownCols: makeHiddenSkipCol(sheetObjects[0]), SheetDesign:1, Merge:1})
+					if(makeInsertSkipRow(sheetObj).length==1){
+						ComShowCodeMessage("COM132501")
+						break;
+					}
+					Down2Excel({DownCols: makeHiddenSkipCol(sheetObjects[0]),DownRows:makeInsertSkipRow(sheetObj), SheetDesign:1, Merge:1})
 				}
 			}
 		}
+	}
+	/**
+	 * Ignore rows with status equal to "I"
+	 */
+	function makeInsertSkipRow(sheetObj){
+		with(sheetObj){
+			var sRow = FindStatusRow("I").split(";");
+			var row ="";
+			for(var i =0; i<LastRow();i++){
+				if(sRow.includes(""+i))
+					continue;
+				row+=i+"|";
+			}
+			return row.substring(0,row.length-1);
+		}
+	}
+	function sheet1_OnBeforeCheck(sheetObj,Row, Col) {
+		if(sheetObj.GetCellValue(Row,"ibflag")=='I')
+			sheetObj.SetRowStatus(Row,"D");
 	}
 	/**
 	 * Event fires when saving is completed using saving function and other internal processing has been also completed.
@@ -142,7 +171,6 @@ var ibsheet =0;
 	 */
 	function sheet1_OnSaveEnd(SheetObj,Code,Msg,StCode, StMsg) {
 		if(Code>=0){
-			ComShowCodeMessage("COM132601");
 			doActionIBSheet(sheetObjects[0], document.form, IBSEARCH)
 		}
 		else {
@@ -152,15 +180,16 @@ var ibsheet =0;
 				for(var i = 0; i< sRow.length; i++){
 					if(Msg.includes(GetCellValue(sRow[i],'jo_crr_cd'))&&Msg.includes(GetCellValue(sRow[i],'rlane_cd'))){
 							SetSelectRow(sRow[i]);
-//							SetRowFontColor(sRow[i],'#fd0909');
+							SetRowFontColor(sRow[i],'#fd0909');
 						break;
 					}
+//					SetRowFontColor(sRow[i],"inherit");
 				}
 			}
 		}
 	}
 	/**
-	 * 
+	 * event onclick button
 	 */
 	function processButtonClick() {
 		var formObj = document.form;
@@ -227,6 +256,9 @@ var ibsheet =0;
         }
         return true;
     }
+	/**
+	 * validate form
+	 */
 	function validateForm(sheetObj, formObj, sAction){
 		switch (sAction) {
 			case IBSEARCH:
@@ -279,7 +311,7 @@ var ibsheet =0;
 				 * @param ColResize Whether to allow resizing of column width (Default=1)
 				 * @param HeaderCheck Whether the CheckAll in the header is checked (Default=1)
 				 */
-				var info = {Sort : 1,ColMove : 1,HeaderCheck : 0,ColResize : 1};
+				var info = {Sort : 1,ColMove : 0,HeaderCheck : 0,ColResize : 1};
 				/*
 				 * @param:Text String of texts to display in header,adjoined by "|"
 				 * @param:Align String How to align header text (Default = "Center")
@@ -333,9 +365,9 @@ var ibsheet =0;
 				SetColProperty("rlane_cd", 	{ComboText:lanes, ComboCode:lanes} );
 	        	SetColProperty("delt_flg", 	{ComboText:"N|Y", ComboCode:"N|Y"} );
 	        	SetColProperty("cre_dt",	{DefaultValue:ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms")});
-	        	SetColProperty("cre_usr_id",{DefaultValue:"OPUSADM"});
+	        	SetColProperty("cre_usr_id",{DefaultValue:userId});
 	        	SetColProperty("upd_dt",	{DefaultValue:ComGetNowInfo("ymd","/")+" "+ComGetNowInfo("hms")});
-	        	SetColProperty("upd_usr_id",{DefaultValue:"OPUSADM"});
+	        	SetColProperty("upd_usr_id",{DefaultValue:userId});
 				resizeSheet();
 			}
 			break;
@@ -384,13 +416,16 @@ var ibsheet =0;
 						DataMove(Row, i )
 						if(i>Row){
 							SetSelectRow(Row+1);
+							SetRowFontColor(Row+1,'#fd0909');
 						}else{
 							SetSelectRow(Row);
+							SetRowFontColor(Row,'#fd0909');
 						}
 						ComShowCodeMessage("COM12115", "Carrier and Rev.Lane");
 						return;
 					}
 				}
+				SetRowFontColor(Row,GetRowFontColor(1));
 //				formObj.f_cmd.value = SEARCH01;
 //				var sXml2 =GetSearchData("Practice4GS.do",FormQueryString(formObj));
 //				var data = ComGetETC('duplicate');
@@ -501,6 +536,7 @@ var ibsheet =0;
 			for (var i = 1; i < carr.length; i++) {
 				comboObjects[0].InsertItem(i, carr[i], carr[i]);
 			}
+			break;
 		}
 	}
 	/**
@@ -523,7 +559,12 @@ var ibsheet =0;
 	 * of source
 	 */
 	function setComboObject(combo_obj) {
-		comboObjects[comboCnt++] = combo_obj;
+		switch (combo_obj.element[0].id) {
+		case "carrier":
+			comboObjects[0] = combo_obj;
+			break;
+		}
+//		comboObjects[comboCnt++] = combo_obj;
 	}
 	/**
 	 * set size sheet

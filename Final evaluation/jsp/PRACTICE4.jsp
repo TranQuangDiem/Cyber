@@ -61,6 +61,7 @@
 	}
 %>
 <script language="javascript">
+var userId ="<%=strUsr_nm %>";
 var carriers = "<%=carriers%>";
 var lanes = "<%=lanes%>";
 	function setupPage(){

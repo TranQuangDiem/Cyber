@@ -75,6 +75,7 @@ public class Practice4BCImpl extends BasicCommandSupport implements Practice4BC 
 			for ( int i=0; i<practice4VO .length; i++ ) {
 				if ( practice4VO[i].getIbflag().equals("I")){
 					practice4VO[i].setCreUsrId(account.getUsr_id());
+					practice4VO[i].setUpdUsrId(account.getUsr_id());
 					insertVoList.add(practice4VO[i]);
 				} else if ( practice4VO[i].getIbflag().equals("U")){
 					/**

@@ -171,7 +171,7 @@ public class Practice4SC extends ServiceCommandSupport {
 		try{
 			begin();
 			command.manager(event.getPractice4VOS(),account);
-//			eventResponse.setUserMessage(new ErrorHandler("XXXXXXXXX").getUserMessage());
+			eventResponse.setUserMessage(new ErrorHandler("DOU00001").getUserMessage());
 			commit();
 		} catch(EventException ex) {
 			rollback();
